@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper-bundle.css'; // Import Swiper styles
-import styles from './Slider.module.css'; // Import the CSS module for styling
-
+import 'swiper/swiper-bundle.css';
+import styles from './Slider.module.css';
 function Slider() {
 	return (
 		<section className={styles.sliderSection}>
@@ -34,8 +33,6 @@ function Slider() {
 						alt="Stockholm"
 					/>
 				</SwiperSlide>
-
-				{/* Add additional slides similarly */}
 			</Swiper>
 		</section>
 	);

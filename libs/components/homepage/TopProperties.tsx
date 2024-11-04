@@ -12,6 +12,7 @@ import { T } from '../../types/common';
 import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
+import Link from 'next/link';
 
 interface TopPropertiesProps {
 	initialInput: PropertiesInquiry;
@@ -188,6 +189,13 @@ const TopProperties = (props: TopPropertiesProps) => {
 								<TopPropertyCard property={topProperties[9]} likePropertyHandler={likePropertyHandler} />{' '}
 							</Box>
 						</Box>
+					</Box>
+
+					<Box className={'top-all-btn'} style={{ width: '100px', height: '20px', backgroundColor: 'red' }}>
+						<Link href={'/property'}>
+							<span>See All</span>
+						</Link>
+						<img src="/img/icons/rightup.svg" alt="" />
 					</Box>
 				</Stack>
 			</Stack>

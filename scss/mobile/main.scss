@@ -538,7 +538,7 @@
 				.top-properties-grid {
 					.top-card-box {
 						position: relative;
-						width: 100%;
+						width: 100px;
 						// height: 375px;
 						display: flex;
 						background-color: red;
@@ -660,6 +660,25 @@
 						}
 					}
 				}
+			}
+			.top-all-btn {
+				margin: 100px;
+				display: flex;
+				width: 63.83px;
+				height: 24px;
+				flex-direction: column;
+				justify-content: center;
+
+				color: #fff;
+				text-align: center;
+				font-family: Inter;
+				font-size: 15.25px;
+				font-style: normal;
+				font-weight: 600;
+				line-height: 24px;
+
+				border-radius: 12px;
+				background: #1a8377;
 			}
 		}
 	}

@@ -102,11 +102,25 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 					position: 'relative',
 					backgroundSize: 'cover',
 					borderRadius: '12px',
+					cursor: 'pointer',
 				}}
 				onClick={() => {
 					pushDetailHandler(property._id);
 				}}
 			>
+				<div
+					style={{
+						position: 'absolute',
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						borderRadius: '12px',
+						background: 'linear-gradient(154deg, #141415 0%, rgba(0, 0, 0, 0.70) 0%, rgba(20, 20, 21, 0.20) 94.29%)',
+						zIndex: 1,
+						cursor: 'pointer',
+					}}
+				/>
 				{/* <Box
 					component={'div'}
 					className={'card-img'}
@@ -169,8 +183,34 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 					}}
 				> */}
 				{/* <img src={propertyImage} alt="no image" className="card-img" /> */}
-				<div>{property?.propertyTitle}</div>
-				<div>{property?.propertyType}</div>
+				<div
+					style={{
+						margin: '12px 0px 10px 12px',
+						color: '#ffffff',
+						fontFamily: 'Inter',
+						fontStyle: 'normal',
+						fontSize: '28px',
+						fontWeight: '800',
+						zIndex: 1,
+						cursor: 'pointer',
+					}}
+				>
+					{property?.propertyTitle}
+				</div>
+				<div
+					style={{
+						margin: '0px 12px',
+						color: 'rgba(255, 255, 255, 0.60)',
+						fontFamily: 'Inter',
+						fontStyle: 'normal',
+						fontSize: '10px',
+						fontWeight: '800',
+						zIndex: 1,
+						cursor: 'pointer',
+					}}
+				>
+					{property?.propertyType}
+				</div>
 				{/* </Box> */}
 			</Stack>
 		);

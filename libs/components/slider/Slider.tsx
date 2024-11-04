@@ -19,7 +19,7 @@ function Slider() {
 				mousewheel={{ invert: false, sensitivity: 1 }}
 			>
 				<SwiperSlide className={styles.swiperSlide}>
-					<h1 className={`${styles.title} ${styles.one}`}>Edinburgh</h1>
+					<h1 className={`${styles.title} ${styles.one}`}></h1>
 					<img
 						src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/1bdebd02-d675-4469-be36-dc248448980d"
 						alt="Edinburgh"
@@ -27,7 +27,7 @@ function Slider() {
 				</SwiperSlide>
 
 				<SwiperSlide className={styles.swiperSlide}>
-					<h1 className={`${styles.title} ${styles.two}`}>Stockholm</h1>
+					<h1 className={`${styles.title} ${styles.two}`}></h1>
 					<img
 						src="https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/62411bbf-dde9-4654-9298-1fe3e7da2d64"
 						alt="Stockholm"

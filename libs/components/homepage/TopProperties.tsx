@@ -3,8 +3,6 @@ import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper';
 import TopPropertyCard from './TopPropertyCard';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { Property } from '../../types/property/property';
@@ -24,7 +22,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 	const device = useDeviceDetect();
 	const [topProperties, setTopProperties] = useState<Property[]>([]);
 
-	/** APOLLO REQUESTS **/
+	// /** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
 
 	const {
@@ -38,6 +36,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			setTopProperties(data?.getProperties?.list);
+			console.log('top.Properties: ', topProperties);
 		},
 	});
 
@@ -69,7 +68,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 						<span>Top properties</span>
 					</Stack>
 					<Stack className={'card-box'}>
-						<Swiper
+						{/* <Swiper
 							className={'top-property-swiper'}
 							slidesPerView={'auto'}
 							centeredSlides={true}
@@ -83,7 +82,33 @@ const TopProperties = (props: TopPropertiesProps) => {
 									</SwiperSlide>
 								);
 							})}
-						</Swiper>
+						</Swiper> */}
+						<Stack flexDirection={'row'} className={'top-properties-box'}>
+							<Stack></Stack>
+							<Stack flexDirection={'row'}>
+								<Stack flexDirection={'column'}>
+									<Stack flexDirection={'row'}></Stack>
+									<Stack flexDirection={'row'}></Stack>
+								</Stack>
+								<Stack flexDirection={'column'}>
+									<Stack flexDirection={'row'}></Stack>
+									<Stack flexDirection={'row'}></Stack>
+								</Stack>
+							</Stack>
+						</Stack>
+						<Stack flexDirection={'row'} className={'top-properties-box'}>
+							<Stack flexDirection={'row'}>
+								<Stack flexDirection={'column'}>
+									<Stack flexDirection={'row'}></Stack>
+									<Stack flexDirection={'row'}></Stack>
+								</Stack>
+								<Stack flexDirection={'column'}>
+									<Stack flexDirection={'row'}></Stack>
+									<Stack flexDirection={'row'}></Stack>
+								</Stack>
+								<Stack></Stack>
+							</Stack>
+						</Stack>
 					</Stack>
 				</Stack>
 			</Stack>
@@ -105,29 +130,65 @@ const TopProperties = (props: TopPropertiesProps) => {
 							</div>
 						</Box>
 					</Stack>
-					<Stack className={'card-box'}>
-						<Swiper
-							className={'top-property-swiper'}
-							slidesPerView={'auto'}
-							spaceBetween={15}
-							modules={[Autoplay, Navigation, Pagination]}
-							navigation={{
-								nextEl: '.swiper-top-next',
-								prevEl: '.swiper-top-prev',
-							}}
-							pagination={{
-								el: '.swiper-top-pagination',
-							}}
-						>
-							{topProperties.map((property: Property) => {
-								return (
-									<SwiperSlide className={'top-property-slide'} key={property?._id}>
-										<TopPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
-									</SwiperSlide>
-								);
-							})}
-						</Swiper>
-					</Stack>
+
+					<Box className="card-box">
+						<Box className="top-properties-grid">
+							{/* Big Top Properties Boxes */}
+							<Box className="big-top-properties-box">
+								<TopPropertyCard property={topProperties[0]} likePropertyHandler={likePropertyHandler} />
+							</Box>
+
+							<Box className="big-top-properties-box">
+								{/* Nested grid structure for mid and small boxes */}
+								<Box className="mid-top-properties-box">
+									<Box className="small-top-properties-box">
+										<TopPropertyCard property={topProperties[1]} likePropertyHandler={likePropertyHandler} />{' '}
+									</Box>
+									<Box className="small-top-properties-box">
+										{' '}
+										<TopPropertyCard property={topProperties[2]} likePropertyHandler={likePropertyHandler} />{' '}
+									</Box>
+								</Box>
+								<Box className="mid-top-properties-box">
+									<Box className="small-top-properties-box">
+										{' '}
+										<TopPropertyCard property={topProperties[3]} likePropertyHandler={likePropertyHandler} />{' '}
+									</Box>
+									<Box className="small-top-properties-box">
+										{' '}
+										<TopPropertyCard property={topProperties[4]} likePropertyHandler={likePropertyHandler} />{' '}
+									</Box>
+								</Box>
+							</Box>
+
+							<Box className="big-top-properties-box">
+								{/* Nested grid structure for mid and small boxes */}
+								<Box className="mid-top-properties-box">
+									<Box className="small-top-properties-box">
+										{' '}
+										<TopPropertyCard property={topProperties[5]} likePropertyHandler={likePropertyHandler} />{' '}
+									</Box>
+									<Box className="small-top-properties-box">
+										{' '}
+										<TopPropertyCard property={topProperties[6]} likePropertyHandler={likePropertyHandler} />{' '}
+									</Box>
+								</Box>
+								<Box className="mid-top-properties-box">
+									<Box className="small-top-properties-box">
+										{' '}
+										<TopPropertyCard property={topProperties[7]} likePropertyHandler={likePropertyHandler} />
+									</Box>
+									<Box className="small-top-properties-box">
+										<TopPropertyCard property={topProperties[8]} likePropertyHandler={likePropertyHandler} />{' '}
+									</Box>
+								</Box>
+							</Box>
+
+							<Box className="big-top-properties-box">
+								<TopPropertyCard property={topProperties[9]} likePropertyHandler={likePropertyHandler} />{' '}
+							</Box>
+						</Box>
+					</Box>
 				</Stack>
 			</Stack>
 		);
@@ -137,8 +198,8 @@ const TopProperties = (props: TopPropertiesProps) => {
 TopProperties.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 8,
-		sort: 'propertyRank',
+		limit: 10,
+		sort: 'propertyRentPrice',
 		direction: 'DESC',
 		search: {},
 	},

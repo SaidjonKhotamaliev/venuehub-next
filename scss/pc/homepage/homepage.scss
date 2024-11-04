@@ -490,7 +490,7 @@
 		.top-properties {
 			padding: 108px 0px 76px;
 			width: 100%;
-			height: 1250px;
+			height: 1300px;
 			display: flex;
 			flex-direction: row;
 			.container {
@@ -508,14 +508,16 @@
 						grid-template-columns: repeat(2, 1fr);
 						gap: 12px;
 						width: 1300px;
-						height: 500px;
+						height: 464px;
+						background-size: cover;
+
 						.big-top-properties-box {
 							display: grid;
-							gap: 5px;
+							gap: 12px;
 							border-radius: 2%;
 							width: 638px;
-							height: 494px;
-							background-color: #eba89e;
+							height: 464px;
+							background-size: cover;
 							.mid-top-properties-box {
 								width: 626px;
 								gap: 12px;
@@ -525,10 +527,10 @@
 
 								.small-top-properties-box {
 									display: grid;
-									background-color: cyan;
 									border-radius: 2%;
 									width: 313px;
 									height: 226px;
+									background-size: cover;
 								}
 							}
 						}

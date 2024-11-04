@@ -9,6 +9,7 @@ import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
+import { relative } from 'path';
 
 interface TopPropertyCardProps {
 	property: Property;
@@ -20,6 +21,9 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	const propertyImage = property?.propertyImages
+		? `${process.env.REACT_APP_API_URL}/${property?.propertyImages}`
+		: '/img/profile/defaultUser.svg';
 
 	/** HANDLERS **/
 
@@ -91,8 +95,19 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 		);
 	} else {
 		return (
-			<Stack className="top-card-box">
-				<Box
+			<Stack
+				className="top-card-box"
+				style={{
+					backgroundImage: `url(${propertyImage})`,
+					position: 'relative',
+					backgroundSize: 'cover',
+					borderRadius: '12px',
+				}}
+				onClick={() => {
+					pushDetailHandler(property._id);
+				}}
+			>
+				{/* <Box
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
@@ -143,7 +158,20 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 							<Typography className="view-cnt">{property?.propertyLikes}</Typography>
 						</div>
 					</div>
-				</Box>
+				</Box> */}
+
+				{/* <Box
+					component={'div'}
+					className={'card-box'}
+					style={{ backgroundImage: `url(${propertyImage})` }}
+					onClick={() => {
+						pushDetailHandler(property._id);
+					}}
+				> */}
+				{/* <img src={propertyImage} alt="no image" className="card-img" /> */}
+				<div>{property?.propertyTitle}</div>
+				<div>{property?.propertyType}</div>
+				{/* </Box> */}
 			</Stack>
 		);
 	}

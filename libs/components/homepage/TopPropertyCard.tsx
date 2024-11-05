@@ -182,7 +182,7 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 						paddingRight: '20px',
 					}}
 				>
-					<div
+					{/* <div
 						style={{
 							width: '50px',
 							height: '50px',
@@ -199,11 +199,9 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 						onMouseLeave={() => setIsHovered(false)}
 					>
 						<img src="/img/icons/review.svg" alt="" width={'34px'} />
-					</div>
-					<div
+					</div> */}
+					{/* <div
 						style={{
-							// position: 'relative',
-							// left: '82%',
 							width: '50px',
 							height: '50px',
 							borderRadius: '50%',
@@ -218,7 +216,37 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 						onMouseEnter={() => setIsHovered(true)}
 						onMouseLeave={() => setIsHovered(false)}
 					>
-						<img src="/img/icons/like.svg" alt="" width={'40px'} />
+						<img src="/img/icons/like.svg" alt="" width={'40px'} style={{ color: 'red' }} />
+					</div> */}
+					<div
+						style={{
+							width: '50px',
+							height: '50px',
+							borderRadius: '50%',
+							backgroundColor: '#f5f4f4',
+							display: isHovered ? 'flex' : 'none',
+							justifyContent: 'center',
+							alignItems: 'center',
+							opacity: isHovered ? 0.7 : 0,
+							transform: isHovered ? 'translate(0, 0)' : 'translate(-50px, 20px)',
+							transition: 'opacity 0.5s ease-out, transform 0.5s ease-out',
+						}}
+						onMouseEnter={() => setIsHovered(true)}
+						onMouseLeave={() => setIsHovered(false)}
+					>
+						<IconButton
+							color={'default'}
+							onClick={(e) => {
+								e.stopPropagation(); // Prevents the click event from bubbling up to parent elements
+								likePropertyHandler(user, property._id); // Your custom handler for liking a property
+							}}
+						>
+							{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+								<FavoriteIcon style={{ color: 'red', width: '60px', height: '60px' }} />
+							) : (
+								<FavoriteIcon />
+							)}
+						</IconButton>
 					</div>
 				</div>
 

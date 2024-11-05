@@ -191,11 +191,17 @@ const TopProperties = (props: TopPropertiesProps) => {
 						</Box>
 					</Box>
 
-					<Box className={'top-all-btn'} style={{ width: '100px', height: '20px', backgroundColor: 'red' }}>
+					<Box className={'top-all-btn'} style={{ width: '114px', height: '34px', marginTop: '500px' }}>
 						<Link href={'/property'}>
 							<span>See All</span>
 						</Link>
-						<img src="/img/icons/rightup.svg" alt="" />
+						<img
+							src="/img/icons/rightup.svg"
+							alt=""
+							width={'13px'}
+							height={'18px'}
+							style={{ filter: 'brightness(0) invert(1)' }}
+						/>
 					</Box>
 				</Stack>
 			</Stack>

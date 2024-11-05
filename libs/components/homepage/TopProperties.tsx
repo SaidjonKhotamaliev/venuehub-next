@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import WestIcon from '@mui/icons-material/West';
-import EastIcon from '@mui/icons-material/East';
 import TopPropertyCard from './TopPropertyCard';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { Property } from '../../types/property/property';
@@ -69,21 +67,6 @@ const TopProperties = (props: TopPropertiesProps) => {
 						<span>Top properties</span>
 					</Stack>
 					<Stack className={'card-box'}>
-						{/* <Swiper
-							className={'top-property-swiper'}
-							slidesPerView={'auto'}
-							centeredSlides={true}
-							spaceBetween={15}
-							modules={[Autoplay]}
-						>
-							{topProperties.map((property: Property) => {
-								return (
-									<SwiperSlide className={'top-property-slide'} key={property?._id}>
-										<TopPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
-									</SwiperSlide>
-								);
-							})}
-						</Swiper> */}
 						<Stack flexDirection={'row'} className={'top-properties-box'}>
 							<Stack></Stack>
 							<Stack flexDirection={'row'}>
@@ -122,13 +105,6 @@ const TopProperties = (props: TopPropertiesProps) => {
 						<Box component={'div'} className={'left'}>
 							<span>Top properties</span>
 							<p>Check out our Top Properties</p>
-						</Box>
-						<Box component={'div'} className={'right'}>
-							<div className={'pagination-box'}>
-								<WestIcon className={'swiper-top-prev'} />
-								<div className={'swiper-top-pagination'}></div>
-								<EastIcon className={'swiper-top-next'} />
-							</div>
 						</Box>
 					</Stack>
 
@@ -192,16 +168,16 @@ const TopProperties = (props: TopPropertiesProps) => {
 					</Box>
 
 					<Box className={'top-all-btn'} style={{ width: '114px', height: '34px', marginTop: '500px' }}>
-						<Link href={'/property'}>
+						<Link href={'/property'} style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
 							<span>See All</span>
+							<img
+								src="/img/icons/rightup.svg"
+								alt=""
+								width={'13px'}
+								height={'18px'}
+								style={{ filter: 'brightness(0) invert(1)' }}
+							/>
 						</Link>
-						<img
-							src="/img/icons/rightup.svg"
-							alt=""
-							width={'13px'}
-							height={'18px'}
-							style={{ filter: 'brightness(0) invert(1)' }}
-						/>
 					</Box>
 				</Stack>
 			</Stack>

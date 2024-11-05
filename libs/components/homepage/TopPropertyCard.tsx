@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Stack, Box, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -24,6 +24,7 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 	const propertyImage = property?.propertyImages
 		? `${process.env.REACT_APP_API_URL}/${property?.propertyImages}`
 		: '/img/profile/defaultUser.svg';
+	const [isHovered, setIsHovered] = useState(false);
 
 	/** HANDLERS **/
 
@@ -70,11 +71,6 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 					</div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
-						<p>
-							{' '}
-							{property.propertyRent ? 'Rent' : ''} {property.propertyRent && property.propertyBarter && '/'}{' '}
-							{property.propertyBarter ? 'Barter' : ''}
-						</p>
 						<div className="view-like-box">
 							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />
@@ -103,114 +99,129 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 					backgroundSize: 'cover',
 					borderRadius: '12px',
 					cursor: 'pointer',
+					justifyContent: 'space-between',
+					paddingBottom: '20px',
 				}}
 				onClick={() => {
 					pushDetailHandler(property._id);
 				}}
 			>
-				<div
-					style={{
-						position: 'absolute',
-						top: 0,
-						left: 0,
-						right: 0,
-						bottom: 0,
-						borderRadius: '12px',
-						background: 'linear-gradient(154deg, #141415 0%, rgba(0, 0, 0, 0.70) 0%, rgba(20, 20, 21, 0.20) 94.29%)',
-						zIndex: 1,
-						cursor: 'pointer',
-					}}
-				/>
-				{/* <Box
-					component={'div'}
-					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
-					onClick={() => {
-						pushDetailHandler(property._id);
-					}}
-				>
-					<div>${property?.propertyPrice}</div>
-				</Box>
-				<Box component={'div'} className={'info'}>
-					<strong
-						className={'title'}
-						onClick={() => {
-							pushDetailHandler(property._id);
+				<div style={{ display: 'flex', flexDirection: 'column' }}>
+					<div
+						style={{
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							right: 0,
+							bottom: 0,
+							borderRadius: '12px',
+							background: isHovered
+								? 'linear-gradient(45deg, #1a8377 0%, rgba(26, 131, 119, 0.8) 10%, rgba(26, 131, 119, 0.2) 60%, #1a8377 100%)'
+								: 'linear-gradient(154deg, #141415 0%, rgba(0, 0, 0, 0.70) 0%, rgba(20, 20, 21, 0.20) 94.29%)',
+							zIndex: 1,
+							cursor: 'pointer',
+							transition: 'background 0.3s ease',
+						}}
+						onMouseEnter={() => setIsHovered(true)}
+						onMouseLeave={() => setIsHovered(false)}
+					/>
+					<div
+						style={{
+							margin: '12px 0px 10px 12px',
+							color: '#ffffff',
+							fontFamily: 'Inter',
+							fontStyle: 'normal',
+							fontSize: '28px',
+							fontWeight: '800',
+							zIndex: 1,
+							cursor: 'pointer',
 						}}
 					>
 						{property?.propertyTitle}
-					</strong>
-					<p className={'desc'}>{property?.propertyAddress}</p>
-					<div className={'options'}>
-						<div>
-							<img src="/img/icons/bed.svg" alt="" />
-							<span>{property?.propertyBeds} bed</span>
-						</div>
-						<div>
-							<img src="/img/icons/room.svg" alt="" />
-							<span>{property?.propertyRooms} rooms</span>
-						</div>
-						<div>
-							<img src="/img/icons/expand.svg" alt="" />
-							<span>{property?.propertySquare} m2</span>
-						</div>
 					</div>
-					<Divider sx={{ mt: '15px', mb: '17px' }} />
-					<div className={'bott'}>
-						<div className="view-like-box">
-							<IconButton color={'default'}>
-								<RemoveRedEyeIcon />
-							</IconButton>
-							<Typography className="view-cnt">{property?.propertyViews}</Typography>
-							<IconButton color={'default'} onClick={() => likePropertyHandler(user, property._id)}>
-								{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-									<FavoriteIcon style={{ color: 'red' }} />
-								) : (
-									<FavoriteIcon />
-								)}
-							</IconButton>
-							<Typography className="view-cnt">{property?.propertyLikes}</Typography>
-						</div>
+					<div
+						style={{
+							margin: '0px 12px',
+							color: 'rgba(255, 255, 255, 0.60)',
+							fontFamily: 'Inter',
+							fontStyle: 'normal',
+							fontSize: '10px',
+							fontWeight: '800',
+							zIndex: 1,
+							cursor: 'pointer',
+						}}
+					>
+						{property?.propertyType}
 					</div>
-				</Box> */}
+				</div>
+				{/* <div
+					style={{
+						position: 'relative',
+						left: '250px',
+						top: '40%',
+						width: '50px',
+						height: '50px',
+						borderRadius: '50%',
+						backgroundColor: 'cyan',
+						display: isHovered ? 'flex' : 'none',
+						justifyContent: 'center',
+						alignItems: 'center',
+					}}
+					onMouseEnter={() => setIsHovered(true)}
+					onMouseLeave={() => setIsHovered(false)}
+				>
+					
+				</div> */}
 
-				{/* <Box
-					component={'div'}
-					className={'card-box'}
-					style={{ backgroundImage: `url(${propertyImage})` }}
-					onClick={() => {
-						pushDetailHandler(property._id);
-					}}
-				> */}
-				{/* <img src={propertyImage} alt="no image" className="card-img" /> */}
 				<div
 					style={{
-						margin: '12px 0px 10px 12px',
-						color: '#ffffff',
-						fontFamily: 'Inter',
-						fontStyle: 'normal',
-						fontSize: '28px',
-						fontWeight: '800',
-						zIndex: 1,
-						cursor: 'pointer',
+						display: 'flex',
+						flexDirection: 'row',
+						gap: '10px',
+						justifyContent: 'flex-end',
+						paddingRight: '20px',
 					}}
 				>
-					{property?.propertyTitle}
+					<div
+						style={{
+							width: '50px',
+							height: '50px',
+							borderRadius: '50%',
+							backgroundColor: '#f5f4f4',
+							display: isHovered ? 'flex' : 'none',
+							justifyContent: 'center',
+							alignItems: 'center',
+							opacity: isHovered ? 0.7 : 0,
+							transform: isHovered ? 'translate(0, 0) scale(1)' : 'translate(-50px, 20px) scale(0.9)',
+							transition: 'opacity 0.5s ease-out, transform 0.5s ease-out',
+						}}
+						onMouseEnter={() => setIsHovered(true)}
+						onMouseLeave={() => setIsHovered(false)}
+					>
+						<img src="/img/icons/review.svg" alt="" width={'34px'} />
+					</div>
+					<div
+						style={{
+							// position: 'relative',
+							// left: '82%',
+							width: '50px',
+							height: '50px',
+							borderRadius: '50%',
+							backgroundColor: '#f5f4f4',
+							display: isHovered ? 'flex' : 'none',
+							justifyContent: 'center',
+							alignItems: 'center',
+							opacity: isHovered ? 0.7 : 0,
+							transform: isHovered ? 'translate(0, 0)' : 'translate(-50px, 20px)',
+							transition: 'opacity 0.5s ease-out, transform 0.5s ease-out',
+						}}
+						onMouseEnter={() => setIsHovered(true)}
+						onMouseLeave={() => setIsHovered(false)}
+					>
+						<img src="/img/icons/like.svg" alt="" width={'40px'} />
+					</div>
 				</div>
-				<div
-					style={{
-						margin: '0px 12px',
-						color: 'rgba(255, 255, 255, 0.60)',
-						fontFamily: 'Inter',
-						fontStyle: 'normal',
-						fontSize: '10px',
-						fontWeight: '800',
-						zIndex: 1,
-						cursor: 'pointer',
-					}}
-				>
-					{property?.propertyType}
-				</div>
+
 				{/* </Box> */}
 			</Stack>
 		);

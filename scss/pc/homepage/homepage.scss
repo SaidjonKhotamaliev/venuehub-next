@@ -630,23 +630,33 @@
 							}
 						}
 						.top-agent-card {
-							width: 205px;
-							height: 280px;
+							width: 400px;
+							height: 200px;
 							display: flex;
 							flex-direction: column;
+							p {
+								margin-top: 12px;
+								margin-left: 2px;
+								color: #181a20;
+								font-family: $font;
+								font-size: 14px;
+								font-style: normal;
+								font-weight: 600;
+								line-height: normal;
+								text-transform: capitalize;
+								cursor: pointer;
+							}
 							img {
-								width: 209px;
-								height: 209px;
+								width: 70px;
+								height: 70px;
 								border-radius: 50%;
 								cursor: pointer;
 								object-fit: cover;
 							}
 							strong {
-								margin-top: 20px;
 								color: #181a20;
-								text-align: center;
 								font-family: $font;
-								font-size: 15px;
+								font-size: 24px;
 								font-style: normal;
 								font-weight: 600;
 								line-height: normal;
@@ -655,12 +665,8 @@
 							}
 							span {
 								color: #181a20;
-								text-align: center;
 								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 28px;
+								font-size: 12px;
 							}
 						}
 					}

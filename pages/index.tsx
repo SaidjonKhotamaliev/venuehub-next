@@ -1,14 +1,13 @@
 import { NextPage } from 'next';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutMain from '../libs/components/layout/LayoutHome';
-import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 import PopularProperties from '../libs/components/homepage/PopularEquipments';
-import TopAgents from '../libs/components/homepage/OurTeam';
-import Events from '../libs/components/homepage/Events';
 import TopProperties from '../libs/components/homepage/TopProperties';
 import { Stack } from '@mui/material';
 import Advertisement from '../libs/components/homepage/Advertisement';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import DownloadSection from '../libs/components/homepage/DownloadSection';
+import OurTeam from '../libs/components/homepage/OurTeam';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -25,7 +24,7 @@ const Home: NextPage = () => {
 				<TopProperties />
 				<PopularProperties />
 				<Advertisement />
-				<TopAgents />
+				<OurTeam />
 			</Stack>
 		);
 	} else {
@@ -34,9 +33,8 @@ const Home: NextPage = () => {
 				<TopProperties />
 				<PopularProperties />
 				<Advertisement />
-				<TopAgents />
-				<Events />
-				<CommunityBoards />
+				<OurTeam />
+				<DownloadSection />
 			</Stack>
 		);
 	}

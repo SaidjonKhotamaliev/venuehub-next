@@ -580,7 +580,7 @@
 			position: relative;
 			padding: 153px 0px 135px;
 			width: 100%;
-			height: 722px;
+			height: 500px;
 			display: flex;
 			flex-direction: row;
 			background: #f6f6f6;
@@ -590,7 +590,7 @@
 				align-items: center;
 				.wrapper {
 					width: 100%;
-					margin-top: 83px;
+					margin-top: 50px;
 					display: flex;
 					flex-direction: row;
 					align-items: center;
@@ -598,6 +598,7 @@
 					.switch-btn {
 						width: 53px;
 						height: 53px;
+						margin-bottom: 80px;
 						display: flex;
 						align-items: center;
 						justify-content: center;
@@ -637,7 +638,7 @@
 							p {
 								margin-top: 12px;
 								margin-left: 2px;
-								color: #181a20;
+								color: #616469;
 								font-family: $font;
 								font-size: 14px;
 								font-style: normal;
@@ -664,7 +665,7 @@
 								cursor: pointer;
 							}
 							span {
-								color: #181a20;
+								color: #616469;
 								font-family: $font;
 								font-size: 12px;
 							}
@@ -673,6 +674,70 @@
 				}
 			}
 		}
+		/* Styles for the Download Section */
+		.download-section {
+			background: linear-gradient(45deg, #fef0c4, #ffec9e);
+			padding: 50px 20px;
+			text-align: center;
+			border-radius: 15px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+			.download-container {
+				max-width: 1200px;
+				margin: 0 auto;
+
+				.title {
+					font-size: 2rem;
+					font-weight: bold;
+					color: #333;
+					margin-bottom: 20px;
+				}
+
+				.description {
+					font-size: 1.1rem;
+					color: #555;
+					margin-bottom: 40px;
+				}
+
+				.app-store-buttons {
+					display: flex;
+					justify-content: center;
+					gap: 30px;
+
+					.store-button {
+						background-color: #ffffff;
+						border-radius: 8px;
+						box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						padding: 12px 20px;
+						cursor: pointer;
+						transition: all 0.3s ease;
+
+						&:hover {
+							transform: translateY(-5px);
+							box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+						}
+
+						&.play-store {
+							background-color: #34b7f1;
+						}
+
+						&.app-store {
+							background-color: #ffffff;
+						}
+
+						img {
+							width: 100%;
+							max-width: 120px;
+							height: auto;
+						}
+					}
+				}
+			}
+		}
+
 		.events {
 			position: relative;
 			padding: 100px 0px 92px;

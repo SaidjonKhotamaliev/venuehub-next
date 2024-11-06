@@ -64,7 +64,7 @@ const OurTeamCard = (props: OurTeamProps) => {
 							{description.length > 70 && !isReadMore && (
 								<span
 									onClick={() => setIsReadMore(true)}
-									style={{ color: 'blue', cursor: 'pointer', marginLeft: '5px' }}
+									style={{ color: '#000', cursor: 'pointer', marginLeft: '5px', textDecoration: 'underline' }}
 								>
 									Read More
 								</span>

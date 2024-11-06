@@ -7,15 +7,12 @@ export interface PropertyUpdate {
 	propertyLocation?: PropertyLocation;
 	propertyAddress?: string;
 	propertyTitle?: string;
-	propertyPrice?: number;
+	propertyRentPrice?: number;
 	propertySquare?: number;
-	propertyBeds?: number;
-	propertyRooms?: number;
 	propertyImages?: string[];
 	propertyDesc?: string;
-	propertyBarter?: boolean;
-	propertyRent?: boolean;
 	soldAt?: Date;
+	rentedAt?: Date;
 	deletedAt?: Date;
 	constructedAt?: Date;
 }

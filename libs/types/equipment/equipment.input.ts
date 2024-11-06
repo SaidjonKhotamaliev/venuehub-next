@@ -1,42 +1,36 @@
 import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
 import { Direction } from '../../enums/common.enum';
+import { EquipmentCondition, EquipmentStatus, EquipmentType } from '../../enums/equipment.enum';
 
-export interface PropertyInput {
-	propertyType: PropertyType;
-	propertyLocation: PropertyLocation;
-	propertyAddress: string;
-	propertyTitle: string;
-	propertyRentPrice: number;
-	propertySquare: number;
-	propertyImages: string[];
-	propertyDesc?: string;
+export interface EquipmentInput {
+	equipmentType: EquipmentType;
+	equipmentCondition: EquipmentCondition;
+	equipmentTitle: string;
+	equipmentRentPrice: number;
+	equipmentImages: string[];
+	equipmentDesc?: string;
 	memberId?: string;
 	constructedAt?: Date;
 }
 
-interface PISearch {
+interface EISearch {
 	memberId?: string;
-	locationList?: PropertyLocation[];
-	typeList?: PropertyType[];
-	roomsList?: Number[];
-	options?: string[];
-	bedsList?: Number[];
+	typeList?: EquipmentType[];
 	pricesRange?: Range;
 	periodsRange?: PeriodsRange;
-	squaresRange?: Range;
 	text?: string;
 }
 
-export interface PropertiesInquiry {
+export interface EquipmentsInquiry {
 	page: number;
 	limit: number;
 	sort?: string;
 	direction?: Direction;
-	search: PISearch;
+	search: EISearch;
 }
 
-interface APISearch {
-	propertyStatus?: PropertyStatus;
+interface AEISearch {
+	equipmentStatus?: EquipmentStatus;
 }
 
 export interface AgentPropertiesInquiry {
@@ -44,11 +38,11 @@ export interface AgentPropertiesInquiry {
 	limit: number;
 	sort?: string;
 	direction?: Direction;
-	search: APISearch;
+	search: AEISearch;
 }
 
-interface ALPISearch {
-	propertyStatus?: PropertyStatus;
+interface ALEISearch {
+	equipmentStatus?: EquipmentStatus;
 	propertyLocationList?: PropertyLocation[];
 }
 
@@ -57,7 +51,7 @@ export interface AllPropertiesInquiry {
 	limit: number;
 	sort?: string;
 	direction?: Direction;
-	search: ALPISearch;
+	search: ALEISearch;
 }
 
 interface Range {

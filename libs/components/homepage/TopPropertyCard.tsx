@@ -43,7 +43,7 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 						pushDetailHandler(property._id);
 					}}
 				>
-					<div>${property?.propertyPrice}</div>
+					<div>${property?.propertyRentPrice}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
 					<strong
@@ -56,14 +56,6 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 					</strong>
 					<p className={'desc'}>{property?.propertyAddress}</p>
 					<div className={'options'}>
-						<div>
-							<img src="/img/icons/bed.svg" alt="" />
-							<span>{property?.propertyBeds} bed</span>
-						</div>
-						<div>
-							<img src="/img/icons/room.svg" alt="" />
-							<span>{property?.propertyRooms} rooms</span>
-						</div>
 						<div>
 							<img src="/img/icons/expand.svg" alt="" />
 							<span>{property?.propertySquare} m2</span>

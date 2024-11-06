@@ -5,22 +5,22 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
-import PopularPropertyCard from './PopularPropertyCard';
-import { Property } from '../../types/property/property';
 import Link from 'next/link';
-import { PropertiesInquiry } from '../../types/property/property.input';
 import { useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
+import { Equipment } from '../../types/equipment/equipment';
+import PopularEquipmentCard from './PopularEquipmentCard';
+import { EquipmentsInquiry } from '../../types/equipment/equipment.input';
 
-interface PopularPropertiesProps {
-	initialInput: PropertiesInquiry;
+interface PopularEquipmentsProps {
+	initialInput: EquipmentsInquiry;
 }
 
-const PopularProperties = (props: PopularPropertiesProps) => {
+const PopularEquipments = (props: PopularEquipmentsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
-	const [popularProperties, setPopularProperties] = useState<Property[]>([]);
+	const [popularEquipments, setPopularEquipments] = useState<Equipment[]>([]);
 
 	/** APOLLO REQUESTS **/
 
@@ -34,13 +34,13 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setPopularProperties(data?.getProperties?.list);
+			setPopularEquipments(data?.getProperties?.list);
 		},
 	});
 
 	/** HANDLERS **/
 
-	if (!popularProperties) return null;
+	if (!popularEquipments) return null;
 
 	if (device === 'mobile') {
 		return (
@@ -51,16 +51,16 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 					</Stack>
 					<Stack className={'card-box'}>
 						<Swiper
-							className={'popular-property-swiper'}
+							className={'popular-equipment-swiper'}
 							slidesPerView={'auto'}
 							centeredSlides={true}
 							spaceBetween={25}
 							modules={[Autoplay]}
 						>
-							{popularProperties.map((property: Property) => {
+							{popularEquipments.map((equipment) => {
 								return (
-									<SwiperSlide key={property._id} className={'popular-property-slide'}>
-										<PopularPropertyCard property={property} />
+									<SwiperSlide key={equipment._id} className={'popular-equipment-slide'}>
+										<PopularEquipmentCard equipment={equipment} />
 									</SwiperSlide>
 								);
 							})}
@@ -80,7 +80,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
-								<Link href={'/property'}>
+								<Link href={'/equipment'}>
 									<span>See All Categories</span>
 								</Link>
 								<img src="/img/icons/rightup.svg" alt="" />
@@ -89,7 +89,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 					</Stack>
 					<Stack className={'card-box'}>
 						<Swiper
-							className={'popular-property-swiper'}
+							className={'popular-equipment-swiper'}
 							slidesPerView={'auto'}
 							spaceBetween={25}
 							modules={[Autoplay, Navigation, Pagination]}
@@ -101,10 +101,10 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 								el: '.swiper-popular-pagination',
 							}}
 						>
-							{popularProperties.map((property: Property) => {
+							{popularEquipments.map((equipment) => {
 								return (
-									<SwiperSlide key={property._id} className={'popular-property-slide'}>
-										<PopularPropertyCard property={property} />
+									<SwiperSlide key={equipment._id} className={'popular-equipment-slide'}>
+										<PopularEquipmentCard equipment={equipment} />
 									</SwiperSlide>
 								);
 							})}
@@ -121,14 +121,14 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 	}
 };
 
-PopularProperties.defaultProps = {
+PopularEquipments.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 7,
-		sort: 'propertyViews',
+		sort: 'equipmentViews',
 		direction: 'DESC',
 		search: {},
 	},
 };
 
-export default PopularProperties;
+export default PopularEquipments;

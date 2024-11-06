@@ -39,14 +39,14 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 						pushDetailHandler(equipment._id);
 					}}
 				>
-					{equipment?.equipmentRank && equipment?.equipmentRank >= topPropertyRank ? (
+					{/* {equipment?.equipmentRank && equipment?.equipmentRank >= topPropertyRank ? (
 						<div className={'status'}>
 							<img src="/img/icons/electricity.svg" alt="" />
 							<span>top</span>
 						</div>
 					) : (
 						''
-					)}
+					)} */}
 
 					<div className={'price'}>${equipment.equipmentRentPrice}</div>
 				</Box>
@@ -82,15 +82,6 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 						pushDetailHandler(equipment._id);
 					}}
 				>
-					{equipment?.equipmentRank && equipment?.equipmentRank >= topPropertyRank ? (
-						<div className={'status'}>
-							<img src="/img/icons/electricity.svg" alt="" />
-							<span>top</span>
-						</div>
-					) : (
-						''
-					)}
-
 					<div className={'price'}>${equipment.equipmentRentPrice}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
@@ -117,6 +108,8 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 							{user.memberNick}
 						</strong>
 					</Stack>
+					<p>{equipment?.equipmentDesc}</p>
+					<p>{`url(${REACT_APP_API_URL}/${user?.memberImage})`}</p>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
 						<div className="view-like-box">

@@ -7,7 +7,7 @@ import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
-import { GET_PROPERTIES } from '../../../apollo/user/query';
+import { GET_EQUIPMENTS } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { Equipment } from '../../types/equipment/equipment';
 import PopularEquipmentCard from './PopularEquipmentCard';
@@ -25,16 +25,16 @@ const PopularEquipments = (props: PopularEquipmentsProps) => {
 	/** APOLLO REQUESTS **/
 
 	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
-	} = useQuery(GET_PROPERTIES, {
+		loading: getEquipmentsLoading,
+		data: getEquipmentsData,
+		error: getEquipmentsError,
+		refetch: getEquipmentsRefetch,
+	} = useQuery(GET_EQUIPMENTS, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setPopularEquipments(data?.getProperties?.list);
+			setPopularEquipments(data?.getEquipments?.list);
 		},
 	});
 
@@ -44,10 +44,10 @@ const PopularEquipments = (props: PopularEquipmentsProps) => {
 
 	if (device === 'mobile') {
 		return (
-			<Stack className={'popular-properties'}>
+			<Stack className={'popular-equipments'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>Popular properties</span>
+						<span>Popular equipments</span>
 					</Stack>
 					<Stack className={'card-box'}>
 						<Swiper
@@ -71,11 +71,11 @@ const PopularEquipments = (props: PopularEquipmentsProps) => {
 		);
 	} else {
 		return (
-			<Stack className={'popular-properties'}>
+			<Stack className={'popular-equipments'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Popular properties</span>
+							<span>Popular equipments</span>
 							<p>Popularity is based on views</p>
 						</Box>
 						<Box component={'div'} className={'right'}>

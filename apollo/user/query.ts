@@ -362,6 +362,74 @@ export const GET_VISITED = gql`
 `;
 
 /**************************
+ *        EQUIPMENT        *
+ *************************/
+
+export const GET_EQUIPMENTS = gql`
+	query GetEquipments($input: EquipmentsInquiry!) {
+		getEquipments(input: $input) {
+			list {
+				_id
+				equipmentType
+				equipmentStatus
+				equipmentCondition
+				equipmentTitle
+				equipmentRentPrice
+				equipmentViews
+				equipmentLikes
+				equipmentComments
+				equipmentRank
+				equipmentImages
+				equipmentDesc
+				memberId
+				rentedAt
+				deletedAt
+				maintanencedAt
+				retiredAt
+				createdAt
+				updatedAt
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberProperties
+					memberEquipments
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+/**************************
  *      BOARD-ARTICLE     *
  *************************/
 

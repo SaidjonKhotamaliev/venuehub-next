@@ -288,6 +288,28 @@
 			.container {
 				flex-direction: column;
 				align-items: center;
+				.top-all-btn {
+					display: flex;
+					flex-direction: row;
+					justify-content: center;
+					align-items: center;
+					gap: 10px;
+
+					color: #fff;
+					text-align: center;
+					font-family: Inter;
+					font-size: 15.25px;
+					font-style: normal;
+					font-weight: 600;
+					line-height: 24px;
+
+					border-radius: 8px;
+					background: #1a8377;
+					cursor: pointer;
+					span {
+						color: white;
+					}
+				}
 				.card-box {
 					margin-top: 34px;
 					width: 100%;
@@ -588,6 +610,28 @@
 				position: relative;
 				flex-direction: column;
 				align-items: center;
+				.top-all-btn {
+					display: flex;
+					flex-direction: row;
+					justify-content: center;
+					align-items: center;
+					gap: 10px;
+
+					color: #fff;
+					text-align: center;
+					font-family: Inter;
+					font-size: 15.25px;
+					font-style: normal;
+					font-weight: 600;
+					line-height: 24px;
+
+					border-radius: 8px;
+					background: #1a8377;
+					cursor: pointer;
+					span {
+						color: white;
+					}
+				}
 				.wrapper {
 					width: 100%;
 					margin-top: 50px;
@@ -598,7 +642,6 @@
 					.switch-btn {
 						width: 53px;
 						height: 53px;
-						margin-bottom: 80px;
 						display: flex;
 						align-items: center;
 						justify-content: center;
@@ -616,7 +659,7 @@
 					}
 					.card-wrapper {
 						width: 1174px;
-						height: 280px;
+						height: 150px;
 						display: flex;
 						flex-direction: row;
 						.top-agents-swiper {

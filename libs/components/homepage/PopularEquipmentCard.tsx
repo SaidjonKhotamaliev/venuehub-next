@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { Equipment } from '../../types/equipment/equipment';
+import Link from 'next/link';
 
 interface PopularEquipmentCardProps {
 	equipment: Equipment;
@@ -39,15 +40,6 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 						pushDetailHandler(equipment._id);
 					}}
 				>
-					{/* {equipment?.equipmentRank && equipment?.equipmentRank >= topPropertyRank ? (
-						<div className={'status'}>
-							<img src="/img/icons/electricity.svg" alt="" />
-							<span>top</span>
-						</div>
-					) : (
-						''
-					)} */}
-
 					<div className={'price'}>${equipment.equipmentRentPrice}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
@@ -73,54 +65,56 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 		);
 	} else {
 		return (
-			<Stack className="popular-card-box">
-				<Box
-					component={'div'}
-					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${equipment?.equipmentImages[0]})` }}
-					onClick={() => {
-						pushDetailHandler(equipment._id);
-					}}
-				>
-					<div className={'price'}>${equipment.equipmentRentPrice}</div>
-				</Box>
-				<Box component={'div'} className={'info'}>
-					<Stack className={'info-agent-box'}>
-						<Box
-							component={'div'}
-							className={'member-small-img'}
-							style={{
-								backgroundImage: `url(${REACT_APP_API_URL}/${user?.memberImage})`,
-								width: '30px',
-								height: '30px',
-								borderRadius: '50%',
-							}}
-							onClick={() => {
-								pushAgentHandler(user._id);
-							}}
-						></Box>
-						<strong
-							className={'title'}
-							onClick={() => {
-								pushAgentHandler(user._id);
-							}}
-						>
-							{user.memberNick}
-						</strong>
-					</Stack>
-					<p>{equipment?.equipmentDesc}</p>
-					<p>{`url(${REACT_APP_API_URL}/${user?.memberImage})`}</p>
-					<Divider sx={{ mt: '15px', mb: '17px' }} />
-					<div className={'bott'}>
-						<div className="view-like-box">
-							<IconButton color={'default'}>
-								<RemoveRedEyeIcon />
-							</IconButton>
-							<Typography className="view-cnt">{equipment?.equipmentViews}</Typography>
+			<>
+				<Stack className="popular-card-box">
+					<Box
+						component={'div'}
+						className={'card-img'}
+						style={{ backgroundImage: `url(${REACT_APP_API_URL}/${equipment?.equipmentImages[0]})` }}
+						onClick={() => {
+							pushDetailHandler(equipment._id);
+						}}
+					>
+						<div className={'price'}>${equipment.equipmentRentPrice}</div>
+					</Box>
+					<Box component={'div'} className={'info'}>
+						<Stack className={'info-agent-box'}>
+							<Box
+								component={'div'}
+								className={'member-small-img'}
+								style={{
+									backgroundImage: `url(${REACT_APP_API_URL}/${user?.memberImage})`,
+									width: '30px',
+									height: '30px',
+									borderRadius: '50%',
+								}}
+								onClick={() => {
+									pushAgentHandler(user._id);
+								}}
+							></Box>
+							<strong
+								className={'title'}
+								onClick={() => {
+									pushAgentHandler(user._id);
+								}}
+							>
+								{user.memberNick}
+							</strong>
+						</Stack>
+						<p>{equipment?.equipmentDesc}</p>
+						<p>{`url(${REACT_APP_API_URL}/${user?.memberImage})`}</p>
+						<Divider sx={{ mt: '15px', mb: '17px' }} />
+						<div className={'bott'}>
+							<div className="view-like-box">
+								<IconButton color={'default'}>
+									<RemoveRedEyeIcon />
+								</IconButton>
+								<Typography className="view-cnt">{equipment?.equipmentViews}</Typography>
+							</div>
 						</div>
-					</div>
-				</Box>
-			</Stack>
+					</Box>
+				</Stack>
+			</>
 		);
 	}
 };

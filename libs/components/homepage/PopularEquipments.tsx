@@ -78,14 +78,6 @@ const PopularEquipments = (props: PopularEquipmentsProps) => {
 							<span>Popular equipments</span>
 							<p>Popularity is based on views</p>
 						</Box>
-						<Box component={'div'} className={'right'}>
-							<div className={'more-box'}>
-								<Link href={'/equipment'}>
-									<span>See All Categories</span>
-								</Link>
-								<img src="/img/icons/rightup.svg" alt="" />
-							</div>
-						</Box>
 					</Stack>
 					<Stack className={'card-box'}>
 						<Swiper
@@ -114,6 +106,20 @@ const PopularEquipments = (props: PopularEquipmentsProps) => {
 						<WestIcon className={'swiper-popular-prev'} />
 						<div className={'swiper-popular-pagination'}></div>
 						<EastIcon className={'swiper-popular-next'} />
+					</Stack>
+					<Stack alignItems={'flex-start'} marginTop={'10px'} style={{ width: '100%' }}>
+						<Box className={'top-all-btn'} style={{ width: '114px', height: '34px' }}>
+							<Link href={'/equipment'} style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+								<span>See All</span>
+								<img
+									src="/img/icons/rightup.svg"
+									alt=""
+									width={'13px'}
+									height={'18px'}
+									style={{ filter: 'brightness(0) invert(1)' }}
+								/>
+							</Link>
+						</Box>
 					</Stack>
 				</Stack>
 			</Stack>

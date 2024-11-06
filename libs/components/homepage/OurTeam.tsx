@@ -12,6 +12,7 @@ import { useQuery } from '@apollo/client';
 import { GET_AGENTS } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import OurTeamCard from './OurTeamCard';
+import Link from 'next/link';
 
 interface OurTeamProps {
 	initialInput: AgentsInquiry;
@@ -110,6 +111,20 @@ const OurTeam = (props: OurTeamProps) => {
 						</Box>
 						<Box component={'div'} className={'switch-btn swiper-agents-next'}>
 							<ArrowBackIosNewIcon />
+						</Box>
+					</Stack>
+					<Stack alignItems={'flex-start'} marginTop={'10px'} style={{ width: '100%' }}>
+						<Box className={'top-all-btn'} style={{ width: '114px', height: '34px' }}>
+							<Link href={'/agent'} style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+								<span>See All</span>
+								<img
+									src="/img/icons/rightup.svg"
+									alt=""
+									width={'13px'}
+									height={'18px'}
+									style={{ filter: 'brightness(0) invert(1)' }}
+								/>
+							</Link>
 						</Box>
 					</Stack>
 				</Stack>

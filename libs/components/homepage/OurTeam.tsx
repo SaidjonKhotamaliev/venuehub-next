@@ -13,11 +13,11 @@ import { GET_AGENTS } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import OurTeamCard from './OurTeamCard';
 
-interface TopAgentsProps {
+interface OurTeamProps {
 	initialInput: AgentsInquiry;
 }
 
-const TopAgents = (props: TopAgentsProps) => {
+const OurTeam = (props: OurTeamProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
@@ -118,7 +118,7 @@ const TopAgents = (props: TopAgentsProps) => {
 	}
 };
 
-TopAgents.defaultProps = {
+OurTeam.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 10,
@@ -128,4 +128,4 @@ TopAgents.defaultProps = {
 	},
 };
 
-export default TopAgents;
+export default OurTeam;

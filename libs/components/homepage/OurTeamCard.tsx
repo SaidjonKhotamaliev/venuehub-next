@@ -4,10 +4,10 @@ import { Box, Divider, Stack } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Member } from '../../types/member/member';
 
-interface TopAgentProps {
+interface OurTeamProps {
 	agent: Member;
 }
-const OurTeamCard = (props: TopAgentProps) => {
+const OurTeamCard = (props: OurTeamProps) => {
 	const { agent } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();

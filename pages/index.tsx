@@ -3,7 +3,7 @@ import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutMain from '../libs/components/layout/LayoutHome';
 import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 import PopularProperties from '../libs/components/homepage/PopularEquipments';
-import TopAgents from '../libs/components/homepage/TopAgents';
+import TopAgents from '../libs/components/homepage/OurTeam';
 import Events from '../libs/components/homepage/Events';
 import TopProperties from '../libs/components/homepage/TopProperties';
 import { Stack } from '@mui/material';

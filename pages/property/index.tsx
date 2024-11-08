@@ -35,6 +35,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [sortingOpen, setSortingOpen] = useState(false);
 	const [filterSortName, setFilterSortName] = useState('New');
+	console.log('++', searchFilter);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
@@ -223,11 +224,11 @@ PropertyList.defaultProps = {
 		sort: 'createdAt',
 		direction: 'DESC',
 		search: {
-			squaresRange: {
+			squaresRangeProperty: {
 				start: 0,
 				end: 500,
 			},
-			pricesRange: {
+			pricesRangeProperty: {
 				start: 0,
 				end: 2000000,
 			},

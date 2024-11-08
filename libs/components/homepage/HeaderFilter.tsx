@@ -236,7 +236,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					search: {
 						...searchFilter.search,
 						// @ts-ignore
-						squaresRange: { ...searchFilter.search.squaresRange, start: parseInt(value) },
+						squaresRangeProperty: { ...searchFilter.search.squaresRangeProperty, start: parseInt(value) },
 					},
 				});
 			} else {
@@ -245,7 +245,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					search: {
 						...searchFilter.search,
 						// @ts-ignore
-						squaresRange: { ...searchFilter.search.squaresRange, end: parseInt(value) },
+						squaresRangeProperty: { ...searchFilter.search.squaresRangeProperty, end: parseInt(value) },
 					},
 				});
 			}
@@ -260,7 +260,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 			...searchFilter,
 			search: {
 				...searchFilter.search,
-				periodsRange: { start: Number(event.target.value), end: yearCheck.end },
+				periodsRangeProperty: { start: Number(event.target.value), end: yearCheck.end },
 			},
 		});
 	};
@@ -272,7 +272,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 			...searchFilter,
 			search: {
 				...searchFilter.search,
-				periodsRange: { start: yearCheck.start, end: Number(event.target.value) },
+				periodsRangeProperty: { start: yearCheck.start, end: Number(event.target.value) },
 			},
 		});
 	};
@@ -499,7 +499,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 										<div className={'inside space-between align-center'}>
 											<FormControl sx={{ width: '122px' }}>
 												<Select
-													value={searchFilter?.search?.squaresRange?.start}
+													value={searchFilter?.search?.squaresRangeProperty?.start}
 													onChange={(e: any) => propertySquareHandler(e, 'start')}
 													displayEmpty
 													inputProps={{ 'aria-label': 'Without label' }}
@@ -508,7 +508,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 													{propertySquare.map((square: number) => (
 														<MenuItem
 															value={square}
-															disabled={(searchFilter?.search?.squaresRange?.end || 0) < square}
+															disabled={(searchFilter?.search?.squaresRangeProperty?.end || 0) < square}
 															key={square}
 														>
 															{square}
@@ -519,7 +519,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 											<div className={'minus-line'}></div>
 											<FormControl sx={{ width: '122px' }}>
 												<Select
-													value={searchFilter?.search?.squaresRange?.end}
+													value={searchFilter?.search?.squaresRangeProperty?.end}
 													onChange={(e: any) => propertySquareHandler(e, 'end')}
 													displayEmpty
 													inputProps={{ 'aria-label': 'Without label' }}
@@ -528,7 +528,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 													{propertySquare.map((square: number) => (
 														<MenuItem
 															value={square}
-															disabled={(searchFilter?.search?.squaresRange?.start || 0) > square}
+															disabled={(searchFilter?.search?.squaresRangeProperty?.start || 0) > square}
 															key={square}
 														>
 															{square}
@@ -567,11 +567,11 @@ HeaderFilter.defaultProps = {
 		page: 1,
 		limit: 9,
 		search: {
-			squaresRange: {
+			squaresRangeProperty: {
 				start: 0,
 				end: 500,
 			},
-			pricesRange: {
+			pricesRangeProperty: {
 				start: 0,
 				end: 2000000,
 			},

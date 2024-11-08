@@ -16,7 +16,7 @@ export interface EquipmentInput {
 interface EISearch {
 	memberId?: string;
 	typeList?: EquipmentType[];
-	pricesRange?: Range;
+	pricesRangeEquipment?: Range;
 	periodsRange?: PeriodsRange;
 	text?: string;
 }

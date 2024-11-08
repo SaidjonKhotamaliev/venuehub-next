@@ -47,9 +47,6 @@ const PropertyCard = (props: PropertyCardType) => {
 							<Typography>TOP</Typography>
 						</Box>
 					)}
-					{/* <Box component={'div'} className={'price-box'}>
-						<Typography>${formatterStr(property?.propertyRentPrice)}</Typography>
-					</Box> */}
 				</Stack>
 				<Stack className="property-mid">
 					<Stack className="name-address">
@@ -63,11 +60,6 @@ const PropertyCard = (props: PropertyCardType) => {
 								<Typography>{property.propertyTitle}</Typography>
 							</Link>
 						</Stack>
-						<Stack className="address">
-							<Typography>
-								{property.propertyAddress}, {property.propertyLocation}
-							</Typography>
-						</Stack>
 						<Stack className="type">
 							<Typography>
 								{property.propertyType
@@ -76,11 +68,16 @@ const PropertyCard = (props: PropertyCardType) => {
 									.replace(/\b\w/g, (char) => char.toUpperCase())}
 							</Typography>
 						</Stack>
+						<Stack className="address">
+							<Typography>
+								{property.propertyAddress}, {property.propertyLocation}
+							</Typography>
+						</Stack>
+
 						<Stack className="desc">
 							<Typography>{property.propertyDesc}</Typography>
 						</Stack>
 					</Stack>
-					{/* <Stack className="divider"></Stack> */}
 				</Stack>
 				<Stack className="property-right">
 					<Stack className="type-buttons">
@@ -103,6 +100,14 @@ const PropertyCard = (props: PropertyCardType) => {
 							</Stack>
 						)}
 					</Stack>
+					<Box component={'div'} className={'price-box'}>
+						<Typography>${formatterStr(property?.propertyRentPrice)}/day</Typography>
+					</Box>
+					<Box className="square-meter">
+						<Typography>
+							{property?.propertySquare} m<span className="superScript">2</span>
+						</Typography>
+					</Box>
 				</Stack>
 			</Stack>
 		);

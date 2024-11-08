@@ -259,24 +259,6 @@
 										height: 16px;
 									}
 								}
-								.price-box {
-									position: absolute;
-									bottom: 20px;
-									left: 20px;
-									padding: 8px 15px;
-									align-items: center;
-									border-radius: 6px;
-									border: 1px solid rgba(255, 255, 255, 0.5);
-									background: #fff;
-									p {
-										color: #181a20;
-										font-family: $font;
-										font-size: 15px;
-										font-style: normal;
-										font-weight: 600;
-										line-height: normal;
-									}
-								}
 							}
 							.property-mid {
 								width: 800px;
@@ -290,21 +272,35 @@
 									.name {
 										overflow: hidden;
 										p {
-											color: #181a20;
+											color: #0f1013;
 											font-family: $font;
-											font-size: 15px;
+											font-size: 24px;
 											font-style: normal;
 											font-weight: 600;
 											line-height: normal;
 											text-transform: capitalize;
 										}
 									}
-									.address {
+									.type {
+										width: 400px;
 										overflow: hidden;
 										p {
-											color: #717171;
+											color: #7b7b7b;
 											font-family: $font;
-											font-size: 13px;
+											font-size: 15px;
+											font-style: normal;
+											font-weight: 400;
+											line-height: normal;
+										}
+									}
+									.address {
+										overflow: hidden;
+										margin-bottom: 10px;
+
+										p {
+											color: #7b7b7b;
+											font-family: $font;
+											font-size: 15px;
 											font-style: normal;
 											font-weight: 400;
 											line-height: normal;
@@ -318,19 +314,7 @@
 											font-family: $font;
 											font-size: 13px;
 											font-style: normal;
-											font-weight: 400;
-											line-height: normal;
-										}
-									}
-									.type {
-										width: 400px;
-										overflow: hidden;
-										p {
-											color: #717171;
-											font-family: $font;
-											font-size: 13px;
-											font-style: normal;
-											font-weight: 400;
+											font-weight: 200;
 											line-height: normal;
 										}
 									}
@@ -347,8 +331,8 @@
 								padding: 12px 12px 12px 0;
 								width: 150px;
 								display: flex;
-								flex-direction: row;
-								align-items: flex-start;
+								flex-direction: column;
+								align-items: flex-end;
 								.type-buttons {
 									flex-direction: row;
 									width: 100%;
@@ -383,6 +367,41 @@
 										}
 										.view-cnt {
 											font-size: 13px;
+										}
+									}
+								}
+								.price-box {
+									margin-top: 40px;
+									margin-right: 12px;
+									align-items: center;
+									border-radius: 6px;
+									border: 1px solid rgba(255, 255, 255, 0.5);
+									background: #fff;
+									p {
+										color: #181a20;
+										font-family: $font;
+										font-size: 20px;
+										font-style: normal;
+										font-weight: 600;
+										line-height: normal;
+									}
+								}
+								.square-meter {
+									margin-right: 12px;
+									align-items: center;
+									border-radius: 6px;
+									border: 1px solid rgba(255, 255, 255, 0.5);
+									background: #fff;
+									p {
+										color: #181a20;
+										font-family: $font;
+										font-size: 18px;
+										font-style: normal;
+										font-weight: 600;
+										line-height: normal;
+										.superScript {
+											font-size: 0.75em; /* Adjust as needed */
+											vertical-align: super;
 										}
 									}
 								}

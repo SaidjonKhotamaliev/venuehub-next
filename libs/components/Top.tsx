@@ -179,6 +179,9 @@ const Top = () => {
 							<Link href={'/property'}>
 								<div>{t('Properties')}</div>
 							</Link>
+							<Link href={'/equipment'}>
+								<div>{t('Equipments')}</div>
+							</Link>
 							<Link href={'/agent'}>
 								<div> {t('Agents')} </div>
 							</Link>

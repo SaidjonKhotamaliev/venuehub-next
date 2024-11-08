@@ -12,7 +12,7 @@ interface ReviewProps {
 	comment: Comment;
 }
 
-const Review = (props: ReviewProps) => {
+const PropertyReview = (props: ReviewProps) => {
 	const { comment } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
@@ -53,4 +53,4 @@ const Review = (props: ReviewProps) => {
 	}
 };
 
-export default Review;
+export default PropertyReview;

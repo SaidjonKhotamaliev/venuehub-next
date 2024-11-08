@@ -151,9 +151,6 @@ const Chat = () => {
 							</Box>
 							{messagesList.map((ele: MessagePayload) => {
 								const { text, memberData } = ele;
-								console.log('++', ele);
-								console.log('user: ', user.memberNick);
-								console.log('user+ ', memberData?.memberNick);
 
 								const memberImage = memberData?.memberImage
 									? `${REACT_APP_API_URL}/${memberData?.memberImage}`

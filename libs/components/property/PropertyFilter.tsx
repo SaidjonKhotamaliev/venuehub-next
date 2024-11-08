@@ -34,7 +34,7 @@ interface FilterType {
 	initialInput: PropertiesInquiry;
 }
 
-const Filter = (props: FilterType) => {
+const PropertyFilter = (props: FilterType) => {
 	const { searchFilter, setSearchFilter, initialInput } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
@@ -475,4 +475,4 @@ const Filter = (props: FilterType) => {
 	}
 };
 
-export default Filter;
+export default PropertyFilter;

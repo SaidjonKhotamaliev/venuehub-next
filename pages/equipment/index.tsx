@@ -12,10 +12,12 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_PROPERTIES } from '../../apollo/user/query';
+import { GET_EQUIPMENTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { LIKE_TARGET_EQUIPMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { Equipment } from '../../libs/types/equipment/equipment';
+import EquipmentCard from '../../libs/components/equipment/EquipmentCard';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -29,7 +31,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(
 		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
 	);
-	const [properties, setProperties] = useState<Property[]>([]);
+	const [equipments, setEquipments] = useState<Equipment[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -37,20 +39,20 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [filterSortName, setFilterSortName] = useState('New');
 
 	/** APOLLO REQUESTS **/
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetEquipment] = useMutation(LIKE_TARGET_EQUIPMENT);
 
 	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
-	} = useQuery(GET_PROPERTIES, {
+		loading: getEquipmentsLoading,
+		data: getEquipmentsData,
+		error: getEquipmentsError,
+		refetch: getEquipmentsRefetch,
+	} = useQuery(GET_EQUIPMENTS, {
 		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true, // refetching bolganda state ni update qilib loading ni korsatadi
 		onCompleted: (data: T) => {
-			setProperties(data?.getProperties?.list);
-			setTotal(data?.getProperties?.metaCounter[0]?.total);
+			setEquipments(data?.getEquipments?.list);
+			setTotal(data?.getEquipments?.metaCounter[0]?.total);
 		},
 	});
 
@@ -69,20 +71,20 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	}, [searchFilter]);
 
 	/** HANDLERS **/
-	const likePropertyHandler = async (user: T, id: string) => {
+	const likeEquipmentHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
-			await likeTargetProperty({
+			await likeTargetEquipment({
 				variables: { input: id },
 			});
 
-			await getPropertiesRefetch({ input: initialInput });
+			await getEquipmentsRefetch({ input: initialInput });
 
 			await sweetTopSmallSuccessAlert('Success', 800);
 		} catch (err: any) {
-			console.log('ERROR, likfePropertyHandler: ', err);
+			console.log('ERROR, likeEquipmentHandler: ', err);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -90,8 +92,8 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
 		searchFilter.page = value;
 		await router.push(
-			`/property?input=${JSON.stringify(searchFilter)}`,
-			`/property?input=${JSON.stringify(searchFilter)}`,
+			`/equipment?input=${JSON.stringify(searchFilter)}`,
+			`/equipment?input=${JSON.stringify(searchFilter)}`,
 			{
 				scroll: false,
 			},
@@ -116,11 +118,11 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 				setFilterSortName('New');
 				break;
 			case 'lowest':
-				setSearchFilter({ ...searchFilter, sort: 'propertyRentPrice', direction: Direction.ASC });
+				setSearchFilter({ ...searchFilter, sort: 'equipmentRentPrice', direction: Direction.ASC });
 				setFilterSortName('Lowest Price');
 				break;
 			case 'highest':
-				setSearchFilter({ ...searchFilter, sort: 'propertyRentPrice', direction: Direction.DESC });
+				setSearchFilter({ ...searchFilter, sort: 'equipmentRentPrice', direction: Direction.DESC });
 				setFilterSortName('Highest Price');
 		}
 		setSortingOpen(false);
@@ -128,7 +130,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>PROPERTIES MOBILE</h1>;
+		return <h1>EUIPMENTS MOBILE</h1>;
 	} else {
 		return (
 			<div id="property-list-page" style={{ position: 'relative' }}>
@@ -174,21 +176,25 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 						</Stack>
 						<Stack className="main-config" mb={'76px'}>
 							<Stack className={'list-config'}>
-								{properties?.length === 0 ? (
+								{equipments?.length === 0 ? (
 									<div className={'no-data'}>
 										<img src="/img/icons/icoAlert.svg" alt="" />
-										<p>No Properties found!</p>
+										<p>No Equipments found!</p>
 									</div>
 								) : (
-									properties.map((property: Property) => {
+									equipments.map((equipment: Equipment) => {
 										return (
-											<PropertyCard property={property} likePropertyHandler={likePropertyHandler} key={property?._id} />
+											<EquipmentCard
+												equipment={equipment}
+												likeEquipmentHandler={likeEquipmentHandler}
+												key={equipment?._id}
+											/>
 										);
 									})
 								)}
 							</Stack>
 							<Stack className="pagination-config">
-								{properties.length !== 0 && (
+								{equipments.length !== 0 && (
 									<Stack className="pagination-box">
 										<Pagination
 											page={currentPage}
@@ -200,10 +206,10 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									</Stack>
 								)}
 
-								{properties.length !== 0 && (
+								{equipments.length !== 0 && (
 									<Stack className="total-result">
 										<Typography>
-											Total {total} propert{total > 1 ? 'ies' : 'y'} available
+											Total {total} equipment{total > 1 ? 's' : ''} available
 										</Typography>
 									</Stack>
 								)}
@@ -223,11 +229,7 @@ PropertyList.defaultProps = {
 		sort: 'createdAt',
 		direction: 'DESC',
 		search: {
-			squaresRangeProperty: {
-				start: 0,
-				end: 500,
-			},
-			pricesRangeProperty: {
+			pricesRange: {
 				start: 0,
 				end: 2000000,
 			},

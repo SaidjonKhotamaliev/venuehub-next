@@ -210,6 +210,69 @@ export const LIKE_TARGET_PROPERTY = gql`
 `;
 
 /**************************
+ *      EQUIPMENT    *
+ *************************/
+
+export const LIKE_TARGET_EQUIPMENT = gql`
+	mutation LikeTargetEquipment($input: String!) {
+		likeTargetEquipment(equipmentId: $input) {
+			_id
+			equipmentType
+			equipmentStatus
+			equipmentCondition
+			equipmentTitle
+			equipmentRentPrice
+			equipmentViews
+			equipmentLikes
+			equipmentComments
+			equipmentRank
+			equipmentImages
+			equipmentDesc
+			memberId
+			rentedAt
+			deletedAt
+			maintanencedAt
+			retiredAt
+			createdAt
+			updatedAt
+			memberData {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberEquipments
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
+		}
+	}
+`;
+
+/**************************
  *      BOARD-ARTICLE     *
  *************************/
 

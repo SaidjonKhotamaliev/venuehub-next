@@ -78,12 +78,6 @@ const OurTeam = (props: OurTeamProps) => {
 							<span>Our team</span>
 							<p>Our team is always ready to serve you</p>
 						</Box>
-						<Box component={'div'} className={'right'}>
-							<div className={'more-box'}>
-								<span>See All Agents</span>
-								<img src="/img/icons/rightup.svg" alt="" />
-							</div>
-						</Box>
 					</Stack>
 					<Stack className={'wrapper'}>
 						<Box component={'div'} className={'switch-btn swiper-agents-prev'}>

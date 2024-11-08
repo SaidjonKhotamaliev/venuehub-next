@@ -27,7 +27,7 @@ const EquipmentFilter = (props: FilterType) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 
-	const [equipmentType, setEquipmentType] = useState<PropertyType[]>(Object.values(PropertyType));
+	const [equipmentType, setEquipmentType] = useState<EquipmentType[]>(Object.values(EquipmentType));
 	const [searchText, setSearchText] = useState<string>('');
 	const [showMore, setShowMore] = useState<boolean>(false);
 

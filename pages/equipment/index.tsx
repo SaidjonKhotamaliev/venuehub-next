@@ -27,7 +27,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
-const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
+const EquipmentList: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const [searchFilter, setSearchFilter] = useState<EquipmentsInquiry>(
@@ -228,19 +228,19 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	}
 };
 
-PropertyList.defaultProps = {
+EquipmentList.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 8,
 		sort: 'createdAt',
 		direction: 'DESC',
 		search: {
-			pricesRange: {
+			pricesRangeEquipment: {
 				start: 0,
-				end: 2000000,
+				end: 50000,
 			},
 		},
 	},
 };
 
-export default withLayoutBasic(PropertyList);
+export default withLayoutBasic(EquipmentList);

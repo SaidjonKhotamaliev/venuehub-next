@@ -2,14 +2,12 @@ import React from 'react';
 import { Stack, Box, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Property } from '../../types/property/property';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { REACT_APP_API_URL, topPropertyRank } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { Equipment } from '../../types/equipment/equipment';
-import Link from 'next/link';
 
 interface PopularEquipmentCardProps {
 	equipment: Equipment;
@@ -20,6 +18,9 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
+	const equipmentImage = equipment?.equipmentImages
+		? `${process.env.REACT_APP_API_URL}/${equipment?.equipmentImages}`
+		: '/img/profile/defaultUser.svg';
 
 	/** HANDLERS **/
 	const pushDetailHandler = async (equipmentId: string) => {
@@ -35,13 +36,11 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 				<Box
 					component={'div'}
 					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${equipment?.equipmentImages[0]})` }}
+					style={{ backgroundImage: `url(${equipmentImage}` }}
 					onClick={() => {
 						pushDetailHandler(equipment._id);
 					}}
-				>
-					<div className={'price'}>${equipment.equipmentRentPrice}</div>
-				</Box>
+				></Box>
 				<Box component={'div'} className={'info'}>
 					<strong
 						className={'title'}
@@ -74,9 +73,7 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 						onClick={() => {
 							pushDetailHandler(equipment._id);
 						}}
-					>
-						<div className={'price'}>${equipment.equipmentRentPrice}</div>
-					</Box>
+					></Box>
 					<Box component={'div'} className={'info'}>
 						<Stack className={'info-agent-box'}>
 							<Box
@@ -101,8 +98,8 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 								{user.memberNick}
 							</strong>
 						</Stack>
-						<p>{equipment?.equipmentDesc}</p>
-						<p>{`url(${REACT_APP_API_URL}/${user?.memberImage})`}</p>
+						<p className="desc">{equipment?.equipmentDesc?.slice(0, 90)} ...</p>
+
 						<Divider sx={{ mt: '15px', mb: '17px' }} />
 						<div className={'bott'}>
 							<div className="view-like-box">
@@ -111,6 +108,7 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 								</IconButton>
 								<Typography className="view-cnt">{equipment?.equipmentViews}</Typography>
 							</div>
+							<div className={'price'}>${equipment.equipmentRentPrice}</div>
 						</div>
 					</Box>
 				</Stack>

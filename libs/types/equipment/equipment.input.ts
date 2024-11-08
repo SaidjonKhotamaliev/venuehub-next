@@ -16,8 +16,8 @@ export interface EquipmentInput {
 interface EISearch {
 	memberId?: string;
 	typeList?: EquipmentType[];
-	pricesRangeEquipment?: Range;
-	periodsRange?: PeriodsRange;
+	pricesRangeEquipment?: PricesRangeEquipment;
+	periodsRangeEquipment?: PeriodsRangeEquipment;
 	text?: string;
 }
 
@@ -54,12 +54,12 @@ export interface AllPropertiesInquiry {
 	search: ALEISearch;
 }
 
-interface Range {
+interface PricesRangeEquipment {
 	start: number;
 	end: number;
 }
 
-interface PeriodsRange {
+interface PeriodsRangeEquipment {
 	start: Date | number;
 	end: Date | number;
 }

@@ -18,6 +18,8 @@ import { LIKE_TARGET_EQUIPMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/m
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { Equipment } from '../../libs/types/equipment/equipment';
 import EquipmentCard from '../../libs/components/equipment/EquipmentCard';
+import EquipmentFilter from '../../libs/components/equipment/EquipmentFilter';
+import { EquipmentsInquiry } from '../../libs/types/equipment/equipment.input';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -28,7 +30,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
-	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(
+	const [searchFilter, setSearchFilter] = useState<EquipmentsInquiry>(
 		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
 	);
 	const [equipments, setEquipments] = useState<Equipment[]>([]);
@@ -172,7 +174,11 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 					<Stack className={'property-page'}>
 						<Stack className={'filter-config'}>
 							{/* @ts-ignore */}
-							<Filter searchFilter={searchFilter} setSearchFilter={setSearchFilter} initialInput={initialInput} />
+							<EquipmentFilter
+								searchFilter={searchFilter}
+								setSearchFilter={setSearchFilter}
+								initialInput={initialInput}
+							/>
 						</Stack>
 						<Stack className="main-config" mb={'76px'}>
 							<Stack className={'list-config'}>

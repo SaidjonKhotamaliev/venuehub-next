@@ -70,7 +70,7 @@ const EquipmentCard = (props: PropertyCardType) => {
 							</Typography>
 						</Stack>
 						<Stack className="address">
-							<Typography>{/* {equipment.equipmentAddress} */}</Typography>
+							{/* <Typography>In {equipment.equipmentCondition} condition</Typography> */}
 						</Stack>
 
 						<Stack className="desc">

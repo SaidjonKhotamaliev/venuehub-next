@@ -4,7 +4,7 @@ import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography } from '@mui
 import PropertyCard from '../../libs/components/property/PropertyCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import Filter from '../../libs/components/property/PropertyFilter';
+import PropertyFilter from '../../libs/components/property/PropertyFilter';
 import { useRouter } from 'next/router';
 import { PropertiesInquiry } from '../../libs/types/property/property.input';
 import { Property } from '../../libs/types/property/property';
@@ -170,7 +170,11 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 					<Stack className={'property-page'}>
 						<Stack className={'filter-config'}>
 							{/* @ts-ignore */}
-							<Filter searchFilter={searchFilter} setSearchFilter={setSearchFilter} initialInput={initialInput} />
+							<PropertyFilter
+								searchFilter={searchFilter}
+								setSearchFilter={setSearchFilter}
+								initialInput={initialInput}
+							/>
 						</Stack>
 						<Stack className="main-config" mb={'76px'}>
 							<Stack className={'list-config'}>

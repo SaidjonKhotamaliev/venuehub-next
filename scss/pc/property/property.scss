@@ -212,25 +212,28 @@
 						flex-direction: row;
 						flex-wrap: wrap;
 						gap: 23px;
+						margin-top: 30px;
 						.card-config {
-							width: 296px;
-							height: 413px;
+							width: 963px;
+							height: 220px;
+							display: flex;
+							flex-direction: row;
 							margin-bottom: 7px;
 							border-radius: 12px;
 							background: #fff;
 							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-							.top {
+							.property-left {
 								position: relative;
-								width: 100%;
-								height: 240px;
-								a {
-									height: 100%;
-								}
+								width: 220px;
+								height: 220px;
+								display: flex;
+								justify-content: center;
 								img {
-									width: 100%;
-									height: 100%;
+									margin-left: 10px;
+									width: 200px;
+									height: 200px;
 									object-fit: cover;
-									border-radius: 12px 12px 0 0;
+									border-radius: 12px;
 								}
 								.top-badge {
 									position: absolute;
@@ -275,18 +278,16 @@
 									}
 								}
 							}
-							.bottom {
-								width: 100%;
-								height: 173px;
+							.property-mid {
+								width: 800px;
+								height: 220px;
 								padding: 20px 16px 10px 16px;
+								display: flex;
+								flex-direction: column;
 								.name-address {
-									width: 100%;
-									height: 48px;
 									gap: 5px;
 									margin-bottom: 20px;
 									.name {
-										width: 100%;
-										height: 23px;
 										overflow: hidden;
 										p {
 											color: #181a20;
@@ -299,7 +300,30 @@
 										}
 									}
 									.address {
-										width: 100%;
+										overflow: hidden;
+										p {
+											color: #717171;
+											font-family: $font;
+											font-size: 13px;
+											font-style: normal;
+											font-weight: 400;
+											line-height: normal;
+										}
+									}
+									.desc {
+										width: 400px;
+										overflow: hidden;
+										p {
+											color: #717171;
+											font-family: $font;
+											font-size: 13px;
+											font-style: normal;
+											font-weight: 400;
+											line-height: normal;
+										}
+									}
+									.type {
+										width: 400px;
 										overflow: hidden;
 										p {
 											color: #717171;
@@ -311,32 +335,20 @@
 										}
 									}
 								}
-								.options {
-									flex-direction: row;
-									width: 100%;
-									height: 20px;
-									gap: 20px;
-									margin-bottom: 10px;
-									.option {
-										flex-direction: row;
-										gap: 5px;
-										align-items: center;
-										p {
-											color: #181a20;
-											font-family: $font;
-											font-size: 13px;
-											font-style: normal;
-											font-weight: 400;
-											line-height: normal;
-										}
-									}
-								}
+
 								.divider {
 									width: 100%;
 									height: 1px;
 									background: #ddd;
 									margin-bottom: 17px;
 								}
+							}
+							.property-right {
+								padding: 12px 12px 12px 0;
+								width: 150px;
+								display: flex;
+								flex-direction: row;
+								align-items: flex-start;
 								.type-buttons {
 									flex-direction: row;
 									width: 100%;

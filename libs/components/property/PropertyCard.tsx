@@ -32,7 +32,7 @@ const PropertyCard = (props: PropertyCardType) => {
 	} else {
 		return (
 			<Stack className="card-config">
-				<Stack className="top">
+				<Stack className="property-left">
 					<Link
 						href={{
 							pathname: '/property/detail',
@@ -47,11 +47,11 @@ const PropertyCard = (props: PropertyCardType) => {
 							<Typography>TOP</Typography>
 						</Box>
 					)}
-					<Box component={'div'} className={'price-box'}>
+					{/* <Box component={'div'} className={'price-box'}>
 						<Typography>${formatterStr(property?.propertyRentPrice)}</Typography>
-					</Box>
+					</Box> */}
 				</Stack>
-				<Stack className="bottom">
+				<Stack className="property-mid">
 					<Stack className="name-address">
 						<Stack className="name">
 							<Link
@@ -68,8 +68,21 @@ const PropertyCard = (props: PropertyCardType) => {
 								{property.propertyAddress}, {property.propertyLocation}
 							</Typography>
 						</Stack>
+						<Stack className="type">
+							<Typography>
+								{property.propertyType
+									.replace(/_/g, ' ')
+									.toLowerCase()
+									.replace(/\b\w/g, (char) => char.toUpperCase())}
+							</Typography>
+						</Stack>
+						<Stack className="desc">
+							<Typography>{property.propertyDesc}</Typography>
+						</Stack>
 					</Stack>
-					<Stack className="divider"></Stack>
+					{/* <Stack className="divider"></Stack> */}
+				</Stack>
+				<Stack className="property-right">
 					<Stack className="type-buttons">
 						{!recentlyVisited && (
 							<Stack className="buttons">

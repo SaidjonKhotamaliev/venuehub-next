@@ -316,7 +316,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className={'option-includes'}>
 											<Typography className={'title'}>Year Build</Typography>
-											<Typography className={'option-data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
+											<Typography className={'option-data'}>
+												{moment(property?.constructedAt).format('YYYY')}
+											</Typography>
 										</Stack>
 									</Stack>
 									<Stack className={'option'}>

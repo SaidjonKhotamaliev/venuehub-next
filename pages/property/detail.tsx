@@ -214,29 +214,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Stack className={'top-box'}>
 										<Typography className={'city'}>{property?.propertyLocation}</Typography>
 										<Stack className={'divider'}></Stack>
-										{/* <Stack className={'buy-rent-box'}>
-											{property?.propertyBarter && (
-												<>
-													<Stack className={'circle'}>
-														<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
-															<circle cx="3" cy="3" r="3" fill="#EB6753" />
-														</svg>
-													</Stack>
-													<Typography className={'buy-rent'}>Barter</Typography>
-												</>
-											)}
 
-											{property?.propertyRent && (
-												<>
-													<Stack className={'circle'}>
-														<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
-															<circle cx="3" cy="3" r="3" fill="#EB6753" />
-														</svg>
-													</Stack>
-													<Typography className={'buy-rent'}>rent</Typography>
-												</>
-											)}
-										</Stack> */}
 										<Stack className={'divider'}></Stack>
 										<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
 											<g clipPath="url(#clip0_6505_6282)">
@@ -322,20 +300,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												/>
 											</svg>
 										</Stack>
-										{/* <Stack className={'option-includes'}>
-											<Typography className={'title'}>Bedroom</Typography>
-											<Typography className={'option-data'}>{property?.propertyBeds}</Typography>
-										</Stack> */}
 									</Stack>
-									{/* <Stack className={'option'}>
-										<Stack className={'svg-box'}>
-											<img src={'/img/icons/room.svg'} />
-										</Stack>
-										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Room</Typography>
-											<Typography className={'option-data'}>{property?.propertyRooms}</Typography>
-										</Stack>
-									</Stack> */}
 									<Stack className={'option'}>
 										<Stack className={'svg-box'}>
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20" fill="none">

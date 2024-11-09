@@ -91,18 +91,15 @@ export const GET_PROPERTY = gql`
 			propertyLocation
 			propertyAddress
 			propertyTitle
-			propertyPrice
+			propertyRentPrice
 			propertySquare
-			propertyBeds
-			propertyRooms
 			propertyViews
 			propertyLikes
+			propertyComments
+			propertyRank
 			propertyImages
 			propertyDesc
-			propertyBarter
-			propertyRent
 			memberId
-			soldAt
 			deletedAt
 			constructedAt
 			createdAt
@@ -118,11 +115,17 @@ export const GET_PROPERTY = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberWarnings
-				memberBlocks
+				memberProperties
+				memberArticles
+				memberFollowers
+				memberFollowings
 				memberPoints
 				memberLikes
 				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
 				deletedAt
 				createdAt
 				updatedAt
@@ -133,6 +136,7 @@ export const GET_PROPERTY = gql`
 				likeRefId
 				myFavorite
 			}
+			rentedAt
 		}
 	}
 `;
@@ -211,58 +215,25 @@ export const GET_AGENT_PROPERTIES = gql`
 				propertyLocation
 				propertyAddress
 				propertyTitle
-				propertyPrice
+				propertyRentPrice
 				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
-				memberId
-				soldAt
-				deletedAt
-				constructedAt
-				createdAt
-				updatedAt
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
-`;
-
-export const GET_FAVORITES = gql`
-	query GetFavorites($input: OrdinaryInquiry!) {
-		getFavorites(input: $input) {
-			list {
-				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
 				propertyViews
 				propertyLikes
 				propertyComments
 				propertyRank
 				propertyImages
 				propertyDesc
-				propertyBarter
-				propertyRent
 				memberId
-				soldAt
 				deletedAt
 				constructedAt
 				createdAt
 				updatedAt
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
+				rentedAt
 				memberData {
 					_id
 					memberType
@@ -275,13 +246,14 @@ export const GET_FAVORITES = gql`
 					memberAddress
 					memberDesc
 					memberProperties
+					memberEquipments
 					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
 					memberComments
-					memberFollowings
-					memberFollowers
 					memberRank
 					memberWarnings
 					memberBlocks
@@ -298,60 +270,189 @@ export const GET_FAVORITES = gql`
 	}
 `;
 
-export const GET_VISITED = gql`
-	query GetVisited($input: OrdinaryInquiry!) {
-		getVisited(input: $input) {
-			list {
-				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyComments
-				propertyRank
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
-				memberId
-				soldAt
-				deletedAt
-				constructedAt
-				createdAt
-				updatedAt
-				memberData {
+export const GET_FAVORITES = gql`
+	query GetFavorites($input: OrdinaryInquiryProperty!) {
+		getFavorites(input: $input) {
+			properties {
+				list {
 					_id
-					memberType
-					memberStatus
-					memberAuthType
-					memberPhone
-					memberNick
-					memberFullName
-					memberImage
-					memberAddress
-					memberDesc
-					memberProperties
-					memberArticles
-					memberPoints
-					memberLikes
-					memberViews
-					memberComments
-					memberFollowings
-					memberFollowers
-					memberRank
-					memberWarnings
-					memberBlocks
+					propertyType
+					propertyStatus
+					propertyLocation
+					propertyAddress
+					propertyTitle
+					propertyRentPrice
+					propertySquare
+					propertyViews
+					propertyLikes
+					propertyComments
+					propertyRank
+					propertyImages
+					propertyDesc
+					memberId
+					rentedAt
 					deletedAt
+					constructedAt
 					createdAt
 					updatedAt
-					accessToken
+					meLiked {
+						memberId
+						likeRefId
+						myFavorite
+					}
+					memberData {
+						_id
+						memberType
+						memberStatus
+						memberAuthType
+						memberPhone
+						memberNick
+						memberFullName
+						memberImage
+						memberAddress
+						memberDesc
+						memberProperties
+						memberEquipments
+						memberArticles
+						memberFollowers
+						memberFollowings
+						memberPoints
+						memberLikes
+						memberViews
+						memberComments
+						memberRank
+						memberWarnings
+						memberBlocks
+						deletedAt
+						createdAt
+						updatedAt
+						accessToken
+					}
+				}
+				metaCounter {
+					total
+				}
+			}
+			equipments {
+				list {
+					_id
+					equipmentType
+					equipmentStatus
+					equipmentCondition
+					equipmentTitle
+					equipmentRentPrice
+					equipmentViews
+					equipmentLikes
+					equipmentComments
+					equipmentRank
+					equipmentImages
+					equipmentDesc
+					memberId
+					rentedAt
+					deletedAt
+					maintanencedAt
+					retiredAt
+					createdAt
+					updatedAt
+				}
+				metaCounter {
+					total
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+export const GET_VISITED = gql`
+	query GetVisited($input: OrdinaryInquiryProperty!) {
+		getVisited(input: $input) {
+			properties {
+				list {
+					_id
+					propertyType
+					propertyStatus
+					propertyLocation
+					propertyAddress
+					propertyTitle
+					propertyRentPrice
+					propertySquare
+					propertyViews
+					propertyLikes
+					propertyComments
+					propertyRank
+					propertyImages
+					propertyDesc
+					memberId
+					rentedAt
+					deletedAt
+					constructedAt
+					createdAt
+					updatedAt
+					meLiked {
+						memberId
+						likeRefId
+						myFavorite
+					}
+					memberData {
+						_id
+						memberType
+						memberStatus
+						memberAuthType
+						memberPhone
+						memberNick
+						memberFullName
+						memberImage
+						memberAddress
+						memberDesc
+						memberProperties
+						memberEquipments
+						memberArticles
+						memberFollowers
+						memberFollowings
+						memberPoints
+						memberLikes
+						memberViews
+						memberComments
+						memberRank
+						memberWarnings
+						memberBlocks
+						deletedAt
+						createdAt
+						updatedAt
+						accessToken
+					}
+				}
+				metaCounter {
+					total
+				}
+			}
+			equipments {
+				list {
+					_id
+					equipmentType
+					equipmentStatus
+					equipmentCondition
+					equipmentTitle
+					equipmentRentPrice
+					equipmentViews
+					equipmentLikes
+					equipmentComments
+					equipmentRank
+					equipmentImages
+					equipmentDesc
+					memberId
+					rentedAt
+					deletedAt
+					maintanencedAt
+					retiredAt
+					createdAt
+					updatedAt
+				}
+				metaCounter {
+					total
 				}
 			}
 			metaCounter {
@@ -429,6 +530,148 @@ export const GET_EQUIPMENTS = gql`
 	}
 `;
 
+export const GET_EQUIPMENT = gql`
+	query GetEquipment($input: String!) {
+		getEquipment(equipmentId: $input) {
+			_id
+			equipmentType
+			equipmentStatus
+			equipmentCondition
+			equipmentTitle
+			equipmentRentPrice
+			equipmentViews
+			equipmentLikes
+			equipmentComments
+			equipmentRank
+			equipmentImages
+			equipmentDesc
+			memberId
+			rentedAt
+			deletedAt
+			maintanencedAt
+			retiredAt
+			createdAt
+			updatedAt
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
+			memberData {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberEquipments
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
+				meFollowed {
+					followingId
+					followerId
+					myFollowing
+				}
+			}
+		}
+	}
+`;
+
+export const GET_AGENT_EQUIPMENTS = gql`
+	query GetAgentEquipments($input: AgentEquipmentsInquiry!) {
+		getAgentEquipments(input: $input) {
+			list {
+				_id
+				equipmentType
+				equipmentStatus
+				equipmentCondition
+				equipmentTitle
+				equipmentRentPrice
+				equipmentViews
+				equipmentLikes
+				equipmentComments
+				equipmentRank
+				equipmentImages
+				equipmentDesc
+				memberId
+				rentedAt
+				deletedAt
+				maintanencedAt
+				retiredAt
+				createdAt
+				updatedAt
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberProperties
+					memberEquipments
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+					meLiked {
+						memberId
+						likeRefId
+						myFavorite
+					}
+					meFollowed {
+						followingId
+						followerId
+						myFollowing
+					}
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
 /**************************
  *      BOARD-ARTICLE     *
  *************************/

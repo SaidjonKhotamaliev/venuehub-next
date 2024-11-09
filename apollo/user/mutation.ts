@@ -127,26 +127,57 @@ export const CREATE_PROPERTY = gql`
 		createProperty(input: $input) {
 			_id
 			propertyType
-			propertyStatus
 			propertyLocation
 			propertyAddress
 			propertyTitle
-			propertyPrice
+			propertyRentPrice
 			propertySquare
-			propertyBeds
-			propertyRooms
 			propertyViews
 			propertyLikes
+			propertyComments
+			propertyRank
 			propertyImages
 			propertyDesc
-			propertyBarter
-			propertyRent
 			memberId
-			soldAt
 			deletedAt
 			constructedAt
 			createdAt
 			updatedAt
+			propertyStatus
+			rentedAt
+			memberData {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberEquipments
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
 		}
 	}
 `;
@@ -160,22 +191,51 @@ export const UPDATE_PROPERTY = gql`
 			propertyLocation
 			propertyAddress
 			propertyTitle
-			propertyPrice
+			propertyRentPrice
 			propertySquare
-			propertyBeds
-			propertyRooms
 			propertyViews
 			propertyLikes
+			propertyComments
+			propertyRank
 			propertyImages
 			propertyDesc
-			propertyBarter
-			propertyRent
 			memberId
-			soldAt
 			deletedAt
 			constructedAt
 			createdAt
 			updatedAt
+			memberData {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
 		}
 	}
 `;
@@ -189,22 +249,53 @@ export const LIKE_TARGET_PROPERTY = gql`
 			propertyLocation
 			propertyAddress
 			propertyTitle
-			propertyPrice
+			propertyRentPrice
 			propertySquare
-			propertyBeds
-			propertyRooms
 			propertyViews
 			propertyLikes
+			propertyComments
+			propertyRank
 			propertyImages
 			propertyDesc
-			propertyBarter
-			propertyRent
 			memberId
-			soldAt
 			deletedAt
 			constructedAt
 			createdAt
 			updatedAt
+			rentedAt
+			memberData {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberEquipments
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
 		}
 	}
 `;
@@ -212,6 +303,124 @@ export const LIKE_TARGET_PROPERTY = gql`
 /**************************
  *      EQUIPMENT    *
  *************************/
+
+export const CREATE_EQUIPMENT = gql`
+	mutation CreateEquipment($input: EquipmentInput!) {
+		createEquipment(input: $input) {
+			_id
+			equipmentType
+			equipmentStatus
+			equipmentCondition
+			equipmentTitle
+			equipmentRentPrice
+			equipmentViews
+			equipmentLikes
+			equipmentComments
+			equipmentRank
+			equipmentImages
+			equipmentDesc
+			memberId
+			rentedAt
+			deletedAt
+			maintanencedAt
+			retiredAt
+			createdAt
+			updatedAt
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
+			memberData {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberEquipments
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+		}
+	}
+`;
+
+export const UPDATE_EQUIPMENT = gql`
+	mutation UpdateEquipment($input: EquipmentUpdate!) {
+		updateEquipment(input: $input) {
+			_id
+			equipmentType
+			equipmentStatus
+			equipmentCondition
+			equipmentTitle
+			equipmentRentPrice
+			equipmentViews
+			equipmentLikes
+			equipmentComments
+			equipmentRank
+			equipmentImages
+			equipmentDesc
+			memberId
+			rentedAt
+			deletedAt
+			maintanencedAt
+			retiredAt
+			createdAt
+			updatedAt
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
+			memberData {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberEquipments
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+		}
+	}
+`;
 
 export const LIKE_TARGET_EQUIPMENT = gql`
 	mutation LikeTargetEquipment($input: String!) {

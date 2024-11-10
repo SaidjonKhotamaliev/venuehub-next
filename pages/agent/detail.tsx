@@ -18,7 +18,13 @@ import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
 import { REACT_APP_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import {
+	CREATE_COMMENT,
+	LIKE_TARGET_MEMBER,
+	LIKE_TARGET_PROPERTY,
+	SUBSCRIBE,
+	UNSUBSCRIBE,
+} from '../../apollo/user/mutation';
 import { GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { GET_COMMENTS } from '../../apollo/admin/query';
@@ -51,6 +57,9 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	/** APOLLO REQUESTS **/
 	const [createComment] = useMutation(CREATE_COMMENT);
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
+	const [subscribe] = useMutation(SUBSCRIBE);
+	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 
 	const {
 		loading: getMemberLoading,
@@ -126,6 +135,60 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	useEffect(() => {}, [commentInquiry]);
 
 	/** HANDLERS **/
+	const likeMemberHandler = async (user: any, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+
+			await likeTargetMember({
+				variables: { input: id },
+			});
+
+			getMemberRefetch();
+
+			await sweetTopSmallSuccessAlert('Success', 800);
+		} catch (err: any) {
+			console.log('ERROR, likeMemberHandler: ', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const followMemberHandler = async (user: any, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+
+			await subscribe({
+				variables: { input: id },
+			});
+
+			getMemberRefetch();
+
+			await sweetTopSmallSuccessAlert('Followed', 800);
+		} catch (err: any) {
+			console.log('ERROR, followMemberHandler: ', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const unfollowMemberHandler = async (user: any, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+
+			await unsubscribe({
+				variables: { input: id },
+			});
+
+			getMemberRefetch();
+
+			await sweetTopSmallSuccessAlert('Unfollowed', 800);
+		} catch (err: any) {
+			console.log('ERROR, unfollowMemberHandler: ', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
 	const redirectToMemberPageHandler = async (memberId: string) => {
 		try {
 			if (memberId === user?._id) await router.push(`/mypage?memberId=${memberId}`);
@@ -212,8 +275,30 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 								<img src="/img/icons/call.svg" alt="" />
 								<span>{agent?.memberPhone}</span>
 							</div>
+							<Box
+								className="agent-follow-btn"
+								onClick={(e) => {
+									e.stopPropagation();
+									if (agent?._id) {
+										if (agent?.meFollowed && agent?.meFollowed[0]?.myFollowing) {
+											unfollowMemberHandler(user, agent?._id);
+										} else {
+											followMemberHandler(user, agent?._id);
+										}
+									}
+								}}
+								style={{
+									backgroundColor: agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? 'gray' : '#1a8377',
+								}}
+							>
+								<span>{agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? 'Unfollow' : 'Follow'}</span>
+								{!agent?.meFollowed || !agent?.meFollowed[0]?.myFollowing ? (
+									<img src="/img/icons/plus.png" alt="" style={{ filter: 'brightness(0) invert(1)' }} />
+								) : null}
+							</Box>
 						</Box>
 					</Stack>
+
 					<Stack className="agent-desc">
 						<h3>About me</h3>
 						<p>{agent?.memberDesc ? agent?.memberDesc : 'no description about the agent...'}</p>

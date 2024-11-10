@@ -264,6 +264,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Typography className={'title'}>Property Description</Typography>
 										<Typography className={'desc'}>{property?.propertyDesc ?? 'No Description!'}</Typography>
 									</Stack>
+
 									<Stack className={'bottom'}>
 										<Typography className={'title'}>Property Details</Typography>
 										<Stack className={'info-box'}>
@@ -277,7 +278,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													<Typography className={'data'}>{property?.propertySquare} m2</Typography>
 												</Box>
 											</Stack>
-											<Stack className={'right'}>
+											<Stack className={'mid'}>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Year Built</Typography>
 													<Typography className={'data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
@@ -287,7 +288,57 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													<Typography className={'data'}>{property?.propertyType}</Typography>
 												</Box>
 											</Stack>
+											<Stack className={'right'}>
+												<Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Property Size</Typography>
+													<Typography className={'data'}>{property?.propertySquare} m2</Typography>
+												</Box>
+												<Box component={'div'} className={'info'}>
+													<Typography className={'title'}>Location</Typography>
+													<Typography style={{ fontSize: '10px' }} className={'data'}>
+														{property?.propertyLocation}, {property?.propertyAddress}
+													</Typography>
+												</Box>
+											</Stack>
 										</Stack>
+									</Stack>
+								</Stack>
+								<Stack className={'amenities'}>
+									<Typography className={'title'}>Property Amenities: </Typography>
+									<Stack flexDirection={'row'} gap={'20px'}>
+										<img src="/img/icons/view.png" alt="" />
+										<span>Large halls or rooms that can accommodate various group sizes.</span>
+									</Stack>
+									<Stack flexDirection={'row'} gap={'20px'}>
+										<img src="/img/icons/wifi.png" alt="" />
+										<span>High-speed internet for guests and organizers.</span>
+									</Stack>
+									<Stack flexDirection={'row'} gap={'20px'}>
+										<img src="/img/icons/business.png" alt="" />
+										<span>Private areas for individual work or smaller group meetings during events.</span>
+									</Stack>
+									<Stack flexDirection={'row'} gap={'20px'}>
+										<img src="/img/icons/parking.png" alt="" />
+										<span>On-site or nearby parking options for guests.</span>
+									</Stack>
+									<Stack flexDirection={'row'} gap={'20px'}>
+										<img src="/img/icons/air.png" alt="" />
+										<span>Air conditioning and heating for year-round comfort.</span>
+									</Stack>
+									<Stack flexDirection={'row'} gap={'20px'}>
+										<img src="/img/icons/security.png" alt="" />
+										<span>Security personnel, cameras, and controlled access points.</span>
+									</Stack>
+									<Stack flexDirection={'row'} gap={'20px'}>
+										<img src="/img/icons/media.png" alt="" />
+										<span>
+											Projectors, LED screens, high-definition monitors, microphones, and advanced sound systems for
+											presentations and conferences.
+										</span>
+									</Stack>
+									<Stack flexDirection={'row'} gap={'20px'}>
+										<img src="/img/icons/general.png" alt="" />
+										<span>Ability to modify the space to suit different event needs.</span>
 									</Stack>
 								</Stack>
 								<Stack className={'floor-plans-config'}>

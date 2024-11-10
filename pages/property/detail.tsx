@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Divider, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
@@ -341,26 +341,60 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<span>Ability to modify the space to suit different event needs.</span>
 									</Stack>
 								</Stack>
-								<Stack className={'floor-plans-config'}>
-									<Typography className={'title'}>Floor Plans</Typography>
-									<Stack className={'image-box'}>
-										<img src={'/img/property/floorPlan.png'} alt={'image'} />
+
+								<Stack className="rules">
+									<Typography className="title">House Rules!</Typography>
+									<Stack flexDirection={'row'} gap={'200px'}>
+										<Stack flexDirection={'row'} gap={'20px'}>
+											<img src="/img/icons/checkout.png" alt="" width={'35px'} height={'35px'} />
+											<div className="strong-title">Check in:</div>
+										</Stack>
+										<span>
+											The host is required to show a photo ID and credit card at check-in. You need to let the property
+											know what time you'll be arriving in advance.
+										</span>
 									</Stack>
-								</Stack>
-								<Stack className={'address-config'}>
-									<Typography className={'title'}>Address</Typography>
-									<Stack className={'map-box'}>
-										<iframe
-											src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25867.098915951767!2d128.68632810247993!3d35.86402299180927!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35660bba427bf179%3A0x1fc02da732b9072f!2sGeumhogangbyeon-ro%2C%20Dong-gu%2C%20Daegu!5e0!3m2!1suz!2skr!4v1695537640704!5m2!1suz!2skr"
-											width="100%"
-											height="100%"
-											style={{ border: 0 }}
-											allowFullScreen={true}
-											loading="lazy"
-											referrerPolicy="no-referrer-when-downgrade"
-										></iframe>
+									<Divider
+										sx={{
+											width: '100%',
+											height: '2px',
+											backgroundColor: '#c4c4c4',
+										}}
+									/>
+
+									<Stack flexDirection={'row'} gap={'163px'}>
+										<Stack flexDirection={'row'} gap={'20px'}>
+											<img src="/img/icons/checkin.png" alt="" width={'35px'} height={'35px'} />
+											<div className="strong-title">Check out:</div>
+										</Stack>
+
+										<span>Within 2 hours after the event</span>
 									</Stack>
+									<Divider
+										sx={{
+											width: '100%',
+											height: '2px',
+											backgroundColor: '#c4c4c4',
+										}}
+									/>
+
+									<Stack flexDirection={'row'} gap={'122px'}>
+										<Stack flexDirection={'row'} gap={'20px'}>
+											<img src="/img/icons/age.png" alt="" width={'35px'} height={'35px'} />
+											<div className="strong-title">Age restriction:</div>
+										</Stack>
+
+										<span> Minimum check-in age is 18.</span>
+									</Stack>
+									<Divider
+										sx={{
+											width: '100%',
+											height: '2px',
+											backgroundColor: '#c4c4c4',
+										}}
+									/>
 								</Stack>
+
 								{commentTotal !== 0 && (
 									<Stack className={'reviews-config'}>
 										<Stack className={'filter-box'}>

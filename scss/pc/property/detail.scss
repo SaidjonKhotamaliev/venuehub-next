@@ -222,6 +222,32 @@
 							line-height: normal;
 						}
 					}
+					.rules {
+						width: 100%;
+						height: auto;
+						border: 1px solid #c4c4c4;
+						border-radius: 20px;
+						display: flex;
+						flex-direction: column;
+						gap: 20px;
+						padding: 30px;
+						.title {
+							color: #181a20;
+							font-family: $font;
+							font-size: 17px;
+							font-style: normal;
+							font-weight: 600;
+							line-height: normal;
+						}
+						.strong-title {
+							color: #181a20;
+							font-family: $font;
+							font-size: 17px;
+							font-style: normal;
+							font-weight: 600;
+							line-height: normal;
+						}
+					}
 					.floor-plans-config {
 						width: 100%;
 						height: auto;
@@ -594,7 +620,7 @@
 							align-items: center;
 							gap: 10px;
 							border-radius: 12px;
-							background: #eb6753;
+							background: #1a8377;
 							.title {
 								color: #fff;
 								font-family: $font;

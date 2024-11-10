@@ -20,15 +20,19 @@ import { REACT_APP_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import {
 	CREATE_COMMENT,
+	LIKE_TARGET_EQUIPMENT,
 	LIKE_TARGET_MEMBER,
 	LIKE_TARGET_PROPERTY,
 	SUBSCRIBE,
 	UNSUBSCRIBE,
 } from '../../apollo/user/mutation';
-import { GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
+import { GET_EQUIPMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { GET_COMMENTS } from '../../apollo/admin/query';
 import { Message } from '../../libs/enums/common.enum';
+import { Equipment } from '../../libs/types/equipment/equipment';
+import EquipmentBigCard from '../../libs/components/common/EquipmentBigCard';
+import { EquipmentsInquiry } from '../../libs/types/equipment/equipment.input';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -43,8 +47,11 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	const [agentId, setMbId] = useState<string | null>(null);
 	const [agent, setAgent] = useState<Member | null>(null);
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
+	const [searchFilterEquipment, setSearchFilterEquipment] = useState<EquipmentsInquiry>(initialInput);
 	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
+	const [agentEquipments, setAgentEquipments] = useState<Equipment[]>([]);
 	const [propertyTotal, setPropertyTotal] = useState<number>(0);
+	const [equipmentTotal, setEquipmentTotal] = useState<number>(0);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [agentComments, setAgentComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -57,6 +64,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	/** APOLLO REQUESTS **/
 	const [createComment] = useMutation(CREATE_COMMENT);
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetEquipment] = useMutation(LIKE_TARGET_EQUIPMENT);
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
 	const [subscribe] = useMutation(SUBSCRIBE);
 	const [unsubscribe] = useMutation(UNSUBSCRIBE);
@@ -75,6 +83,12 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			setAgent(data?.getMember);
 			setSearchFilter({
 				...searchFilter,
+				search: {
+					memberId: data?.getMember?._id,
+				},
+			});
+			setSearchFilterEquipment({
+				...searchFilterEquipment,
 				search: {
 					memberId: data?.getMember?._id,
 				},
@@ -109,6 +123,22 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	});
 
 	const {
+		loading: getEquipmentsLoading,
+		data: getEquipmentsData,
+		error: getEquipmentsError,
+		refetch: getEquipmentsRefetch,
+	} = useQuery(GET_EQUIPMENTS, {
+		fetchPolicy: 'network-only',
+		variables: { input: searchFilterEquipment },
+		skip: !searchFilterEquipment.search.memberId,
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setAgentEquipments(data?.getEquipments?.list);
+			setEquipmentTotal(data?.getEquipments?.metaCounter[0]?.total ?? 0);
+		},
+	});
+
+	const {
 		loading: getCommentsLoading,
 		data: getCommentsData,
 		error: getCommentsError,
@@ -131,7 +161,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 	useEffect(() => {
 		getPropertiesRefetch();
-	}, [searchFilter]);
+	}, [searchFilter, searchFilterEquipment]);
 	useEffect(() => {}, [commentInquiry]);
 
 	/** HANDLERS **/
@@ -202,6 +232,10 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		searchFilter.page = value;
 		setSearchFilter({ ...searchFilter });
 	};
+	const equipmentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
+		searchFilterEquipment.page = value;
+		setSearchFilterEquipment({ ...searchFilterEquipment });
+	};
 
 	const likePropertyHandler = async (user: any, id: string) => {
 		try {
@@ -213,6 +247,24 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			});
 
 			await getPropertiesRefetch({ input: searchFilter });
+
+			await sweetTopSmallSuccessAlert('Success', 800);
+		} catch (err: any) {
+			console.log('ERROR, likfePropertyHandler: ', err);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const likeEquipmentHandler = async (user: any, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+
+			await likeTargetEquipment({
+				variables: { input: id },
+			});
+
+			await getEquipmentsRefetch({ input: searchFilterEquipment });
 
 			await sweetTopSmallSuccessAlert('Success', 800);
 		} catch (err: any) {
@@ -341,6 +393,44 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							)}
 						</Stack>
 					</Stack>
+					<Stack className={'agent-home-list'}>
+						<Stack className={'card-wrap'}>
+							{agentEquipments.map((equipment: Equipment) => {
+								return (
+									<div className={'wrap-main'} key={equipment?._id}>
+										<EquipmentBigCard
+											equipment={equipment}
+											key={equipment?._id}
+											likeEquipmentHandler={likeEquipmentHandler}
+										/>
+									</div>
+								);
+							})}
+						</Stack>
+						<Stack className={'pagination'}>
+							{equipmentTotal ? (
+								<>
+									<Stack className="pagination-box">
+										<Pagination
+											page={searchFilterEquipment.page}
+											count={Math.ceil(equipmentTotal / searchFilterEquipment.limit) || 1}
+											onChange={equipmentPaginationChangeHandler}
+											shape="circular"
+											color="primary"
+										/>
+									</Stack>
+									<span>
+										Total {equipmentTotal} equipment{equipmentTotal > 1 ? 's' : ''} available
+									</span>
+								</>
+							) : (
+								<div className={'no-data'}>
+									<img src="/img/icons/icoAlert.svg" alt="" />
+									<p>No equipments found!</p>
+								</div>
+							)}
+						</Stack>
+					</Stack>
 					<Stack className={'review-box'}>
 						<Stack className={'main-intro'}>
 							<span>Reviews</span>
@@ -411,7 +501,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 AgentDetail.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 9,
+		limit: 3,
 		search: {
 			memberId: '',
 		},

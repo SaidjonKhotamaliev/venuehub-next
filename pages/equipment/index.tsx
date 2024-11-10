@@ -69,7 +69,7 @@ const EquipmentList: NextPage = ({ initialInput, ...props }: any) => {
 	}, [router]);
 
 	useEffect(() => {
-		// getPropertiesRefetch({ input: searchFilter }).then(); no need
+		getEquipmentsRefetch({ input: searchFilter }).then(); //no need
 	}, [searchFilter]);
 
 	/** HANDLERS **/

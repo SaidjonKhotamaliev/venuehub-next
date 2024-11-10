@@ -190,7 +190,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 						/>
 						<Box component={'div'} className={'info'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
 							<strong>
-								{agent?.memberNick}({agent?.memberFullName ? agent?.memberFullName : 'No full name proovided'} )
+								{agent?.memberNick}({agent?.memberFullName ? agent?.memberFullName : 'No full name provided'} )
 							</strong>
 							<Stack flexDirection={'row'} className={'rating'}>
 								<img src="/img/icons/Frame.png" alt="" />
@@ -213,6 +213,10 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 								<span>{agent?.memberPhone}</span>
 							</div>
 						</Box>
+					</Stack>
+					<Stack className="agent-desc">
+						<h3>About me</h3>
+						<p>{agent?.memberDesc ? agent?.memberDesc : 'no description about the agent...'}</p>
 					</Stack>
 					<Stack className={'agent-home-list'}>
 						<Stack className={'card-wrap'}>

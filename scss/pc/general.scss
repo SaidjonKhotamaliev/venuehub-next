@@ -3,7 +3,7 @@
 	margin-right: 8px;
 	margin-left: 8px;
 	margin-bottom: 35px;
-	width: 410px;
+	width: 400px;
 	height: 455px;
 	display: flex;
 	flex-direction: column;
@@ -68,7 +68,7 @@
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			font-family: $font;
-			font-size: 15px;
+			font-size: 24px;
 			font-style: normal;
 			font-weight: 600;
 			line-height: normal;
@@ -97,13 +97,13 @@
 				flex-direction: row;
 				img {
 					margin-right: 5px;
-					width: 17px;
-					height: 17px;
+					width: 28px;
+					height: 28px;
 				}
 				span {
 					color: #181a20;
 					font-family: $font;
-					font-size: 13px;
+					font-size: 18px;
 					font-style: normal;
 					font-weight: 400;
 					line-height: normal;
@@ -113,14 +113,18 @@
 		.bott {
 			display: flex;
 			flex-direction: row;
-			justify-content: space-between;
+			justify-content: flex-start;
 			align-items: center;
+			gap: 180px;
 			div {
 				width: 65px;
 				display: flex;
 				flex-direction: row;
 				align-items: center;
 				justify-content: space-between;
+			}
+			.square {
+				width: 100px;
 			}
 			p {
 				color: #181a20;

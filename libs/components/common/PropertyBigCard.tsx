@@ -43,32 +43,21 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 							<span>top</span>
 						</div>
 					)}
-
-					<div className={'price'}>${formatterStr(property?.propertyRentPrice)}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
 					<strong className={'title'}>{property?.propertyTitle}</strong>
-					<p className={'desc'}>{property?.propertyAddress}</p>
+					<p className={'desc'}>
+						{property?.propertyLocation}, {property?.propertyAddress}
+					</p>
+					<p className={'desc'}>{property?.propertyType}</p>
 					<div className={'options'}>
-						{/* <div>
-							<img src="/img/icons/bed.svg" alt="" />
-							<span>{property?.propertyBeds} bed</span>
-						</div>
 						<div>
-							<img src="/img/icons/room.svg" alt="" />
-							<span>{property?.propertyRooms} rooms</span>
-						</div> */}
-						<div>
-							<img src="/img/icons/expand.svg" alt="" />
-							<span>{property?.propertySquare} m2</span>
+							<img src="/img/icons/soqqa.png" alt="" />
+							<span>{property?.propertyRentPrice}/day</span>
 						</div>
 					</div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
-						{/* <div>
-							{property?.propertyRent ? <p>Rent</p> : <span>Rent</span>}
-							{property?.propertyBarter ? <p>Barter</p> : <span>Barter</span>}
-						</div> */}
 						<div className="buttons-box">
 							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />
@@ -89,6 +78,11 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 							</IconButton>
 							<Typography className="view-cnt">{property?.propertyLikes}</Typography>
 						</div>
+						<Stack className={'square'} flexDirection={'row'} width={'100px'}>
+							<img src="/img/icons/view.png" alt="" style={{ marginRight: '10px' }} />
+							{property?.propertySquare}
+							<sup>m²</sup>
+						</Stack>
 					</div>
 				</Box>
 			</Stack>

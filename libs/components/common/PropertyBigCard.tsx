@@ -49,7 +49,12 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 					<p className={'desc'}>
 						{property?.propertyLocation}, {property?.propertyAddress}
 					</p>
-					<p className={'desc'}>{property?.propertyType}</p>
+					<Typography className="desc">
+						{property?.propertyType
+							.replace(/_/g, ' ')
+							.toLowerCase()
+							.replace(/\b\w/g, (char) => char.toUpperCase())}
+					</Typography>
 					<div className={'options'}>
 						<div>
 							<img src="/img/icons/soqqa.png" alt="" />

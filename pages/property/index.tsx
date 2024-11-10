@@ -82,7 +82,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 
 			await sweetTopSmallSuccessAlert('Success', 800);
 		} catch (err: any) {
-			console.log('ERROR, likfePropertyHandler: ', err);
+			console.log('ERROR, likePropertyHandler: ', err);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};

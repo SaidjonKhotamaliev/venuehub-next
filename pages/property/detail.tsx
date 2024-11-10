@@ -205,6 +205,23 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			<div id={'property-detail-page'}>
 				<div className={'container'}>
 					<Stack className={'property-detail-config'}>
+						<Stack className={'main-title'}>
+							<span>{property?.propertyTitle}</span>
+							<Stack flexDirection={'row'} gap={'20px'}>
+								<p>{property?.propertyLocation}</p>
+								<Divider
+									sx={{
+										width: '1px',
+										height: '40px',
+										backgroundColor: 'black',
+									}}
+								/>
+								<img src="/img/icons/time.png" alt="" width={'30px'} height={'30px'} />
+								<p>
+									{property?.createdAt ? new Date(property.createdAt).toLocaleDateString('en-CA') : 'No date available'}
+								</p>
+							</Stack>
+						</Stack>
 						<Stack className={'property-info-config'}>
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>

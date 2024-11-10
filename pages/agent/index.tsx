@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Member } from '../../libs/types/member/member';
 import { useMutation, useQuery } from '@apollo/client';
-import { LIKE_TARGET_MEMBER, SUBSCRIBE } from '../../apollo/user/mutation';
+import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { GET_AGENTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Message } from '../../libs/enums/common.enum';
@@ -41,6 +41,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
 	const [subscribe] = useMutation(SUBSCRIBE);
+	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 
 	const {
 		loading: getAgentsLoading,
@@ -98,9 +99,27 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 			await getAgentsRefetch({ input: searchFilter });
 
-			await sweetTopSmallSuccessAlert('Success', 800);
+			await sweetTopSmallSuccessAlert('Followed', 800);
 		} catch (err: any) {
 			console.log('ERROR, followMemberHandler: ', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const unfollowMemberHandler = async (user: any, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+
+			await unsubscribe({
+				variables: { input: id },
+			});
+
+			await getAgentsRefetch({ input: searchFilter });
+
+			await sweetTopSmallSuccessAlert('Unfollowed', 800);
+		} catch (err: any) {
+			console.log('ERROR, unfollowMemberHandler: ', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -206,6 +225,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 										key={agent._id}
 										likeMemberHandler={likeMemberHandler}
 										followMemberHandler={followMemberHandler}
+										unfollowMemberHandler={unfollowMemberHandler}
 									/>
 								);
 							})

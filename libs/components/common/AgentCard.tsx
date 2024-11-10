@@ -14,10 +14,11 @@ interface AgentCardProps {
 	agent: any;
 	likeMemberHandler: any;
 	followMemberHandler: any;
+	unfollowMemberHandler: any;
 }
 
 const AgentCard = (props: AgentCardProps) => {
-	const { agent, likeMemberHandler, followMemberHandler } = props;
+	const { agent, likeMemberHandler, followMemberHandler, unfollowMemberHandler } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const imagePath: string = agent?.memberImage
@@ -96,11 +97,23 @@ const AgentCard = (props: AgentCardProps) => {
 						</Link>
 					</Box>
 
-					<Box className={'agent-follow-btn'}>
-						<span onClick={() => followMemberHandler(user, agent?._id)}>
-							{agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? 'Unfollow' : 'Follow'}
-						</span>
-						<img src="/img/icons/plus.png" alt="" style={{ filter: 'brightness(0) invert(1)' }} />
+					<Box
+						className="agent-follow-btn"
+						onClick={() => {
+							if (agent?.meFollowed && agent?.meFollowed[0]?.myFollowing) {
+								unfollowMemberHandler(user, agent?._id);
+							} else {
+								followMemberHandler(user, agent?._id);
+							}
+						}}
+						style={{
+							backgroundColor: agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? 'gray' : '#1a8377',
+						}}
+					>
+						<span>{agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? 'Unfollow' : 'Follow'}</span>
+						{!agent?.meFollowed || !agent?.meFollowed[0]?.myFollowing ? (
+							<img src="/img/icons/plus.png" alt="" style={{ filter: 'brightness(0) invert(1)' }} />
+						) : null}
 					</Box>
 				</Stack>
 			</Stack>

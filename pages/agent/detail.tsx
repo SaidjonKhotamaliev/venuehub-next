@@ -4,7 +4,7 @@ import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
 import ReviewCard from '../../libs/components/agent/ReviewCard';
-import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
+import { Box, Button, Divider, Pagination, Stack, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
@@ -120,7 +120,9 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		if (router.query.agentId) setMbId(router.query.agentId as string);
 	}, [router]);
 
-	useEffect(() => {}, [searchFilter]);
+	useEffect(() => {
+		getPropertiesRefetch();
+	}, [searchFilter]);
 	useEffect(() => {}, [commentInquiry]);
 
 	/** HANDLERS **/
@@ -187,7 +189,25 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							alt=""
 						/>
 						<Box component={'div'} className={'info'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
-							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
+							<strong>
+								{agent?.memberNick}({agent?.memberFullName ? agent?.memberFullName : 'No full name proovided'} )
+							</strong>
+							<Stack flexDirection={'row'} className={'rating'}>
+								<img src="/img/icons/Frame.png" alt="" />
+								<strong>5.0</strong>
+								<Divider
+									orientation="vertical"
+									flexItem
+									sx={{
+										width: '2px',
+										height: '35px',
+										backgroundColor: '#6d6d6d',
+										marginRight: '10px',
+									}}
+								/>
+								<strong style={{ fontSize: '18px', color: '#6d6d6d', backgroundColor: '#FFE0B2' }}>Top Rated***</strong>
+							</Stack>
+
 							<div>
 								<img src="/img/icons/call.svg" alt="" />
 								<span>{agent?.memberPhone}</span>

@@ -18,13 +18,17 @@ export const GET_AGENTS = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberWarnings
-				memberBlocks
 				memberProperties
-				memberRank
+				memberArticles
+				memberFollowers
+				memberFollowings
 				memberPoints
 				memberLikes
 				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
 				deletedAt
 				createdAt
 				updatedAt
@@ -33,6 +37,12 @@ export const GET_AGENTS = gql`
 					memberId
 					likeRefId
 					myFavorite
+				}
+				memberEquipments
+				meFollowed {
+					followingId
+					followerId
+					myFollowing
 				}
 			}
 			metaCounter {

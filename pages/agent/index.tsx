@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Member } from '../../libs/types/member/member';
 import { useMutation, useQuery } from '@apollo/client';
-import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
+import { LIKE_TARGET_MEMBER, SUBSCRIBE } from '../../apollo/user/mutation';
 import { GET_AGENTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Message } from '../../libs/enums/common.enum';
@@ -40,6 +40,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	/** APOLLO REQUESTS **/
 
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
+	const [subscribe] = useMutation(SUBSCRIBE);
 
 	const {
 		loading: getAgentsLoading,
@@ -82,6 +83,24 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			await sweetTopSmallSuccessAlert('Success', 800);
 		} catch (err: any) {
 			console.log('ERROR, likeMemberHandler: ', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const followMemberHandler = async (user: any, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+
+			await subscribe({
+				variables: { input: id },
+			});
+
+			await getAgentsRefetch({ input: searchFilter });
+
+			await sweetTopSmallSuccessAlert('Success', 800);
+		} catch (err: any) {
+			console.log('ERROR, followMemberHandler: ', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -181,7 +200,14 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 							</div>
 						) : (
 							agents.map((agent: Member) => {
-								return <AgentCard agent={agent} key={agent._id} likeMemberHandler={likeMemberHandler} />;
+								return (
+									<AgentCard
+										agent={agent}
+										key={agent._id}
+										likeMemberHandler={likeMemberHandler}
+										followMemberHandler={followMemberHandler}
+									/>
+								);
 							})
 						)}
 					</Stack>

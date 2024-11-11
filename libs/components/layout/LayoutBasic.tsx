@@ -29,43 +29,43 @@ const withLayoutBasic = (Component: any) => {
 
 			switch (router.pathname) {
 				case '/property':
-					title = 'Property Search';
-					desc = 'We are glad to see you again!';
+					title = 'Venues Search';
+					desc = 'Check Availability and Reserve Your Spot!';
 					bgImage = '/img/banner/header5.jpg';
 					break;
 				case '/equipment':
 					title = 'Equipment Search';
-					desc = 'We are glad to see you again!';
+					desc = 'Premium Equipment Available for Rent!';
 					bgImage = '/img/banner/header11.jpg';
 					break;
 				case '/agent':
 					title = 'Agents';
-					desc = 'Home / For Rent';
+					desc = 'Meet Our Experienced Managers';
 					bgImage = '/img/banner/header7.jpg';
 					break;
 				case '/agent/detail':
 					title = 'Agent Page';
-					desc = 'Home / For Rent';
+					desc = 'Let Our Managers Handle Your Every Need';
 					bgImage = '/img/banner/header7.jpg';
 					break;
 				case '/mypage':
 					title = 'my page';
-					desc = 'Home / For Rent';
+					desc = 'Manage Your Profile and Preferences';
 					bgImage = '/img/banner/header10.jpg';
 					break;
 				case '/community':
 					title = 'Community';
-					desc = 'Home / For Rent';
+					desc = 'Engage, Share, and Learn from Your Fellow Members';
 					bgImage = '/img/banner/header8.jpg';
 					break;
 				case '/community/detail':
 					title = 'Community Detail';
-					desc = 'Home / For Rent';
+					desc = 'What’s New? Share Your Thoughts with Us!';
 					bgImage = '/img/banner/header8.jpg';
 					break;
 				case '/cs':
 					title = 'CS';
-					desc = 'We are glad to see you again!';
+					desc = 'Important Notice!';
 					bgImage = '/img/banner/header9.jpg';
 					break;
 				case '/account/join':
@@ -76,7 +76,7 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/member':
 					title = 'Member Page';
-					desc = 'Home / For Rent';
+					desc = 'Managing Your Property or Event with Expertise and Care';
 					bgImage = '/img/banner/header10.jpg';
 					break;
 				default:

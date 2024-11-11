@@ -90,7 +90,6 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 									borderRadius: '50%',
 								}}
 								onClick={() => {
-									// Ensure _id is defined before attempting to use it
 									if (equipment?.memberData?._id) {
 										pushAgentHandler(equipment.memberData._id);
 									}

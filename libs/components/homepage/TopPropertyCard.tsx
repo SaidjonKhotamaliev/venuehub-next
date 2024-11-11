@@ -90,7 +90,6 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 					position: 'relative',
 					backgroundSize: 'cover',
 					borderRadius: '12px',
-					cursor: 'pointer',
 					justifyContent: 'space-between',
 					paddingBottom: '20px',
 				}}
@@ -110,8 +109,7 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 							background: isHovered
 								? 'linear-gradient(45deg, #1a8377 0%, rgba(26, 131, 119, 0.8) 10%, rgba(26, 131, 119, 0.2) 60%, #1a8377 100%)'
 								: 'linear-gradient(154deg, #141415 0%, rgba(0, 0, 0, 0.70) 0%, rgba(20, 20, 21, 0.20) 94.29%)',
-							zIndex: 1,
-							cursor: 'pointer',
+							zIndex: 0,
 							transition: 'background 0.3s ease',
 						}}
 						onMouseEnter={() => setIsHovered(true)}
@@ -157,6 +155,10 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 					}}
 				>
 					<div
+						onClick={(e) => {
+							e.stopPropagation(); // Prevents the click event from bubbling up to parent elements
+							likePropertyHandler(user, property._id); // Your custom handler for liking a property
+						}}
 						style={{
 							width: '50px',
 							height: '50px',
@@ -167,20 +169,15 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 							alignItems: 'center',
 							opacity: isHovered ? 0.7 : 0,
 							transform: isHovered ? 'translate(0, 0)' : 'translate(-50px, 20px)',
+							cursor: 'pointer',
 							transition: 'opacity 0.5s ease-out, transform 0.5s ease-out',
 						}}
 						onMouseEnter={() => setIsHovered(true)}
 						onMouseLeave={() => setIsHovered(false)}
 					>
-						<IconButton
-							color={'default'}
-							onClick={(e) => {
-								e.stopPropagation(); // Prevents the click event from bubbling up to parent elements
-								likePropertyHandler(user, property._id); // Your custom handler for liking a property
-							}}
-						>
+						<IconButton color={'default'}>
 							{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-								<FavoriteIcon style={{ color: 'red', width: '60px', height: '60px' }} />
+								<FavoriteIcon style={{ color: 'red', width: '30px', height: '30px' }} />
 							) : (
 								<FavoriteIcon />
 							)}

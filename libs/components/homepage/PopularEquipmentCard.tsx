@@ -75,6 +75,11 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 						}}
 					></Box>
 					<Box component={'div'} className={'info'}>
+						<Box>
+							<div style={{ fontSize: '20px', marginBottom: '15px', fontWeight: '600' }}>
+								{equipment?.equipmentTitle}
+							</div>
+						</Box>
 						<Stack className={'info-agent-box'}>
 							<Box
 								component={'div'}

@@ -103,8 +103,8 @@ const TopProperties = (props: TopPropertiesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Top properties</span>
-							<p>Check out our Top Properties</p>
+							<span>Top Venues</span>
+							<p>Check out our Top Venues</p>
 						</Box>
 					</Stack>
 

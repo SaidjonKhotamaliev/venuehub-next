@@ -50,7 +50,6 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	const [openAdvancedFilter, setOpenAdvancedFilter] = useState(false);
 	const [openLocation, setOpenLocation] = useState(false);
 	const [openType, setOpenType] = useState(false);
-	const [openRooms, setOpenRooms] = useState(false);
 	const [propertyLocation, setPropertyLocation] = useState<PropertyLocation[]>(Object.values(PropertyLocation));
 	const [propertyType, setPropertyType] = useState<PropertyType[]>(Object.values(PropertyType));
 	const [yearCheck, setYearCheck] = useState({ start: 1970, end: thisYear });
@@ -66,10 +65,6 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 			if (!typeRef?.current?.contains(event.target)) {
 				setOpenType(false);
 			}
-
-			if (!roomsRef?.current?.contains(event.target)) {
-				setOpenRooms(false);
-			}
 		};
 
 		document.addEventListener('mousedown', clickHandler);
@@ -82,31 +77,26 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	/** HANDLERS **/
 	const advancedFilterHandler = (status: boolean) => {
 		setOpenLocation(false);
-		setOpenRooms(false);
 		setOpenType(false);
 		setOpenAdvancedFilter(status);
 	};
 
 	const locationStateChangeHandler = () => {
 		setOpenLocation((prev) => !prev);
-		setOpenRooms(false);
 		setOpenType(false);
 	};
 
 	const typeStateChangeHandler = () => {
 		setOpenType((prev) => !prev);
 		setOpenLocation(false);
-		setOpenRooms(false);
 	};
 
 	const roomStateChangeHandler = () => {
-		setOpenRooms((prev) => !prev);
 		setOpenType(false);
 		setOpenLocation(false);
 	};
 
 	const disableAllStateHandler = () => {
-		setOpenRooms(false);
 		setOpenType(false);
 		setOpenLocation(false);
 	};
@@ -326,19 +316,13 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							<ExpandMoreIcon />
 						</Box>
 						<Box className={`box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
-							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Property type')} </span>
-							<ExpandMoreIcon />
-						</Box>
-						<Box className={`box ${openRooms ? 'on' : ''}`} onClick={roomStateChangeHandler}>
-							<span>
-								{searchFilter?.search?.roomsList ? `${searchFilter?.search?.roomsList[0]} rooms}` : t('Rooms')}
-							</span>
+							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Venue type')} </span>
 							<ExpandMoreIcon />
 						</Box>
 					</Stack>
 					<Stack className={'search-box-other'}>
 						<Box className={'advanced-filter'} onClick={() => advancedFilterHandler(true)}>
-							<img src="/img/icons/tune.svg" alt="" />
+							<img src="/img/icons/general.png" alt="" />
 							<span>{t('Advanced')}</span>
 						</Box>
 						<Box className={'search-btn'} onClick={pushSearchHandler}>
@@ -358,26 +342,21 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						})}
 					</div>
 
-					<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
+					<div className={`filter-location ${openType ? 'on' : ''}`} ref={typeRef}>
 						{propertyType.map((type: string) => {
 							return (
-								<div
-									style={{ backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.webp)` }}
-									onClick={() => propertyTypeSelectHandler(type)}
-									key={type}
-								>
-									<span>{type}</span>
-								</div>
-							);
-						})}
-					</div>
+								<div onClick={() => propertyTypeSelectHandler(type)} key={type}>
+									<img src={`img/banner/types/${type.toLowerCase()}.webp`} alt="" />
 
-					<div className={`filter-rooms ${openRooms ? 'on' : ''}`} ref={roomsRef}>
-						{[1, 2, 3, 4, 5].map((room: number) => {
-							return (
-								<span onClick={() => propertyRoomSelectHandler(room)} key={room}>
-									{room} room{room > 1 ? 's' : ''}
-								</span>
+									<span>
+										{type
+											.split('_')
+											.map((word, index) =>
+												index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+											)
+											.join(' ')}
+									</span>
+								</div>
 							);
 						})}
 					</div>

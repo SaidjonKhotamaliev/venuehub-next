@@ -394,45 +394,6 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							</div>
 							<Divider sx={{ mt: '30px', mb: '35px' }} />
 							<div className={'middle'}>
-								<div className={'row-box'}>
-									<div className={'box'}>
-										<span>bedrooms</span>
-										<div className={'inside'}>
-											<div
-												className={`room ${!searchFilter?.search?.bedsList ? 'active' : ''}`}
-												onClick={() => propertyBedSelectHandler(0)}
-											>
-												Any
-											</div>
-											{[1, 2, 3, 4, 5].map((bed: number) => (
-												<div
-													className={`room ${searchFilter?.search?.bedsList?.includes(bed) ? 'active' : ''}`}
-													onClick={() => propertyBedSelectHandler(bed)}
-													key={bed}
-												>
-													{bed == 0 ? 'Any' : bed}
-												</div>
-											))}
-										</div>
-									</div>
-									<div className={'box'}>
-										<span>options</span>
-										<div className={'inside'}>
-											<FormControl>
-												<Select
-													value={optionCheck}
-													onChange={propertyOptionSelectHandler}
-													displayEmpty
-													inputProps={{ 'aria-label': 'Without label' }}
-												>
-													<MenuItem value={'all'}>All Options</MenuItem>
-													<MenuItem value={'propertyBarter'}>Barter</MenuItem>
-													<MenuItem value={'propertyRent'}>Rent</MenuItem>
-												</Select>
-											</FormControl>
-										</div>
-									</div>
-								</div>
 								<div className={'row-box'} style={{ marginTop: '44px' }}>
 									<div className={'box'}>
 										<span>Year Built</span>

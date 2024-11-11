@@ -27,7 +27,7 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 		await router.push({ pathname: '/equipment/detail', query: { id: equipmentId } });
 	};
 	const pushAgentHandler = async (memberId: string) => {
-		await router.push({ pathname: '/agent/detail', query: { id: memberId } });
+		await router.push({ pathname: '/agent/detail', query: { agentId: memberId } });
 	};
 
 	if (device === 'mobile') {
@@ -48,7 +48,7 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 							pushDetailHandler(equipment._id);
 						}}
 					>
-						{user.memberNick}
+						{equipment.memberData?.memberNick}
 					</strong>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
@@ -80,22 +80,32 @@ const PopularEquipmentCard = (props: PopularEquipmentCardProps) => {
 								component={'div'}
 								className={'member-small-img'}
 								style={{
-									backgroundImage: `url(${REACT_APP_API_URL}/${user?.memberImage})`,
+									backgroundImage: `url(${
+										equipment?.memberData?.memberImage
+											? `${REACT_APP_API_URL}/${equipment?.memberData?.memberImage}`
+											: '/path/to/default-image.jpg'
+									})`,
 									width: '30px',
 									height: '30px',
 									borderRadius: '50%',
 								}}
 								onClick={() => {
-									pushAgentHandler(user._id);
+									// Ensure _id is defined before attempting to use it
+									if (equipment?.memberData?._id) {
+										pushAgentHandler(equipment.memberData._id);
+									}
 								}}
 							></Box>
+
 							<strong
 								className={'title'}
 								onClick={() => {
-									pushAgentHandler(user._id);
+									if (equipment?.memberData?._id) {
+										pushAgentHandler(equipment.memberData._id);
+									}
 								}}
 							>
-								{user.memberNick}
+								{equipment.memberData?.memberNick}
 							</strong>
 						</Stack>
 						<p className="desc">{equipment?.equipmentDesc?.slice(0, 90)} ...</p>

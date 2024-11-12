@@ -312,7 +312,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				<Stack className={'search-box'}>
 					<Stack className={'select-box'}>
 						<Box component={'div'} className={`box ${openLocation ? 'on' : ''}`} onClick={locationStateChangeHandler}>
-							<span>{searchFilter?.search?.locationList ? searchFilter?.search?.locationList[0] : t('Location')} </span>
+							<span>{searchFilter?.search?.locationList ? searchFilter?.search?.locationList[0] : t('Regions')} </span>
 							<ExpandMoreIcon />
 						</Box>
 						<Box className={`box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
@@ -321,10 +321,6 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						</Box>
 					</Stack>
 					<Stack className={'search-box-other'}>
-						<Box className={'advanced-filter'} onClick={() => advancedFilterHandler(true)}>
-							<img src="/img/icons/general.png" alt="" />
-							<span>{t('Advanced')}</span>
-						</Box>
 						<Box className={'search-btn'} onClick={pushSearchHandler}>
 							<img src="/img/icons/search_white.svg" alt="" />
 						</Box>
@@ -336,7 +332,14 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							return (
 								<div onClick={() => propertyLocationSelectHandler(location)} key={location}>
 									<img src={`img/banner/cities/${location}.webp`} alt="" />
-									<span>{location}</span>
+									<span>
+										{location
+											.split('_')
+											.map((word, index) =>
+												index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+											)
+											.join(' ')}
+									</span>
 								</div>
 							);
 						})}
@@ -361,142 +364,6 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						})}
 					</div>
 				</Stack>
-
-				{/* ADVANCED FILTER MODAL */}
-				<Modal
-					open={openAdvancedFilter}
-					onClose={() => advancedFilterHandler(false)}
-					aria-labelledby="modal-modal-title"
-					aria-describedby="modal-modal-description"
-				>
-					{/* @ts-ignore */}
-					<Box sx={style}>
-						<Box className={'advanced-filter-modal'}>
-							<div className={'close'} onClick={() => advancedFilterHandler(false)}>
-								<CloseIcon />
-							</div>
-							<div className={'top'}>
-								<span>Find your home</span>
-								<div className={'search-input-box'}>
-									<img src="/img/icons/search.svg" alt="" />
-									<input
-										value={searchFilter?.search?.text ?? ''}
-										type="text"
-										placeholder={'What are you looking for?'}
-										onChange={(e: any) => {
-											setSearchFilter({
-												...searchFilter,
-												search: { ...searchFilter.search, text: e.target.value },
-											});
-										}}
-									/>
-								</div>
-							</div>
-							<Divider sx={{ mt: '30px', mb: '35px' }} />
-							<div className={'middle'}>
-								<div className={'row-box'} style={{ marginTop: '44px' }}>
-									<div className={'box'}>
-										<span>Year Built</span>
-										<div className={'inside space-between align-center'}>
-											<FormControl sx={{ width: '122px' }}>
-												<Select
-													value={yearCheck.start.toString()}
-													onChange={yearStartChangeHandler}
-													displayEmpty
-													inputProps={{ 'aria-label': 'Without label' }}
-													MenuProps={MenuProps}
-												>
-													{propertyYears?.slice(0)?.map((year: number) => (
-														<MenuItem value={year} disabled={yearCheck.end <= year} key={year}>
-															{year}
-														</MenuItem>
-													))}
-												</Select>
-											</FormControl>
-											<div className={'minus-line'}></div>
-											<FormControl sx={{ width: '122px' }}>
-												<Select
-													value={yearCheck.end.toString()}
-													onChange={yearEndChangeHandler}
-													displayEmpty
-													inputProps={{ 'aria-label': 'Without label' }}
-													MenuProps={MenuProps}
-												>
-													{propertyYears
-														?.slice(0)
-														.reverse()
-														.map((year: number) => (
-															<MenuItem value={year} disabled={yearCheck.start >= year} key={year}>
-																{year}
-															</MenuItem>
-														))}
-												</Select>
-											</FormControl>
-										</div>
-									</div>
-									<div className={'box'}>
-										<span>square meter</span>
-										<div className={'inside space-between align-center'}>
-											<FormControl sx={{ width: '122px' }}>
-												<Select
-													value={searchFilter?.search?.squaresRangeProperty?.start}
-													onChange={(e: any) => propertySquareHandler(e, 'start')}
-													displayEmpty
-													inputProps={{ 'aria-label': 'Without label' }}
-													MenuProps={MenuProps}
-												>
-													{propertySquare.map((square: number) => (
-														<MenuItem
-															value={square}
-															disabled={(searchFilter?.search?.squaresRangeProperty?.end || 0) < square}
-															key={square}
-														>
-															{square}
-														</MenuItem>
-													))}
-												</Select>
-											</FormControl>
-											<div className={'minus-line'}></div>
-											<FormControl sx={{ width: '122px' }}>
-												<Select
-													value={searchFilter?.search?.squaresRangeProperty?.end}
-													onChange={(e: any) => propertySquareHandler(e, 'end')}
-													displayEmpty
-													inputProps={{ 'aria-label': 'Without label' }}
-													MenuProps={MenuProps}
-												>
-													{propertySquare.map((square: number) => (
-														<MenuItem
-															value={square}
-															disabled={(searchFilter?.search?.squaresRangeProperty?.start || 0) > square}
-															key={square}
-														>
-															{square}
-														</MenuItem>
-													))}
-												</Select>
-											</FormControl>
-										</div>
-									</div>
-								</div>
-							</div>
-							<Divider sx={{ mt: '60px', mb: '18px' }} />
-							<div className={'bottom'}>
-								<div onClick={resetFilterHandler}>
-									<img src="/img/icons/reset.svg" alt="" />
-									<span>Reset all filters</span>
-								</div>
-								<Button
-									startIcon={<img src={'/img/icons/search.svg'} />}
-									className={'search-btn'}
-									onClick={pushSearchHandler}
-								>
-									Search
-								</Button>
-							</div>
-						</Box>
-					</Box>
-				</Modal>
 			</>
 		);
 	}

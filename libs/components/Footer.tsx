@@ -54,10 +54,10 @@ const Footer = () => {
 							</div>
 							<div>
 								<strong>Discover</strong>
-								<span>Seoul</span>
-								<span>Gyeongido</span>
-								<span>Busan</span>
-								<span>Jejudo</span>
+								<span>London</span>
+								<span>Yorkshire</span>
+								<span>East of England</span>
+								<span>North West</span>
 							</div>
 						</Box>
 					</Stack>
@@ -104,9 +104,9 @@ const Footer = () => {
 						</Box>
 						<Box component={'div'} className={'bottom'}>
 							<div>
-								<strong>Popular Search</strong>
-								<span>Property for Rent</span>
-								<span>Property Low to hide</span>
+								<strong>Venue Search</strong>
+								<span>Venue for Rent</span>
+								<span>Venue Low to high</span>
 							</div>
 							<div>
 								<strong>Quick Links</strong>
@@ -119,10 +119,10 @@ const Footer = () => {
 							</div>
 							<div>
 								<strong>Discover</strong>
-								<span>Seoul</span>
-								<span>Gyeongido</span>
-								<span>Busan</span>
-								<span>Jejudo</span>
+								<span>London</span>
+								<span>Yorkshire</span>
+								<span>East of England</span>
+								<span>North West</span>
 							</div>
 						</Box>
 					</Stack>

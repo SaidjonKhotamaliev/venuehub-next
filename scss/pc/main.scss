@@ -188,7 +188,7 @@ body::-webkit-scrollbar {
 
 				position: relative;
 				padding: 0 30px;
-				width: 900px;
+				width: 700px;
 				height: 96px;
 				display: flex;
 				flex-direction: row;
@@ -199,7 +199,7 @@ body::-webkit-scrollbar {
 				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
 				padding: 16px;
 				.select-box {
-					width: 550px;
+					width: 500px;
 					display: flex;
 					flex-direction: row;
 					justify-content: space-between;
@@ -274,6 +274,7 @@ body::-webkit-scrollbar {
 				}
 				.filter-location {
 					position: absolute;
+					left: -200px;
 					padding: 40px 60px;
 					width: 1094px;
 					min-height: 120px;

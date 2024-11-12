@@ -62,7 +62,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 					<Typography className="name">{property.propertyTitle}</Typography>
 					<Typography className="address">{property.propertyAddress}</Typography>
 					<Typography className="price">
-						<strong>${formatterStr(property?.propertyPrice)}</strong>
+						<strong>${formatterStr(property?.propertyRentPrice)}</strong>
 					</Typography>
 				</Stack>
 				<Stack className="date-box">
@@ -77,7 +77,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 						</Typography>
 					</Stack>
 				</Stack>
-				{!memberPage && property.propertyStatus !== 'SOLD' && (
+				{/* {!memberPage && property.propertyStatus !== 'SOLD' && (
 					<Menu
 						anchorEl={anchorEl}
 						open={open}
@@ -112,7 +112,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 							</>
 						)}
 					</Menu>
-				)}
+				)} */}
 
 				<Stack className="views-box">
 					<Typography className="views">{property.propertyViews.toLocaleString()}</Typography>

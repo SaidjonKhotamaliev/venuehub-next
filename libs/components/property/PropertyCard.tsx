@@ -70,7 +70,11 @@ const PropertyCard = (props: PropertyCardType) => {
 						</Stack>
 						<Stack className="address">
 							<Typography>
-								{property.propertyAddress}, {property.propertyLocation}
+								{property.propertyAddress},{' '}
+								{property.propertyLocation
+									.replace(/_/g, ' ')
+									.toLowerCase()
+									.replace(/\b\w/g, (char) => char.toUpperCase())}
 							</Typography>
 						</Stack>
 

@@ -364,7 +364,12 @@ const PropertyFilter = (props: FilterType) => {
 										onChange={propertyLocationSelectHandler}
 									/>
 									<label htmlFor={location} style={{ cursor: 'pointer' }}>
-										<Typography className="property-type">{location}</Typography>
+										<Typography className="property-type">
+											{location
+												.replace(/_/g, ' ')
+												.toLowerCase()
+												.replace(/\b\w/g, (char) => char.toUpperCase())}
+										</Typography>
 									</label>
 								</Stack>
 							);

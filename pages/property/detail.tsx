@@ -366,11 +366,13 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Message</Typography>
-									<textarea placeholder={'Hello, I am interested in \n' + '[Renovated property at  floor]'}></textarea>
+									<textarea
+										placeholder={'Hello, \n I am interested in \n' + '[Venue].  Can you share more details?'}
+									></textarea>
 								</Stack>
 								<Stack className={'info-box'}>
 									<Button className={'send-message'}>
-										<Typography className={'title'}>Send Message</Typography>
+										<Typography className={'title'}>Send</Typography>
 										<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
 											<g clipPath="url(#clip0_6975_593)">
 												<path

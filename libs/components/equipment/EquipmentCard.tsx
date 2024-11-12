@@ -36,7 +36,7 @@ const EquipmentCard = (props: PropertyCardType) => {
 				<Stack className="property-left">
 					<Link
 						href={{
-							pathname: '/property/detail',
+							pathname: '/equipment/detail',
 							query: { id: equipment?._id },
 						}}
 					>
@@ -54,7 +54,7 @@ const EquipmentCard = (props: PropertyCardType) => {
 						<Stack className="name">
 							<Link
 								href={{
-									pathname: '/property/detail',
+									pathname: '/equipment/detail',
 									query: { id: equipment?._id },
 								}}
 							>

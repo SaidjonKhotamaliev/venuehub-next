@@ -29,7 +29,7 @@ const EquipmentBigCard = (props: EquipmentBigCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>APARTMEND BIG CARD</div>;
+		return <div>EQUIPMENT BIG CARD</div>;
 	} else {
 		return (
 			<Stack className="property-big-card-box" onClick={() => goPropertyDetatilPage(equipment?._id)}>
@@ -50,26 +50,9 @@ const EquipmentBigCard = (props: EquipmentBigCardProps) => {
 				<Box component={'div'} className={'info'}>
 					<strong className={'title'}>{equipment?.equipmentTitle}</strong>
 					<p className={'desc'}>{equipment?.equipmentCondition}</p>
-					<div className={'options'}>
-						{/* <div>
-							<img src="/img/icons/bed.svg" alt="" />
-							<span>{equipment?.propertyBeds} bed</span>
-						</div>
-						<div>
-							<img src="/img/icons/room.svg" alt="" />
-							<span>{property?.propertyRooms} rooms</span>
-						</div>
-						<div>
-							<img src="/img/icons/expand.svg" alt="" />
-							<span>{property?.propertySquare} m2</span>
-						</div> */}
-					</div>
+					<div className={'options'}></div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
-						{/* <div>
-							{equipment?.propertyRent ? <p>Rent</p> : <span>Rent</span>}
-							{property?.propertyBarter ? <p>Barter</p> : <span>Barter</span>}
-						</div> */}
 						<div className="buttons-box">
 							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />

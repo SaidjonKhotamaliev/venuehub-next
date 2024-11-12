@@ -3,14 +3,13 @@ import { Stack, Box, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Property } from '../../types/property/property';
 import { REACT_APP_API_URL, topPropertyRank } from '../../config';
-import { formatterStr } from '../../utils';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Equipment } from '../../types/equipment/equipment';
+import CommentIcon from '@mui/icons-material/Comment';
 
 interface EquipmentBigCardProps {
 	equipment: Equipment;
@@ -44,21 +43,48 @@ const EquipmentBigCard = (props: EquipmentBigCardProps) => {
 							<span>top</span>
 						</div>
 					)}
-
-					<div className={'price'}>${formatterStr(equipment?.equipmentRentPrice)}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
 					<strong className={'title'}>{equipment?.equipmentTitle}</strong>
-					<p className={'desc'}>{equipment?.equipmentCondition}</p>
-					<div className={'options'}></div>
+
+					<Typography className="desc">
+						{equipment?.equipmentType
+							.replace(/_/g, ' ')
+							.toLowerCase()
+							.replace(/\b\w/g, (char) => char.toUpperCase())}
+					</Typography>
+					<p className={'desc'}>
+						In{' '}
+						{equipment?.equipmentCondition
+							.replace(/_/g, ' ')
+							.toLowerCase()
+							.replace(/\b\w/g, (char) => char.toUpperCase())}{' '}
+						condition
+					</p>
+					<div className={'options'}>
+						<div>
+							<img src="/img/icons/soqqa.png" alt="" />
+							<span>{equipment?.equipmentRentPrice}/day</span>
+						</div>
+					</div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
 						<div className="buttons-box">
+							<CommentIcon
+								style={{ cursor: 'pointer' }}
+								color={'action'}
+								onClick={(e) => {
+									e.stopPropagation();
+									goPropertyDetatilPage(equipment?._id);
+								}}
+							></CommentIcon>
+							<Typography className="view-cnt">{equipment?.equipmentComments}</Typography>
 							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />
 							</IconButton>
 							<Typography className="view-cnt">{equipment?.equipmentViews}</Typography>
 							<IconButton
+								style={{ zIndex: '99' }}
 								color={'default'}
 								onClick={(e) => {
 									e.stopPropagation();
@@ -71,6 +97,7 @@ const EquipmentBigCard = (props: EquipmentBigCardProps) => {
 									<FavoriteIcon />
 								)}
 							</IconButton>
+
 							<Typography className="view-cnt">{equipment?.equipmentLikes}</Typography>
 						</div>
 					</div>

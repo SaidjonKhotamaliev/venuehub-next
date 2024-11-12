@@ -155,7 +155,7 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 			await getEquipmentRefetch({ input: id });
 
-			await getEquipmentRefetch({
+			await getEquipmentsRefetch({
 				input: {
 					page: 1,
 					limit: 4,
@@ -637,8 +637,7 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 											el: '.swiper-similar-pagination',
 										}}
 									>
-										{equipmentTypes.map((property: Equipment) => {
-											// Ensure `equipment` is defined for rendering
+										{equipmentTypes.map((equipment: Equipment) => {
 											if (!equipment) return null;
 
 											return (

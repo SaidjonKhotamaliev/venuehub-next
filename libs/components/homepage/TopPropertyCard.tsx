@@ -135,13 +135,16 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 							color: 'rgba(255, 255, 255, 0.60)',
 							fontFamily: 'Inter',
 							fontStyle: 'normal',
-							fontSize: '10px',
+							fontSize: '14px',
 							fontWeight: '800',
 							zIndex: 1,
 							cursor: 'pointer',
 						}}
 					>
-						{property?.propertyType}
+						{property?.propertyType
+							.replace(/_/g, ' ')
+							.toLowerCase()
+							.replace(/\b\w/g, (char) => char.toUpperCase())}
 					</div>
 				</div>
 

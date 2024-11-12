@@ -202,7 +202,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	}
 
 	if (device === 'mobile') {
-		return <div>PROPERTY DETAIL PAGE</div>;
+		return <div>VENUE DETAIL PAGE</div>;
 	} else {
 		return (
 			<div id={'property-detail-page'}>
@@ -211,7 +211,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<Stack className={'main-title'}>
 							<span>{property?.propertyTitle}</span>
 							<Stack flexDirection={'row'} gap={'20px'}>
-								<p>{property?.propertyLocation}</p>
+								<p>
+									{property?.propertyLocation
+										.replace(/_/g, ' ')
+										.toLowerCase()
+										.replace(/\b\w/g, (char) => char.toUpperCase())}
+								</p>
 								<Divider
 									sx={{
 										width: '1px',
@@ -307,7 +312,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<Stack className={'property-desc-config'}>
 							<Stack className={'right-config'}>
 								<Stack className={'info-box'}>
-									<Typography className={'main-title'}>Get More Information</Typography>
+									<Typography className={'main-title'}>Contact us!</Typography>
 									<Stack className={'image-info'}>
 										<img
 											className={'member-image'}
@@ -337,7 +342,13 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												</svg>
 												<Typography className={'number'}>{property?.memberData?.memberPhone}</Typography>
 											</Stack>
-											<Typography className={'listings'}>View Listings</Typography>
+											<Link
+												href={{
+													pathname: '/property',
+												}}
+											>
+												<Typography className={'listings'}>More Venues</Typography>
+											</Link>
 										</Stack>
 									</Stack>
 								</Stack>
@@ -379,12 +390,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							<Stack className={'left-config'}>
 								<Stack className={'prop-desc-config'}>
 									<Stack className={'top'}>
-										<Typography className={'title'}>Property Description</Typography>
+										<Typography className={'title'}>Venue Description</Typography>
 										<Typography className={'desc'}>{property?.propertyDesc ?? 'No Description!'}</Typography>
 									</Stack>
 
 									<Stack className={'bottom'}>
-										<Typography className={'title'}>Property Details</Typography>
+										<Typography className={'title'}>Venue Details</Typography>
 										<Stack className={'info-box'}>
 											<Stack className={'left'}>
 												<Box component={'div'} className={'info'}>
@@ -392,29 +403,40 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													<Typography className={'data'}>${formatterStr(property?.propertyRentPrice)}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Property Size</Typography>
+													<Typography className={'title'}>Venue Size</Typography>
 													<Typography className={'data'}>{property?.propertySquare} m2</Typography>
 												</Box>
 											</Stack>
 											<Stack className={'mid'}>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Year Built</Typography>
-													<Typography className={'data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
+													<Typography className="data">
+														{property?.constructedAt ? moment(property.constructedAt).format('YYYY') : 'no date'}
+													</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Property Type</Typography>
-													<Typography className={'data'}>{property?.propertyType}</Typography>
+													<Typography className={'title'}>Venue Type</Typography>
+													<Typography className={'data'}>
+														{property?.propertyType
+															.replace(/_/g, ' ')
+															.toLowerCase()
+															.replace(/\b\w/g, (char) => char.toUpperCase())}
+													</Typography>
 												</Box>
 											</Stack>
 											<Stack className={'right'}>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Property Size</Typography>
+													<Typography className={'title'}>Venue Size</Typography>
 													<Typography className={'data'}>{property?.propertySquare} m2</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Location</Typography>
+													<Typography className={'title'}>Address</Typography>
 													<Typography style={{ fontSize: '10px' }} className={'data'}>
-														{property?.propertyLocation}, {property?.propertyAddress}
+														{property?.propertyLocation
+															.replace(/_/g, ' ')
+															.toLowerCase()
+															.replace(/\b\w/g, (char) => char.toUpperCase())}
+														, {property?.propertyAddress}
 													</Typography>
 												</Box>
 											</Stack>

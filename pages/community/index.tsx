@@ -139,7 +139,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 										<Stack className="left">
 											<Typography className="title">{searchCommunity.search.articleCategory} BOARD</Typography>
 											<Typography className="sub-title">
-												Express your opinions freely here without content restrictions
+												Share your thoughts openly here without any content restrictions.
 											</Typography>
 										</Stack>
 										<Button

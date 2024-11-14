@@ -390,6 +390,7 @@ const PropertyFilter = (props: FilterType) => {
 						</div>
 					</Box>
 				</Stack>
+
 				<Stack flexDirection={'row'}>
 					<Stack className={'find-your-home'} mb={'30px'}>
 						<p className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>

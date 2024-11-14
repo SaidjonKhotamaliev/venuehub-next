@@ -1,12 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Stack, Typography, Checkbox, OutlinedInput, Tooltip, IconButton } from '@mui/material';
+import {
+	Stack,
+	Typography,
+	Checkbox,
+	OutlinedInput,
+	Tooltip,
+	IconButton,
+	Box,
+	MenuItem,
+	Menu,
+	Button,
+} from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { PropertyType } from '../../enums/property.enum';
 import { useRouter } from 'next/router';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { EquipmentsInquiry } from '../../types/equipment/equipment.input';
 import { EquipmentType } from '../../enums/equipment.enum';
+import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
 const MenuProps = {
 	PaperProps: {
@@ -20,10 +31,26 @@ interface FilterType {
 	searchFilter: EquipmentsInquiry;
 	setSearchFilter: any;
 	initialInput: EquipmentsInquiry;
+	sortingClickHandler: any;
+	sortingCloseHandler: any;
+	sortingHandler: any;
+	filterSortName: any;
+	anchorEl: any;
+	sortingOpen: any;
 }
 
 const EquipmentFilter = (props: FilterType) => {
-	const { searchFilter, setSearchFilter, initialInput } = props;
+	const {
+		searchFilter,
+		setSearchFilter,
+		initialInput,
+		sortingCloseHandler,
+		sortingClickHandler,
+		sortingHandler,
+		sortingOpen,
+		anchorEl,
+		filterSortName,
+	} = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 
@@ -208,58 +235,111 @@ const EquipmentFilter = (props: FilterType) => {
 							</IconButton>
 						</Tooltip>
 					</Stack>
+
+					<Box component={'div'} className={'right'}>
+						<span>Sort by</span>
+						<div>
+							<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
+								{filterSortName}
+							</Button>
+							<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
+								<MenuItem
+									onClick={sortingHandler}
+									id={'new'}
+									disableRipple
+									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+								>
+									New
+								</MenuItem>
+								<MenuItem
+									onClick={sortingHandler}
+									id={'lowest'}
+									disableRipple
+									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+								>
+									Lowest Price
+								</MenuItem>
+								<MenuItem
+									onClick={sortingHandler}
+									id={'highest'}
+									disableRipple
+									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+								>
+									Highest Price
+								</MenuItem>
+							</Menu>
+						</div>
+					</Box>
 				</Stack>
 
-				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Equipment Type</Typography>
-					{equipmentType.map((type: string) => (
-						<Stack className={'input-box'} key={type}>
-							<Checkbox
-								id={type}
-								className="property-checkbox"
-								color="default"
-								size="small"
-								value={type}
-								onChange={equipmentTypeSelectHandler}
-								checked={(searchFilter?.search?.typeList || []).includes(type as EquipmentType)}
-							/>
-							<label style={{ cursor: 'pointer' }}>
-								<Typography className="property_type">
-									{type
-										.replace(/_/g, ' ')
-										.toLowerCase()
-										.replace(/\b\w/g, (char) => char.toUpperCase())}
-								</Typography>
-							</label>
+				<Stack flexDirection={'row'}>
+					<Stack className={'find-your-home'} mb={'30px'}>
+						<Typography className={'title'}>Equipment Type</Typography>
+						<Stack
+							className={`property-location`}
+							style={{
+								height: showMore ? '600px' : '122px',
+								width: showMore ? '400px' : '250px', // Added width change based on `showMore`
+								transition: 'all 0.4s ease', // Smooth transition for both height and width
+							}}
+							onMouseEnter={() => setShowMore(true)}
+							onMouseLeave={() => {
+								if (!searchFilter?.search?.typeList) {
+									setShowMore(false);
+								}
+							}}
+						>
+							{equipmentType.map((type: string) => (
+								<Stack className={'input-box'} key={type}>
+									<Checkbox
+										id={type}
+										className="property-checkbox"
+										color="default"
+										size="small"
+										value={type}
+										onChange={equipmentTypeSelectHandler}
+										checked={(searchFilter?.search?.typeList || []).includes(type as EquipmentType)}
+									/>
+									<label style={{ cursor: 'pointer' }}>
+										<Typography className="property_type">
+											{type
+												.replace(/_/g, ' ')
+												.toLowerCase()
+												.replace(/\b\w/g, (char) => char.toUpperCase())}
+										</Typography>
+									</label>
+								</Stack>
+							))}
 						</Stack>
-					))}
-				</Stack>
+					</Stack>
 
-				<Stack className={'find-your-home'}>
-					<Typography className={'title'}>Price Range</Typography>
-					<Stack className="square-year-input">
-						<input
-							type="number"
-							placeholder="$ min"
-							min={0}
-							value={searchFilter?.search?.pricesRangeEquipment?.start ?? 0}
-							onChange={(e: any) => {
-								if (e.target.value >= 0) {
-									equipmentPriceHandler(e.target.value, 'start');
-								}
-							}}
-						/>
-						<div className="central-divider"></div>
-						<input
-							type="number"
-							placeholder="$ max"
-							value={searchFilter?.search?.pricesRangeEquipment?.end ?? 0}
-							onChange={(e: any) => {
-								if (e.target.value >= 0) {
-									equipmentPriceHandler(e.target.value, 'end');
-								}
-							}}
-						/>
+					<Stack width={'100px'}></Stack>
+					<Stack className={'find-your-home'}>
+						<Typography className={'title'}>Price Range</Typography>
+						<Stack className="square-year-input">
+							<input
+								type="number"
+								placeholder="$ min"
+								min={0}
+								value={searchFilter?.search?.pricesRangeEquipment?.start ?? 0}
+								onChange={(e: any) => {
+									if (e.target.value >= 0) {
+										equipmentPriceHandler(e.target.value, 'start');
+									}
+								}}
+							/>
+							<div className="central-divider"></div>
+							<input
+								type="number"
+								placeholder="$ max"
+								value={searchFilter?.search?.pricesRangeEquipment?.end ?? 0}
+								onChange={(e: any) => {
+									if (e.target.value >= 0) {
+										equipmentPriceHandler(e.target.value, 'end');
+									}
+								}}
+							/>
+						</Stack>
 					</Stack>
 				</Stack>
 			</Stack>

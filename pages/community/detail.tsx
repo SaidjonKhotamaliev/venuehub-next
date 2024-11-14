@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { Button, Stack, Typography, Tab, Tabs, IconButton, Backdrop, Pagination } from '@mui/material';
@@ -239,40 +241,26 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 				<div className="container">
 					<Stack className="main-box">
 						<Stack className="left-config">
-							<Stack className={'image-info'}>
-								<img src={'/img/logo/logoText.svg'} />
-								<Stack className={'community-name'}>
-									<Typography className={'name'}>Community Board Article</Typography>
-								</Stack>
-							</Stack>
-							<Tabs
-								orientation="vertical"
-								aria-label="lab API tabs example"
-								TabIndicatorProps={{
-									style: { display: 'none' },
-								}}
-								onChange={tabChangeHandler}
-								value={articleCategory}
-							>
-								<Tab
-									value={'FREE'}
-									label={'Free Board'}
-									className={`tab-button ${articleCategory === 'FREE' ? 'active' : ''}`}
-								/>
+							<Tabs className="tablist" onChange={tabChangeHandler}>
 								<Tab
 									value={'RECOMMEND'}
 									label={'Recommendation'}
 									className={`tab-button ${articleCategory === 'RECOMMEND' ? 'active' : ''}`}
 								/>
 								<Tab
-									value={'NEWS'}
-									label={'News'}
-									className={`tab-button ${articleCategory === 'NEWS' ? 'active' : ''}`}
-								/>
-								<Tab
 									value={'HUMOR'}
 									label={'Humor'}
 									className={`tab-button ${articleCategory === 'HUMOR' ? 'active' : ''}`}
+								/>
+								<Tab
+									value={'FREE'}
+									label={'Free Board'}
+									className={`tab-button ${articleCategory === 'FREE' ? 'active' : ''}`}
+								/>
+								<Tab
+									value={'NEWS'}
+									label={'News'}
+									className={`tab-button ${articleCategory === 'NEWS' ? 'active' : ''}`}
 								/>
 							</Tabs>
 						</Stack>
@@ -295,7 +283,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									}
 									className="right"
 								>
-									Write
+									Create
 								</Button>
 							</Stack>
 							<div className="config">
@@ -305,6 +293,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 											<Typography className="content-data">{boardArticle?.articleTitle}</Typography>
 											<Stack className="member-info">
 												<img
+													style={{ borderRadius: '50%' }}
 													src={memberImage}
 													alt=""
 													className="member-img"
@@ -321,23 +310,22 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										</Stack>
 										<Stack className="info">
 											<Stack className="icon-info">
-												{boardArticle?.meLiked?.[0]?.myFavorite ? (
-													<ThumbUpAltIcon
-														onClick={() => {
-															if (boardArticle) {
-																likeArticleHandler(user, boardArticle._id);
-															}
-														}}
-													/>
-												) : (
-													<ThumbUpOffAltIcon
-														onClick={() => {
-															if (boardArticle) {
-																likeArticleHandler(user, boardArticle._id);
-															}
-														}}
-													/>
-												)}
+												<IconButton
+													color={'default'}
+													onClick={() => {
+														if (boardArticle) {
+															likeArticleHandler(user, boardArticle._id);
+														}
+													}}
+												>
+													{boardArticle?.meLiked?.[0]?.myFavorite ? (
+														<FavoriteIcon color="primary" />
+													) : boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
+														<FavoriteIcon color="primary" />
+													) : (
+														<FavoriteBorderIcon />
+													)}
+												</IconButton>
 
 												<Typography className="text">{boardArticle?.articleLikes}</Typography>
 											</Stack>
@@ -356,30 +344,6 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									</Stack>
 									<Stack>
 										<ToastViewerComponent markdown={boardArticle?.articleContent} className={'ytb_play'} />
-									</Stack>
-									<Stack className="like-and-dislike">
-										<Stack className="top">
-											<Button>
-												{boardArticle?.meLiked?.[0]?.myFavorite ? (
-													<ThumbUpAltIcon
-														onClick={() => {
-															if (boardArticle) {
-																likeArticleHandler(user, boardArticle._id);
-															}
-														}}
-													/>
-												) : (
-													<ThumbUpOffAltIcon
-														onClick={() => {
-															if (boardArticle) {
-																likeArticleHandler(user, boardArticle._id);
-															}
-														}}
-													/>
-												)}
-												<Typography className="text">{boardArticle?.articleLikes}</Typography>
-											</Button>
-										</Stack>
 									</Stack>
 								</Stack>
 								<Stack

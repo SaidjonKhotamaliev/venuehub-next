@@ -102,9 +102,7 @@ const EquipmentCard = (props: PropertyCardType) => {
 					<Box component={'div'} className={'price-box'}>
 						<Typography>${formatterStr(equipment?.equipmentRentPrice)}/day</Typography>
 					</Box>
-					<Box className="square-meter">
-						<Typography>{/* {equipment?.propertySquare} m<span className="superScript">2</span> */}</Typography>
-					</Box>
+					<Box className="square-meter"></Box>
 				</Stack>
 			</Stack>
 		);

@@ -1,9 +1,8 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { BoardArticle } from '../../types/board-article/board-article';
-import Moment from 'react-moment';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
@@ -11,6 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CommentIcon from '@mui/icons-material/Comment';
+import moment from 'moment';
 
 interface CommunityCardProps {
 	boardArticle: BoardArticle;
@@ -38,6 +39,9 @@ const CommunityCard = (props: CommunityCardProps) => {
 			{ shallow: true },
 		);
 	};
+	const pushAgentHandler = async (memberId: string) => {
+		await router.push({ pathname: '/agent/detail', query: { agentId: memberId } });
+	};
 
 	const goMemberPage = (id: string) => {
 		if (id === user?._id) router.push('/mypage');
@@ -49,54 +53,91 @@ const CommunityCard = (props: CommunityCardProps) => {
 	} else {
 		return (
 			<Stack
-				sx={{ width: size === 'small' ? '285px' : '317px' }}
+				sx={{ width: '100%' }}
 				className="community-general-card-config"
 				onClick={(e) => chooseArticleHandler(e, boardArticle)}
 			>
 				<Stack className="image-box">
 					<img src={imagePath} alt="" className="card-img" />
 				</Stack>
-				<Stack className="desc-box" sx={{ marginTop: '-20px' }}>
-					<Stack>
-						<Typography
-							className="desc"
-							onClick={(e) => {
-								e.stopPropagation();
-								goMemberPage(boardArticle?.memberData?._id as string);
-							}}
+				<Stack className="desc-box">
+					<Stack width={'100%'}>
+						<Stack
+							flexDirection={'row'}
+							justifyContent={'space-between'}
+							style={{ width: '100%' }}
+							alignItems={'center'}
+							marginBottom={'40px'}
 						>
-							{boardArticle?.memberData?.memberNick}
-						</Typography>
-						<Typography className="title">{boardArticle?.articleTitle}</Typography>
+							<Typography className="title">{boardArticle?.articleTitle} </Typography>
+							<Stack className={'buttons'}>
+								<CommentIcon
+									style={{ cursor: 'pointer', marginRight: '5px' }}
+									color={'action'}
+									onClick={(e) => {
+										e.stopPropagation();
+										chooseArticleHandler(e, boardArticle);
+									}}
+								></CommentIcon>
+								<Typography className="view-cnt">{boardArticle?.articleComments}</Typography>
+								<IconButton color={'default'}>
+									<RemoveRedEyeIcon />
+								</IconButton>
+								<Typography className="view-cnt">{boardArticle?.articleViews}</Typography>
+								<IconButton
+									color={'default'}
+									onClick={(e: any) => {
+										e.stopPropagation();
+										likeArticleHandler(user, boardArticle._id);
+									}}
+								>
+									{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
+										<FavoriteIcon color={'primary'} />
+									) : (
+										<FavoriteBorderIcon />
+									)}
+								</IconButton>
+								<Typography className="view-cnt">{boardArticle?.articleLikes}</Typography>
+							</Stack>
+						</Stack>
+
+						<Stack flexDirection={'row'} gap={'20px'} style={{ marginBottom: '5px' }}>
+							<Box
+								component={'div'}
+								className={'member-small-img'}
+								style={{
+									backgroundImage: `url(${
+										boardArticle?.memberData?.memberImage
+											? `${REACT_APP_API_URL}/${boardArticle?.memberData?.memberImage}`
+											: '/path/to/default-image.jpg'
+									})`,
+									width: '30px',
+									height: '30px',
+									borderRadius: '50%',
+								}}
+								onClick={() => {
+									if (boardArticle?.memberData?._id) {
+										pushAgentHandler(boardArticle.memberData._id);
+									}
+								}}
+							></Box>
+							<Typography
+								className="desc"
+								onClick={(e) => {
+									e.stopPropagation();
+									goMemberPage(boardArticle?.memberData?._id as string);
+								}}
+							>
+								{boardArticle?.memberData?.memberNick}
+							</Typography>
+						</Stack>
+						<Stack className="date-box">
+							<Typography className="days-ago">
+								Published:{' '}
+								{boardArticle?.createdAt ? `${moment().diff(moment(boardArticle?.createdAt), 'days')} days ago` : ''}
+							</Typography>
+						</Stack>
 					</Stack>
-					<Stack className={'buttons'}>
-						<IconButton color={'default'}>
-							<RemoveRedEyeIcon />
-						</IconButton>
-						<Typography className="view-cnt">{boardArticle?.articleViews}</Typography>
-						<IconButton
-							color={'default'}
-							onClick={(e: any) => {
-								e.stopPropagation();
-								likeArticleHandler(user, boardArticle._id);
-							}}
-						>
-							{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
-								<FavoriteIcon color={'primary'} />
-							) : (
-								<FavoriteBorderIcon />
-							)}
-						</IconButton>
-						<Typography className="view-cnt">{boardArticle?.articleLikes}</Typography>
-					</Stack>
-				</Stack>
-				<Stack className="date-box">
-					<Moment className="month" format={'MMMM'}>
-						{boardArticle?.createdAt}
-					</Moment>
-					<Typography className="day">
-						<Moment format={'DD'}>{boardArticle?.createdAt}</Moment>
-					</Typography>
 				</Stack>
 			</Stack>
 		);

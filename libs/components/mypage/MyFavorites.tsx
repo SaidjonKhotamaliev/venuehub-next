@@ -87,7 +87,7 @@ const MyFavorites: NextPage = () => {
 								count={Math.ceil(total / searchFavorites.limit)}
 								page={searchFavorites.page}
 								shape="circular"
-								color="primary"
+								color="secondary"
 								onChange={paginationHandler}
 							/>
 						</Stack>

@@ -176,7 +176,7 @@ const EquipmentList: NextPage = ({ initialInput, ...props }: any) => {
 											count={Math.ceil(total / searchFilter.limit)}
 											onChange={handlePaginationChange}
 											shape="circular"
-											color="primary"
+											color="secondary"
 										/>
 									</Stack>
 								)}

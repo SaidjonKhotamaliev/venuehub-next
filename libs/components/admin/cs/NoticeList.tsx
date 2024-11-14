@@ -116,7 +116,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 						<Box component={'div'}>
 							<Box component={'div'} className="flex_box">
 								<Checkbox
-									color="primary"
+									color="secondary"
 									indeterminate={numSelected > 0 && numSelected < rowCount}
 									checked={rowCount > 0 && numSelected === rowCount}
 									onChange={onSelectAllClick}
@@ -139,7 +139,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 					<TableRow>
 						<TableCell padding="checkbox">
 							<Checkbox
-								color="primary"
+								color="secondary"
 								indeterminate={numSelected > 0 && numSelected < rowCount}
 								checked={rowCount > 0 && numSelected === rowCount}
 								onChange={onSelectAllClick}
@@ -204,7 +204,7 @@ export const NoticeList = (props: NoticeListType) => {
 							return (
 								<TableRow hover key={'member._id'} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 									<TableCell padding="checkbox">
-										<Checkbox color="primary" />
+										<Checkbox color="secondary" />
 									</TableCell>
 									<TableCell align="left">mb id</TableCell>
 									<TableCell align="left">member.mb_full_name</TableCell>

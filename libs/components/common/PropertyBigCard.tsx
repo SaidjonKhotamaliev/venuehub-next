@@ -5,11 +5,11 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Property } from '../../types/property/property';
 import { REACT_APP_API_URL, topPropertyRank } from '../../config';
-import { formatterStr } from '../../utils';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import CommentIcon from '@mui/icons-material/Comment';
 
 interface PropertyBigCardProps {
 	property: Property;
@@ -64,6 +64,15 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
 						<div className="buttons-box">
+							<CommentIcon
+								style={{ cursor: 'pointer' }}
+								color={'action'}
+								onClick={(e) => {
+									e.stopPropagation();
+									goPropertyDetatilPage(property?._id);
+								}}
+							></CommentIcon>
+							<Typography className="view-cnt">{property?.propertyComments}</Typography>
 							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />
 							</IconButton>

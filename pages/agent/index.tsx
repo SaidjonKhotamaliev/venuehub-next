@@ -240,7 +240,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 										count={Math.ceil(total / searchFilter.limit)}
 										onChange={paginationChangeHandler}
 										shape="circular"
-										color="primary"
+										color="secondary"
 									/>
 								</Stack>
 							)}

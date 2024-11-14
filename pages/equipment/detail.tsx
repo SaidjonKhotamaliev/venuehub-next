@@ -563,7 +563,7 @@ const EquipmentDetail: NextPage = ({ initialComment, ...props }: any) => {
 													count={Math.ceil(commentTotal / commentInquiry.limit)}
 													onChange={commentPaginationChangeHandler}
 													shape="circular"
-													color="primary"
+													color="secondary"
 												/>
 											</Box>
 										</Stack>

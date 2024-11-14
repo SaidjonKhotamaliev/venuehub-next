@@ -530,7 +530,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 											count={Math.ceil(total / searchFilter.limit) || 1}
 											page={searchFilter.page}
 											shape="circular"
-											color="primary"
+											color="secondary"
 											onChange={paginationHandler}
 										/>
 									</Stack>

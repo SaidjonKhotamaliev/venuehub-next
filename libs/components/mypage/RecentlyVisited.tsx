@@ -66,7 +66,7 @@ const RecentlyVisited: NextPage = () => {
 								count={Math.ceil(total / searchVisited.limit)}
 								page={searchVisited.page}
 								shape="circular"
-								color="primary"
+								color="secondary"
 								onChange={paginationHandler}
 							/>
 						</Stack>

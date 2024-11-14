@@ -113,7 +113,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 									<Box className={'info-box'} component={'div'}>
 										{follower?.meLiked && follower?.meLiked[0]?.myFavorite ? (
 											<FavoriteIcon
-												color="primary"
+												color="secondary"
 												onClick={() =>
 													likeMemberHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)
 												}
@@ -168,7 +168,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 								count={Math.ceil(total / followInquiry.limit)}
 								onChange={paginationHandler}
 								shape="circular"
-								color="primary"
+								color="secondary"
 							/>
 						</Stack>
 						<Stack className="total-result">

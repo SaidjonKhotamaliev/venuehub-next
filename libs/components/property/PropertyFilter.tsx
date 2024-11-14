@@ -11,6 +11,8 @@ import {
 	MenuItem,
 	Tooltip,
 	IconButton,
+	Menu,
+	Box,
 } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyLocation, PropertyType } from '../../enums/property.enum';
@@ -19,6 +21,7 @@ import { useRouter } from 'next/router';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { propertySquare } from '../../config';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
 const MenuProps = {
 	PaperProps: {
@@ -32,10 +35,26 @@ interface FilterType {
 	searchFilter: PropertiesInquiry;
 	setSearchFilter: any;
 	initialInput: PropertiesInquiry;
+	sortingClickHandler: any;
+	sortingCloseHandler: any;
+	sortingHandler: any;
+	filterSortName: any;
+	anchorEl: any;
+	sortingOpen: any;
 }
 
 const PropertyFilter = (props: FilterType) => {
-	const { searchFilter, setSearchFilter, initialInput } = props;
+	const {
+		searchFilter,
+		setSearchFilter,
+		initialInput,
+		sortingCloseHandler,
+		sortingClickHandler,
+		sortingHandler,
+		sortingOpen,
+		anchorEl,
+		filterSortName,
+	} = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const [propertyLocation, setPropertyLocation] = useState<PropertyLocation[]>(Object.values(PropertyLocation));
@@ -299,7 +318,7 @@ const PropertyFilter = (props: FilterType) => {
 		return (
 			<Stack className={'filter-main'}>
 				<Stack className={'find-your-home'} mb={'40px'}>
-					<Typography className={'title-main'}>Find Your Home</Typography>
+					<Typography className={'title-main'}>Find the best venue for your event!</Typography>
 					<Stack className={'input-box'}>
 						<OutlinedInput
 							value={searchText}
@@ -336,143 +355,193 @@ const PropertyFilter = (props: FilterType) => {
 							</IconButton>
 						</Tooltip>
 					</Stack>
+					<Box component={'div'} className={'right'}>
+						<span>Sort by</span>
+						<div>
+							<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
+								{filterSortName}
+							</Button>
+							<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
+								<MenuItem
+									onClick={sortingHandler}
+									id={'new'}
+									disableRipple
+									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+								>
+									New
+								</MenuItem>
+								<MenuItem
+									onClick={sortingHandler}
+									id={'lowest'}
+									disableRipple
+									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+								>
+									Lowest Price
+								</MenuItem>
+								<MenuItem
+									onClick={sortingHandler}
+									id={'highest'}
+									disableRipple
+									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
+								>
+									Highest Price
+								</MenuItem>
+							</Menu>
+						</div>
+					</Box>
 				</Stack>
-				<Stack className={'find-your-home'} mb={'30px'}>
-					<p className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>
-						Location
-					</p>
-					<Stack
-						className={`property-location`}
-						style={{ height: showMore ? '253px' : '115px' }}
-						onMouseEnter={() => setShowMore(true)}
-						onMouseLeave={() => {
-							if (!searchFilter?.search?.locationList) {
-								setShowMore(false);
-							}
-						}}
-					>
-						{propertyLocation.map((location: string) => {
-							return (
-								<Stack className={'input-box'} key={location}>
+				<Stack flexDirection={'row'}>
+					<Stack className={'find-your-home'} mb={'30px'}>
+						<p className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>
+							Regions
+						</p>
+						<Stack
+							className={`property-location`}
+							style={{ height: showMore ? '253px' : '115px' }}
+							onMouseEnter={() => setShowMore(true)}
+							onMouseLeave={() => {
+								if (!searchFilter?.search?.locationList) {
+									setShowMore(false);
+								}
+							}}
+						>
+							{propertyLocation.map((location: string) => {
+								return (
+									<Stack className={'input-box'} key={location}>
+										<Checkbox
+											id={location}
+											className="property-checkbox"
+											color="default"
+											size="small"
+											value={location}
+											checked={(searchFilter?.search?.locationList || []).includes(location as PropertyLocation)}
+											onChange={propertyLocationSelectHandler}
+										/>
+										<label htmlFor={location} style={{ cursor: 'pointer' }}>
+											<Typography className="property-type">
+												{location
+													.replace(/_/g, ' ')
+													.toLowerCase()
+													.replace(/\b\w/g, (char) => char.toUpperCase())}
+											</Typography>
+										</label>
+									</Stack>
+								);
+							})}
+						</Stack>
+					</Stack>
+					<Stack className={'find-your-home'} mb={'30px'}>
+						<Typography className={'title'}>Venue Type</Typography>
+						<Stack
+							className={`property-location`}
+							style={{ height: showMore ? '295px' : '122px' }}
+							onMouseEnter={() => setShowMore(true)}
+							onMouseLeave={() => {
+								if (!searchFilter?.search?.locationList) {
+									setShowMore(false);
+								}
+							}}
+						>
+							{propertyType.map((type: string) => (
+								<Stack className={'input-box'} key={type}>
 									<Checkbox
-										id={location}
+										id={type}
 										className="property-checkbox"
 										color="default"
 										size="small"
-										value={location}
-										checked={(searchFilter?.search?.locationList || []).includes(location as PropertyLocation)}
-										onChange={propertyLocationSelectHandler}
+										value={type}
+										onChange={propertyTypeSelectHandler}
+										checked={(searchFilter?.search?.typeList || []).includes(type as PropertyType)}
 									/>
-									<label htmlFor={location} style={{ cursor: 'pointer' }}>
-										<Typography className="property-type">
-											{location
+									<label style={{ cursor: 'pointer' }}>
+										<Typography className="property_type">
+											{type
 												.replace(/_/g, ' ')
 												.toLowerCase()
 												.replace(/\b\w/g, (char) => char.toUpperCase())}
 										</Typography>
 									</label>
 								</Stack>
-							);
-						})}
-					</Stack>
-				</Stack>
-				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Property Type</Typography>
-					{propertyType.map((type: string) => (
-						<Stack className={'input-box'} key={type}>
-							<Checkbox
-								id={type}
-								className="property-checkbox"
-								color="default"
-								size="small"
-								value={type}
-								onChange={propertyTypeSelectHandler}
-								checked={(searchFilter?.search?.typeList || []).includes(type as PropertyType)}
-							/>
-							<label style={{ cursor: 'pointer' }}>
-								<Typography className="property_type">
-									{type
-										.replace(/_/g, ' ')
-										.toLowerCase()
-										.replace(/\b\w/g, (char) => char.toUpperCase())}
-								</Typography>
-							</label>
+							))}
 						</Stack>
-					))}
-				</Stack>
-				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Square meter</Typography>
-					<Stack className="square-year-input">
-						<FormControl>
-							<InputLabel id="demo-simple-select-label">Min</InputLabel>
-							<Select
-								labelId="demo-simple-select-label"
-								id="demo-simple-select"
-								value={searchFilter?.search?.squaresRangeProperty?.start ?? 0}
-								label="Min"
-								onChange={(e: any) => propertySquareHandler(e, 'start')}
-								MenuProps={MenuProps}
-							>
-								{propertySquare.map((square: number) => (
-									<MenuItem
-										value={square}
-										disabled={(searchFilter?.search?.squaresRangeProperty?.end || 0) < square}
-										key={square}
-									>
-										{square}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
-						<div className="central-divider"></div>
-						<FormControl>
-							<InputLabel id="demo-simple-select-label">Max</InputLabel>
-							<Select
-								labelId="demo-simple-select-label"
-								id="demo-simple-select"
-								value={searchFilter?.search?.squaresRangeProperty?.end ?? 500}
-								label="Max"
-								onChange={(e: any) => propertySquareHandler(e, 'end')}
-								MenuProps={MenuProps}
-							>
-								{propertySquare.map((square: number) => (
-									<MenuItem
-										value={square}
-										disabled={(searchFilter?.search?.squaresRangeProperty?.start || 0) > square}
-										key={square}
-									>
-										{square}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
 					</Stack>
-				</Stack>
-				<Stack className={'find-your-home'}>
-					<Typography className={'title'}>Price Range</Typography>
-					<Stack className="square-year-input">
-						<input
-							type="number"
-							placeholder="$ min"
-							min={0}
-							value={searchFilter?.search?.pricesRangeProperty?.start ?? 0}
-							onChange={(e: any) => {
-								if (e.target.value >= 0) {
-									propertyPriceHandler(e.target.value, 'start');
-								}
-							}}
-						/>
-						<div className="central-divider"></div>
-						<input
-							type="number"
-							placeholder="$ max"
-							value={searchFilter?.search?.pricesRangeProperty?.end ?? 0}
-							onChange={(e: any) => {
-								if (e.target.value >= 0) {
-									propertyPriceHandler(e.target.value, 'end');
-								}
-							}}
-						/>
+
+					<Stack flexDirection={'column'}>
+						<Stack className={'find-your-home'} mb={'30px'}>
+							<Typography className={'title'}>Square meter</Typography>
+							<Stack className="square-year-input">
+								<FormControl>
+									<InputLabel id="demo-simple-select-label">Min</InputLabel>
+									<Select
+										labelId="demo-simple-select-label"
+										id="demo-simple-select"
+										value={searchFilter?.search?.squaresRangeProperty?.start ?? 0}
+										label="Min"
+										onChange={(e: any) => propertySquareHandler(e, 'start')}
+										MenuProps={MenuProps}
+									>
+										{propertySquare.map((square: number) => (
+											<MenuItem
+												value={square}
+												disabled={(searchFilter?.search?.squaresRangeProperty?.end || 0) < square}
+												key={square}
+											>
+												{square}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+								<div className="central-divider"></div>
+								<FormControl>
+									<InputLabel id="demo-simple-select-label">Max</InputLabel>
+									<Select
+										labelId="demo-simple-select-label"
+										id="demo-simple-select"
+										value={searchFilter?.search?.squaresRangeProperty?.end ?? 500}
+										label="Max"
+										onChange={(e: any) => propertySquareHandler(e, 'end')}
+										MenuProps={MenuProps}
+									>
+										{propertySquare.map((square: number) => (
+											<MenuItem
+												value={square}
+												disabled={(searchFilter?.search?.squaresRangeProperty?.start || 0) > square}
+												key={square}
+											>
+												{square}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+							</Stack>
+						</Stack>
+						<Stack className={'find-your-home'}>
+							<Typography className={'title'}>Price Range</Typography>
+							<Stack className="square-year-input">
+								<input
+									type="number"
+									placeholder="$ min"
+									min={0}
+									value={searchFilter?.search?.pricesRangeProperty?.start ?? 0}
+									onChange={(e: any) => {
+										if (e.target.value >= 0) {
+											propertyPriceHandler(e.target.value, 'start');
+										}
+									}}
+								/>
+								<div className="central-divider"></div>
+								<input
+									type="number"
+									placeholder="$ max"
+									value={searchFilter?.search?.pricesRangeProperty?.end ?? 0}
+									onChange={(e: any) => {
+										if (e.target.value >= 0) {
+											propertyPriceHandler(e.target.value, 'end');
+										}
+									}}
+								/>
+							</Stack>
+						</Stack>
 					</Stack>
 				</Stack>
 			</Stack>

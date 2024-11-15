@@ -20,6 +20,7 @@ import MemberFollowings from '../../libs/components/member/MemberFollowings';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { Message } from '../../libs/enums/common.enum';
+import AddEquipment from '../../libs/components/mypage/AddNewEquipment';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -120,7 +121,7 @@ const MyPage: NextPage = () => {
 							<Stack className="main-config" mb={'76px'}>
 								<Stack className={'list-config'}>
 									{category === 'addProperty' && <AddProperty />}
-									{category === 'addEquipment' && <AddProperty />}
+									{category === 'addEquipment' && <AddEquipment />}
 									{category === 'myProperties' && <MyProperties />}
 									{category === 'myEquipments' && <MyProperties />}
 									{category === 'myFavorites' && <MyFavorites />}

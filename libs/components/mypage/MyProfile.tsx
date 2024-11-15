@@ -91,8 +91,6 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 					input: updateData,
 				},
 			});
-			console.log('result: ', result);
-
 			// @ts-ignore
 			const jwtToken = result.data.updateMember?.accessToken;
 			await updateStorage({ jwtToken });

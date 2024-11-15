@@ -2,55 +2,53 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { PropertyLocation, PropertyType } from '../../enums/property.enum';
-import { REACT_APP_API_URL, propertySquare } from '../../config';
-import { PropertyInput } from '../../types/property/property.input';
+import { REACT_APP_API_URL } from '../../config';
 import axios from 'axios';
 import { getJwtToken } from '../../auth';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../sweetAlert';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { CREATE_PROPERTY, UPDATE_PROPERTY } from '../../../apollo/user/mutation';
-import { GET_PROPERTY } from '../../../apollo/user/query';
+import { CREATE_EQUIPMENT, UPDATE_EQUIPMENT } from '../../../apollo/user/mutation';
+import { GET_EQUIPMENT } from '../../../apollo/user/query';
+import { EquipmentInput } from '../../types/equipment/equipment.input';
+import { EquipmentCondition, EquipmentType } from '../../enums/equipment.enum';
 
-const AddProperty = ({ initialValues, ...props }: any) => {
+const AddEquipment = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const inputRef = useRef<any>(null);
-	const [insertPropertyData, setInsertPropertyData] = useState<PropertyInput>(initialValues);
-	const [propertyType, setPropertyType] = useState<PropertyType[]>(Object.values(PropertyType));
-	const [propertyLocation, setPropertyLocation] = useState<PropertyLocation[]>(Object.values(PropertyLocation));
+	const [insertEquipmentData, setInsertEquipmentData] = useState<EquipmentInput>(initialValues);
+	const [equipmentType, setEquipmentType] = useState<EquipmentType[]>(Object.values(EquipmentType));
+	const [equipmentCondition, setEquipmentCondition] = useState<EquipmentCondition[]>(Object.values(EquipmentCondition));
 	const token = getJwtToken();
 	const user = useReactiveVar(userVar);
 
 	/** APOLLO REQUESTS **/
-	const [createProperty] = useMutation(CREATE_PROPERTY);
-	const [updateProperty] = useMutation(UPDATE_PROPERTY);
+	const [createEquipment] = useMutation(CREATE_EQUIPMENT);
+	const [updateEquipment] = useMutation(UPDATE_EQUIPMENT);
 
 	const {
-		loading: getPropertyLoading,
-		data: getPropertyData,
-		error: getPropertyError,
-		refetch: getPropertyRefetch,
-	} = useQuery(GET_PROPERTY, {
+		loading: getEquipmentLoading,
+		data: getEquipmentData,
+		error: getEquipmentError,
+		refetch: getEquipmentRefetch,
+	} = useQuery(GET_EQUIPMENT, {
 		fetchPolicy: 'network-only',
-		variables: { input: router.query.propertyId },
+		variables: { input: router.query.equipmentId },
 	});
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		setInsertPropertyData({
-			...insertPropertyData,
-			propertyTitle: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyTitle : '',
-			propertyRentPrice: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyRentPrice : 0,
-			propertyType: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyType : '',
-			propertyLocation: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyLocation : '',
-			propertyAddress: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyAddress : '',
-			propertySquare: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertySquare : 0,
-			propertyDesc: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyDesc : '',
-			propertyImages: getPropertyData?.getProperty ? getPropertyData?.getProperty?.propertyImages : [],
+		setInsertEquipmentData({
+			...insertEquipmentData,
+			equipmentTitle: getEquipmentData?.getEquipment ? getEquipmentData?.getEquipment?.equipmentTitle : '',
+			equipmentRentPrice: getEquipmentData?.getEquipment ? getEquipmentData?.getEquipment?.equipmentRentPrice : 0,
+			equipmentType: getEquipmentData?.getEquipment ? getEquipmentData?.getEquipment?.equipmentType : '',
+			equipmentCondition: getEquipmentData?.getEquipment ? getEquipmentData?.getEquipment?.equipmentCondition : '',
+			equipmentDesc: getEquipmentData?.getEquipment ? getEquipmentData?.getEquipment?.equipmentDesc : '',
+			equipmentImages: getEquipmentData?.getEquipment ? getEquipmentData?.getEquipment?.equipmentImages : [],
 		});
-	}, [getPropertyLoading, getPropertyData]);
+	}, [getEquipmentLoading, getEquipmentData]);
 
 	/** HANDLERS **/
 	async function uploadImages() {
@@ -69,7 +67,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 				  }`,
 					variables: {
 						files: [null, null, null, null, null],
-						target: 'property',
+						target: 'equipment',
 					},
 				}),
 			);
@@ -98,7 +96,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 			const responseImages = response.data.data.imagesUploader;
 
 			console.log('+responseImages: ', responseImages);
-			setInsertPropertyData({ ...insertPropertyData, propertyImages: responseImages });
+			setInsertEquipmentData({ ...insertEquipmentData, equipmentImages: responseImages });
 		} catch (err: any) {
 			console.log('err: ', err.message);
 			await sweetMixinErrorAlert(err.message);
@@ -107,73 +105,71 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 	const doDisabledCheck = () => {
 		if (
-			insertPropertyData.propertyTitle === '' ||
-			insertPropertyData.propertyRentPrice === 0 || // @ts-ignore
-			insertPropertyData.propertyType === '' || // @ts-ignore
-			insertPropertyData.propertyLocation === '' || // @ts-ignore
-			insertPropertyData.propertyAddress === '' || // @ts-ignore
-			insertPropertyData.propertySquare === 0 ||
-			insertPropertyData.propertyDesc === '' ||
-			insertPropertyData.propertyImages.length === 0
+			insertEquipmentData.equipmentTitle === '' ||
+			insertEquipmentData.equipmentRentPrice === 0 || // @ts-ignore
+			insertEquipmentData.equipmentType === '' || // @ts-ignore
+			insertEquipmentData.equipmentCondition === '' || // @ts-ignore
+			insertEquipmentData.equipmentDesc === '' ||
+			insertEquipmentData.equipmentImages.length === 0
 		) {
 			return true;
 		}
 	};
 
-	const insertPropertyHandler = useCallback(async () => {
+	const insertEquipmentHandler = useCallback(async () => {
 		try {
-			const result = await createProperty({
-				variables: { input: insertPropertyData },
+			const result = await createEquipment({
+				variables: { input: insertEquipmentData },
 			});
 
-			await sweetMixinSuccessAlert('This property has been created succesfully!');
+			await sweetMixinSuccessAlert('This equipment has been created succesfully!');
 
 			await router.push({
 				pathname: '/mypage',
 				query: {
-					category: 'myProperties',
+					category: 'myEquipments',
 				},
 			});
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
 		}
-	}, [insertPropertyData]);
+	}, [insertEquipmentData]);
 
-	const updatePropertyHandler = useCallback(async () => {
+	const updateEquipmentHandler = useCallback(async () => {
 		try {
 			// @ts-ignore
-			insertPropertyData._id = getPropertyData?.getProperty?._id;
-			const result = await updateProperty({
-				variables: { input: insertPropertyData },
+			insertEquipmentData._id = getEquipmentData?.getEquipment?._id;
+			const result = await updateEquipment({
+				variables: { input: insertEquipmentData },
 			});
 
-			await sweetMixinSuccessAlert('This property has been updated succesfully!');
+			await sweetMixinSuccessAlert('This equipment has been updated succesfully!');
 
 			await router.push({
 				pathname: '/mypage',
 				query: {
-					category: 'myProperties',
+					category: 'myEquipments',
 				},
 			});
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
 		}
-	}, [insertPropertyData]);
+	}, [insertEquipmentData]);
 
 	if (user?.memberType !== 'AGENT') {
 		router.back();
 	}
 
-	console.log('+insertPropertyData', insertPropertyData);
+	console.log('+insertEquipmentData', insertEquipmentData);
 
 	if (device === 'mobile') {
-		return <div>ADD NEW PROPERTY MOBILE PAGE</div>;
+		return <div>ADD NEW EQUIPMENT MOBILE PAGE</div>;
 	} else {
 		return (
 			<div id="add-property-page">
 				<Stack className="main-title-box">
-					<Typography className="main-title">Add New Property</Typography>
-					<Typography className="sub-title">We are glad to see you again!</Typography>
+					<Typography className="main-title">Add New Equipment</Typography>
+					<Typography className="sub-title">Ready to create your new equipment? We're here to make it easy!</Typography>
 				</Stack>
 
 				<div>
@@ -185,9 +181,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									type="text"
 									className="description-input"
 									placeholder={'Title'}
-									value={insertPropertyData.propertyTitle}
+									value={insertEquipmentData.equipmentTitle}
 									onChange={({ target: { value } }) =>
-										setInsertPropertyData({ ...insertPropertyData, propertyTitle: value })
+										setInsertEquipmentData({ ...insertEquipmentData, equipmentTitle: value })
 									}
 								/>
 							</Stack>
@@ -199,9 +195,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										type="text"
 										className="description-input"
 										placeholder={'Price'}
-										value={insertPropertyData.propertyRentPrice}
+										value={insertEquipmentData.equipmentRentPrice}
 										onChange={({ target: { value } }) =>
-											setInsertPropertyData({ ...insertPropertyData, propertyRentPrice: parseInt(value) })
+											setInsertEquipmentData({ ...insertEquipmentData, equipmentRentPrice: parseInt(value) })
 										}
 									/>
 								</Stack>
@@ -209,18 +205,18 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<Typography className="title">Select Type</Typography>
 									<select
 										className={'select-description'}
-										defaultValue={insertPropertyData.propertyType || 'select'}
-										value={insertPropertyData.propertyType || 'select'}
+										defaultValue={insertEquipmentData.equipmentType || 'select'}
+										value={insertEquipmentData.equipmentType || 'select'}
 										onChange={({ target: { value } }) =>
 											// @ts-ignore
-											setInsertPropertyData({ ...insertPropertyData, propertyType: value })
+											setInsertEquipmentData({ ...insertEquipmentData, equipmentType: value })
 										}
 									>
 										<>
 											<option selected={true} disabled={true} value={'select'}>
 												Select
 											</option>
-											{propertyType.map((type: any) => (
+											{equipmentType.map((type: any) => (
 												<option value={`${type}`} key={type}>
 													{type
 														.split('_')
@@ -237,23 +233,23 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
-									<Typography className="title">Select Location</Typography>
+									<Typography className="title">Select Condition</Typography>
 									<select
 										className={'select-description'}
-										defaultValue={insertPropertyData.propertyLocation || 'select'}
-										value={insertPropertyData.propertyLocation || 'select'}
+										defaultValue={insertEquipmentData.equipmentCondition || 'select'}
+										value={insertEquipmentData.equipmentCondition || 'select'}
 										onChange={({ target: { value } }) =>
 											// @ts-ignore
-											setInsertPropertyData({ ...insertPropertyData, propertyLocation: value })
+											setInsertEquipmentData({ ...insertEquipmentData, equipmentCondition: value })
 										}
 									>
 										<>
 											<option selected={true} disabled={true} value={'select'}>
 												Select
 											</option>
-											{propertyLocation.map((location: any) => (
-												<option value={location} key={location}>
-													{location
+											{equipmentCondition.map((condition: any) => (
+												<option value={condition} key={condition}>
+													{condition
 														.split('_')
 														.map((word: any) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
 														.join(' ')}{' '}
@@ -264,61 +260,26 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<div className={'divider'}></div>
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
-								<Stack className="price-year-after-price">
-									<Typography className="title">Address</Typography>
-									<input
-										type="text"
-										className="description-input"
-										placeholder={'Address'}
-										value={insertPropertyData.propertyAddress}
-										onChange={({ target: { value } }) =>
-											setInsertPropertyData({ ...insertPropertyData, propertyAddress: value })
-										}
-									/>
-								</Stack>
 							</Stack>
 
-							<Stack className="config-row">
-								<Stack className="price-year-after-price">
-									<Typography className="title">Square</Typography>
-									<select
-										className={'select-description'}
-										value={insertPropertyData.propertySquare || 'select'}
-										defaultValue={insertPropertyData.propertySquare || 'select'}
-										onChange={({ target: { value } }) =>
-											setInsertPropertyData({ ...insertPropertyData, propertySquare: parseInt(value) })
-										}
-									>
-										<option disabled={true} selected={true} value={'select'}>
-											Select
-										</option>
-										{propertySquare.map((square: number) => {
-											if (square !== 0) {
-												return <option value={`${square}`}>{square}</option>;
-											}
-										})}
-									</select>
-									<div className={'divider'}></div>
-									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-								</Stack>
-							</Stack>
+							<Stack className="config-row"></Stack>
 
-							<Typography className="property-title">Property Description</Typography>
+							<Typography className="property-title">Equipment Description</Typography>
 							<Stack className="config-column">
 								<Typography className="title">Description</Typography>
 								<textarea
 									name=""
 									id=""
 									className="description-text"
-									value={insertPropertyData.propertyDesc}
+									value={insertEquipmentData.equipmentDesc}
 									onChange={({ target: { value } }) =>
-										setInsertPropertyData({ ...insertPropertyData, propertyDesc: value })
+										setInsertEquipmentData({ ...insertEquipmentData, equipmentDesc: value })
 									}
 								></textarea>
 							</Stack>
 						</Stack>
 
-						<Typography className="upload-title">Upload photos of your property</Typography>
+						<Typography className="upload-title">Upload photos of your equipment</Typography>
 						<Stack className="images-box">
 							<Stack className="upload-box">
 								<svg xmlns="http://www.w3.org/2000/svg" width="121" height="120" viewBox="0 0 121 120" fill="none">
@@ -397,7 +358,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 								</Button>
 							</Stack>
 							<Stack className="gallery-box">
-								{insertPropertyData?.propertyImages.map((image: string) => {
+								{insertEquipmentData?.equipmentImages.map((image: string) => {
 									const imagePath: string = `${REACT_APP_API_URL}/${image}`;
 									return (
 										<Stack className="image-box">
@@ -409,12 +370,12 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 						</Stack>
 
 						<Stack className="buttons-row">
-							{router.query.propertyId ? (
-								<Button className="next-button" disabled={doDisabledCheck()} onClick={updatePropertyHandler}>
+							{router.query.equipmentId ? (
+								<Button className="next-button" disabled={doDisabledCheck()} onClick={updateEquipmentHandler}>
 									<Typography className="next-button-text">Save</Typography>
 								</Button>
 							) : (
-								<Button className="next-button" disabled={doDisabledCheck()} onClick={insertPropertyHandler}>
+								<Button className="next-button" disabled={doDisabledCheck()} onClick={insertEquipmentHandler}>
 									<Typography className="next-button-text">Save</Typography>
 								</Button>
 							)}
@@ -426,21 +387,15 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 	}
 };
 
-AddProperty.defaultProps = {
+AddEquipment.defaultProps = {
 	initialValues: {
-		propertyTitle: '',
-		propertyRentPrice: 0,
-		propertyType: '',
-		propertyLocation: '',
-		propertyAddress: '',
-		propertyBarter: false,
-		propertyRent: false,
-		propertyRooms: 0,
-		propertyBeds: 0,
-		propertySquare: 0,
-		propertyDesc: '',
-		propertyImages: [],
+		equipmentTitle: '',
+		equipmentRentPrice: 0,
+		equipmentType: '',
+		equipmentCondition: '',
+		equipmentDesc: '',
+		equipmentImages: [],
 	},
 };
 
-export default AddProperty;
+export default AddEquipment;

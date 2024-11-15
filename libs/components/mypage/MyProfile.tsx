@@ -4,13 +4,15 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Button, Stack, Typography } from '@mui/material';
 import axios from 'axios';
 import { REACT_APP_API_URL } from '../../config';
-import { getJwtToken, updateStorage, updateUserInfo } from '../../auth';
+import { deleteJwtToken, getJwtToken, updateStorage, updateUserInfo } from '../../auth';
 import { useMutation, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { MemberUpdate } from '../../types/member/member.update';
 import { UPDATE_MEMBER } from '../../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
+import { MemberStatus } from '../../enums/member.enum';
+import router from 'next/router';
 
 const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -29,6 +31,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			memberPhone: user.memberPhone,
 			memberAddress: user.memberAddress,
 			memberImage: user.memberImage,
+			memberDesc: user.memberDesc,
 		});
 	}, [user]);
 
@@ -99,12 +102,39 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 		}
 	}, [updateData]);
 
+	const deletePropertyHandler = useCallback(async () => {
+		try {
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+			const userConfirmed = window.confirm('Are you sure you want to delete your account?');
+
+			if (userConfirmed) {
+				const result = await updateMember({
+					variables: {
+						input: {
+							_id: user._id,
+							memberStatus: MemberStatus.DELETE,
+						},
+					},
+				});
+
+				// Update token only if necessary
+				localStorage.removeItem('accessToken');
+				await sweetMixinSuccessAlert('Your account has been deleted');
+				await router.push({ pathname: '/' });
+				window.location.reload();
+			}
+		} catch (err: any) {
+			sweetErrorHandling(err).then();
+		}
+	}, [updateData]);
+
 	const doDisabledCheck = () => {
 		if (
 			updateData.memberNick === '' ||
 			updateData.memberPhone === '' ||
 			updateData.memberAddress === '' ||
-			updateData.memberImage === ''
+			updateData.memberImage === '' ||
+			updateData.memberDesc === ''
 		) {
 			return true;
 		}
@@ -119,69 +149,89 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			<div id="my-profile-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">My Profile</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+						<Typography className="main-title">My Account</Typography>
+						<Typography className="sub-title">Manage Your Profile and Preferences!</Typography>
 					</Stack>
 				</Stack>
-				<Stack className="top-box">
-					<Stack className="photo-box">
-						<Typography className="title">Photo</Typography>
-						<Stack className="image-big-box">
-							<Stack className="image-box">
-								<img
-									src={
-										updateData?.memberImage
-											? `${REACT_APP_API_URL}/${updateData?.memberImage}`
-											: `/img/profile/defaultUser.svg`
-									}
-									alt=""
-								/>
+				<Stack className="main-box">
+					<Stack className="top-box">
+						<Stack>
+							<Stack className="photo-box">
+								<Stack className="image-big-box">
+									<Stack className="image-box">
+										<img
+											src={
+												updateData?.memberImage
+													? `${REACT_APP_API_URL}/${updateData?.memberImage}`
+													: `/img/profile/defaultUser.svg`
+											}
+											alt=""
+										/>
+									</Stack>
+									<Stack className="upload-big-box">
+										<input
+											type="file"
+											hidden
+											id="hidden-input"
+											onChange={uploadImage}
+											accept="image/jpg, image/jpeg, image/png"
+										/>
+										<label htmlFor="hidden-input" className="labeler">
+											<Typography>Upload Profile Image</Typography>
+										</label>
+										<Typography className="upload-text">A photo must be in JPG, JPEG or PNG format!</Typography>
+									</Stack>
+								</Stack>
 							</Stack>
-							<Stack className="upload-big-box">
+						</Stack>
+
+						<Stack flexDirection={'column'} className={'big-about-box'}>
+							<Stack className="small-input-box" flexDirection={'row'}>
+								<Stack className="input-box">
+									<Typography className="title">Username</Typography>
+									<input
+										type="text"
+										placeholder="Your username"
+										value={updateData.memberNick}
+										onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberNick: value })}
+									/>
+								</Stack>
+								<Stack className="input-box">
+									<Typography className="title">Phone</Typography>
+									<input
+										type="text"
+										placeholder="Your Phone"
+										value={updateData.memberPhone}
+										onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberPhone: value })}
+									/>
+								</Stack>
+							</Stack>
+							<Stack className="address-box">
+								<Typography className="title">Address</Typography>
 								<input
-									type="file"
-									hidden
-									id="hidden-input"
-									onChange={uploadImage}
-									accept="image/jpg, image/jpeg, image/png"
+									type="text"
+									placeholder="Your address"
+									value={updateData.memberAddress}
+									onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberAddress: value })}
 								/>
-								<label htmlFor="hidden-input" className="labeler">
-									<Typography>Upload Profile Image</Typography>
-								</label>
-								<Typography className="upload-text">A photo must be in JPG, JPEG or PNG format!</Typography>
+							</Stack>
+							<Stack className="desc-box">
+								<Typography className="title">Description</Typography>
+								<input
+									type="textarea"
+									placeholder=""
+									value={updateData.memberDesc}
+									onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberDesc: value })}
+								/>
 							</Stack>
 						</Stack>
-					</Stack>
-					<Stack className="small-input-box">
-						<Stack className="input-box">
-							<Typography className="title">Username</Typography>
-							<input
-								type="text"
-								placeholder="Your username"
-								value={updateData.memberNick}
-								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberNick: value })}
-							/>
-						</Stack>
-						<Stack className="input-box">
-							<Typography className="title">Phone</Typography>
-							<input
-								type="text"
-								placeholder="Your Phone"
-								value={updateData.memberPhone}
-								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberPhone: value })}
-							/>
-						</Stack>
-					</Stack>
-					<Stack className="address-box">
-						<Typography className="title">Address</Typography>
-						<input
-							type="text"
-							placeholder="Your address"
-							value={updateData.memberAddress}
-							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberAddress: value })}
-						/>
 					</Stack>
 					<Stack className="about-me-box">
+						<Button className="delete-button" onClick={deletePropertyHandler}>
+							<Typography>Delete Account</Typography>
+							<img src="/img/icons/delete.png" alt="" width={'16px'} height={'16px'} />
+						</Button>
+
 						<Button className="update-button" onClick={updatePropertyHandler} disabled={doDisabledCheck()}>
 							<Typography>Update Profile</Typography>
 							<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">

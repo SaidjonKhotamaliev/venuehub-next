@@ -120,12 +120,14 @@ const MyPage: NextPage = () => {
 							<Stack className="main-config" mb={'76px'}>
 								<Stack className={'list-config'}>
 									{category === 'addProperty' && <AddProperty />}
+									{category === 'addEquipment' && <AddProperty />}
 									{category === 'myProperties' && <MyProperties />}
+									{category === 'myEquipments' && <MyProperties />}
 									{category === 'myFavorites' && <MyFavorites />}
 									{category === 'recentlyVisited' && <RecentlyVisited />}
 									{category === 'myArticles' && <MyArticles />}
 									{category === 'writeArticle' && <WriteArticle />}
-									{category === 'myProfile' && <MyProfile />}
+									{category === 'myAccount' && <MyProfile />}
 									{category === 'followers' && (
 										<MemberFollowers
 											likeMemberHandler={likeMemberHandler}

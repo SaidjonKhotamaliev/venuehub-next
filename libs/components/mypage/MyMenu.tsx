@@ -14,8 +14,8 @@ import { sweetConfirmAlert, sweetMixinErrorAlert } from '../../sweetAlert';
 const MyMenu = () => {
 	const device = useDeviceDetect();
 	const router = useRouter();
-	const pathname = router.query.category ?? 'myProfile';
-	const category: any = router.query?.category ?? 'myProfile';
+	const pathname = router.query.category ?? 'myAccount';
+	const category: any = router.query?.category ?? 'myAccount';
 	const user = useReactiveVar(userVar);
 
 	/** HANDLERS **/
@@ -60,22 +60,22 @@ const MyMenu = () => {
 							MANAGE ACCOUNT
 						</Typography>
 						<List className={'sub-section'}>
-							<ListItem className={pathname === 'myProfile' ? 'focus' : ''}>
+							<ListItem className={pathname === 'myAccount' ? 'focus' : ''}>
 								<Link
 									href={{
 										pathname: '/mypage',
-										query: { category: 'myProfile' },
+										query: { category: 'myAccount' },
 									}}
 									scroll={false}
 								>
 									<div className={'flex-box'}>
-										{category === 'myProfile' ? (
+										{category === 'myAccount' ? (
 											<img className={'com-icon'} src={'/img/icons/userWhite.svg'} alt={'com-icon'} />
 										) : (
 											<img className={'com-icon'} src={'/img/icons/user.svg'} alt={'com-icon'} />
 										)}
 										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-											My Profile
+											My Account
 										</Typography>
 									</div>
 								</Link>
@@ -212,9 +212,7 @@ const MyMenu = () => {
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 													Add Property
 												</Typography>
-												<IconButton aria-label="delete" sx={{ ml: '40px' }}>
-													<PortraitIcon style={{ color: 'red' }} />
-												</IconButton>
+												<IconButton aria-label="delete" sx={{ ml: '40px' }}></IconButton>
 											</div>
 										</Link>
 									</ListItem>
@@ -235,9 +233,7 @@ const MyMenu = () => {
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 													Add Equipment
 												</Typography>
-												<IconButton aria-label="delete" sx={{ ml: '40px' }}>
-													<PortraitIcon style={{ color: 'red' }} />
-												</IconButton>
+												<IconButton aria-label="delete" sx={{ ml: '40px' }}></IconButton>
 											</div>
 										</Link>
 									</ListItem>
@@ -258,9 +254,7 @@ const MyMenu = () => {
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 													My Properties
 												</Typography>
-												<IconButton aria-label="delete" sx={{ ml: '36px' }}>
-													<PortraitIcon style={{ color: 'red' }} />
-												</IconButton>
+												<IconButton aria-label="delete" sx={{ ml: '36px' }}></IconButton>
 											</div>
 										</Link>
 									</ListItem>
@@ -281,9 +275,7 @@ const MyMenu = () => {
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 													My Equipments
 												</Typography>
-												<IconButton aria-label="delete" sx={{ ml: '36px' }}>
-													<PortraitIcon style={{ color: 'red' }} />
-												</IconButton>
+												<IconButton aria-label="delete" sx={{ ml: '36px' }}></IconButton>
 											</div>
 										</Link>
 									</ListItem>

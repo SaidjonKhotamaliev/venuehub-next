@@ -189,7 +189,7 @@ const Top = () => {
 								<div> {t('Articles')} </div>
 							</Link>
 							{user?._id && (
-								<Link href={'/mypage'}>
+								<Link href={'/mypage?category=myAccount'}>
 									<div> {t('My Page')} </div>
 								</Link>
 							)}

@@ -15,6 +15,10 @@ export function setJwtToken(token: string) {
 	localStorage.setItem('accessToken', token);
 }
 
+export function deleteJwtToken() {
+	localStorage.removeItem('accessToken');
+}
+
 export const logIn = async (nick: string, password: string): Promise<void> => {
 	try {
 		const { jwtToken } = await requestJwtToken({ nick, password });

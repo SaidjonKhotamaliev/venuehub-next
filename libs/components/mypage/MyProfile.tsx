@@ -4,7 +4,7 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Button, Stack, Typography } from '@mui/material';
 import axios from 'axios';
 import { REACT_APP_API_URL } from '../../config';
-import { deleteJwtToken, getJwtToken, updateStorage, updateUserInfo } from '../../auth';
+import { getJwtToken, updateStorage, updateUserInfo } from '../../auth';
 import { useMutation, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { MemberUpdate } from '../../types/member/member.update';
@@ -91,11 +91,12 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 					input: updateData,
 				},
 			});
+			console.log('result: ', result);
 
 			// @ts-ignore
-			const jwtToken = result.data.updateMember?.acceessToken;
+			const jwtToken = result.data.updateMember?.accessToken;
 			await updateStorage({ jwtToken });
-			updateUserInfo(result.data.updateMember?.acceessToken);
+			updateUserInfo(result.data.updateMember?.accessToken);
 			await sweetMixinSuccessAlert('Information updatedSuccessfully!');
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
@@ -117,7 +118,6 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 					},
 				});
 
-				// Update token only if necessary
 				localStorage.removeItem('accessToken');
 				await sweetMixinSuccessAlert('Your account has been deleted');
 				await router.push({ pathname: '/' });
@@ -219,7 +219,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 								<Typography className="title">Description</Typography>
 								<input
 									type="textarea"
-									placeholder=""
+									placeholder="20-100 letters needed!"
 									value={updateData.memberDesc}
 									onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberDesc: value })}
 								/>

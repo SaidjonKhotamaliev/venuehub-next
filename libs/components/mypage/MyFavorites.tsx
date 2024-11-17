@@ -3,23 +3,26 @@ import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
 import PropertyCard from '../property/PropertyCard';
+import EquipmentCard from '../equipment/EquipmentCard';
 import { Property } from '../../types/property/property';
 import { T } from '../../types/common';
 import { GET_FAVORITES } from '../../../apollo/user/query';
 import { useMutation, useQuery } from '@apollo/client';
-import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+import { LIKE_TARGET_EQUIPMENT, LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
+import { Equipment } from '../../types/equipment/equipment';
 
 const MyFavorites: NextPage = () => {
 	const device = useDeviceDetect();
-	const [myFavorites, setMyFavorites] = useState<Property[]>([]);
+	const [myFavorites, setMyFavorites] = useState<(Property | Equipment)[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 6 });
 
 	/** APOLLO REQUESTS **/
 
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetEquipment] = useMutation(LIKE_TARGET_EQUIPMENT);
 
 	const {
 		loading: getFavoritesLoading,
@@ -33,8 +36,14 @@ const MyFavorites: NextPage = () => {
 		onCompleted: (data: T) => {
 			setMyFavorites(data?.getFavorites?.list);
 			setTotal(data?.getFavorites?.metaCounter[0]?.total ?? 0);
+			console.log('Query Error:', getFavoritesError);
 		},
 	});
+	const { getFavorites } = getFavoritesData || {};
+	const equipmentList = getFavorites?.equipments?.list as Equipment[] | undefined;
+	const propertyList = getFavorites?.properties?.list as Property[] | undefined;
+	console.log('Fetched Data:', equipmentList);
+	console.log('Fetched Data:', propertyList);
 
 	/** HANDLERS **/
 	const likePropertyHandler = async (user: any, id: string) => {
@@ -48,7 +57,22 @@ const MyFavorites: NextPage = () => {
 
 			await getFavoritesRefetch({ input: searchFavorites });
 		} catch (err: any) {
-			console.log('ERROR, likfePropertyHandler: ', err);
+			console.log('ERROR, likePropertyHandler: ', err);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+	const likeEquipmentHandler = async (user: any, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+
+			await likeTargetEquipment({
+				variables: { input: id },
+			});
+
+			await getFavoritesRefetch({ input: searchFavorites });
+		} catch (err: any) {
+			console.log('ERROR, likeEquipmentHandler: ', err);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -69,17 +93,36 @@ const MyFavorites: NextPage = () => {
 					</Stack>
 				</Stack>
 				<Stack className="favorites-list-box">
-					{myFavorites?.length ? (
-						myFavorites?.map((property: Property) => {
-							return <PropertyCard property={property} myFavorites={true} likePropertyHandler={likePropertyHandler} />;
-						})
-					) : (
+					{equipmentList?.length
+						? equipmentList.map((equipment: Equipment) => (
+								<EquipmentCard
+									key={equipment._id} // assuming _id is unique for Equipment
+									equipment={equipment}
+									myFavorites={true}
+									likeEquipmentHandler={likeEquipmentHandler}
+								/>
+						  ))
+						: null}
+
+					{propertyList?.length
+						? propertyList.map((property: Property) => (
+								<PropertyCard
+									key={property._id} // assuming _id is unique for Property
+									property={property}
+									myFavorites={true}
+									likePropertyHandler={likePropertyHandler}
+								/>
+						  ))
+						: null}
+
+					{!equipmentList?.length && !propertyList?.length && (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
 							<p>No Favorites found!</p>
 						</div>
 					)}
 				</Stack>
+
 				{myFavorites?.length ? (
 					<Stack className="pagination-config">
 						<Stack className="pagination-box">

@@ -42,8 +42,6 @@ const MyFavorites: NextPage = () => {
 	const { getFavorites } = getFavoritesData || {};
 	const equipmentList = getFavorites?.equipments?.list as Equipment[] | undefined;
 	const propertyList = getFavorites?.properties?.list as Property[] | undefined;
-	console.log('Fetched Data:', equipmentList);
-	console.log('Fetched Data:', propertyList);
 
 	/** HANDLERS **/
 	const likePropertyHandler = async (user: any, id: string) => {
@@ -96,7 +94,7 @@ const MyFavorites: NextPage = () => {
 					{equipmentList?.length
 						? equipmentList.map((equipment: Equipment) => (
 								<EquipmentCard
-									key={equipment._id} // assuming _id is unique for Equipment
+									key={equipment._id}
 									equipment={equipment}
 									myFavorites={true}
 									likeEquipmentHandler={likeEquipmentHandler}
@@ -107,7 +105,7 @@ const MyFavorites: NextPage = () => {
 					{propertyList?.length
 						? propertyList.map((property: Property) => (
 								<PropertyCard
-									key={property._id} // assuming _id is unique for Property
+									key={property._id}
 									property={property}
 									myFavorites={true}
 									likePropertyHandler={likePropertyHandler}

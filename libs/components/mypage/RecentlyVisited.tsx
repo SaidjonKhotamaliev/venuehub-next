@@ -7,6 +7,8 @@ import { Property } from '../../types/property/property';
 import { T } from '../../types/common';
 import { useQuery } from '@apollo/client';
 import { GET_VISITED } from '../../../apollo/user/query';
+import { Equipment } from '../../types/equipment/equipment';
+import EquipmentCard from '../equipment/EquipmentCard';
 
 const RecentlyVisited: NextPage = () => {
 	const device = useDeviceDetect();
@@ -31,13 +33,17 @@ const RecentlyVisited: NextPage = () => {
 		},
 	});
 
+	const { getVisited } = getVisitedData || {};
+	const equipmentList = getVisited?.equipments?.list as Equipment[] | undefined;
+	const propertyList = getVisited?.properties?.list as Property[] | undefined;
+
 	/** HANDLERS **/
 	const paginationHandler = (e: T, value: number) => {
 		setSearchVisited({ ...searchVisited, page: value });
 	};
 
 	if (device === 'mobile') {
-		return <div>VENUEHUB MY FAVORITES MOBILE</div>;
+		return <div>VENUEHUB RECENTLY VISITED MOBILE</div>;
 	} else {
 		return (
 			<div id="my-favorites-page">
@@ -48,14 +54,22 @@ const RecentlyVisited: NextPage = () => {
 					</Stack>
 				</Stack>
 				<Stack className="favorites-list-box">
-					{recentlyVisited?.length ? (
-						recentlyVisited?.map((property: Property) => {
-							return <PropertyCard property={property} recentlyVisited={true} />;
-						})
-					) : (
+					{equipmentList?.length
+						? equipmentList.map((equipment: Equipment) => (
+								<EquipmentCard key={equipment._id} equipment={equipment} recentlyVisited={true} />
+						  ))
+						: null}
+
+					{propertyList?.length
+						? propertyList.map((property: Property) => (
+								<PropertyCard key={property._id} property={property} recentlyVisited={true} />
+						  ))
+						: null}
+
+					{!equipmentList?.length && !propertyList?.length && (
 						<div className={'no-data'}>
 							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Recently Visited Properties found!</p>
+							<p>No Favorites found!</p>
 						</div>
 					)}
 				</Stack>

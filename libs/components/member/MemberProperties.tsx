@@ -65,10 +65,12 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 					<Stack className="list-box">
 						{agentProperties?.length > 0 && (
 							<Stack className="listing-title-box">
-								<Typography className="title-text">Listing title</Typography>
-								<Typography className="title-text">Date Published</Typography>
+								<Typography className="title-text">Venues</Typography>
+								<Typography className="title-text">Address</Typography>
+								<Typography className="title-text">Created</Typography>
 								<Typography className="title-text">Status</Typography>
 								<Typography className="title-text">View</Typography>
+								<Typography className="title-text">Like</Typography>
 							</Stack>
 						)}
 						{agentProperties?.length === 0 && (

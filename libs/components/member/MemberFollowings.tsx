@@ -79,6 +79,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 					<Stack className="listing-title-box">
 						<Typography className="title-text">Name</Typography>
 						<Typography className="title-text">Details</Typography>
+						<Typography className="title-text">Likes</Typography>
 						<Typography className="title-text">Subscription</Typography>
 					</Stack>
 					{memberFollowings?.length === 0 && (
@@ -103,13 +104,15 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 								</Stack>
 								<Stack className={'details-box'}>
 									<Box className={'info-box'} component={'div'}>
-										<p>Followers</p>
+										<p>My Followers</p>
 										<span>({follower?.followingData?.memberFollowers})</span>
 									</Box>
 									<Box className={'info-box'} component={'div'}>
-										<p>Followings</p>
+										<p>My Followings</p>
 										<span>({follower?.followingData?.memberFollowings})</span>
 									</Box>
+								</Stack>
+								<Stack className="like-box">
 									<Box className={'info-box'} component={'div'}>
 										{follower?.meLiked && follower?.meLiked[0]?.myFavorite ? (
 											<FavoriteIcon
@@ -132,10 +135,15 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 									<Stack className="action-box">
 										{follower.meFollowed && follower.meFollowed[0]?.myFollowing ? (
 											<>
-												<Typography>Following</Typography>
 												<Button
 													variant="outlined"
-													sx={{ background: '#f78181', ':hover': { background: '#f06363' } }}
+													sx={{
+														background: '#1a8377',
+														'&:hover': {
+															background: '#2cbead',
+															color: '#fff',
+														},
+													}}
 													onClick={() =>
 														unsubscribeHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)
 													}
@@ -168,7 +176,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 								count={Math.ceil(total / followInquiry.limit)}
 								onChange={paginationHandler}
 								shape="circular"
-								color="secondary"
+								color="primary"
 							/>
 						</Stack>
 						<Stack className="total-result">

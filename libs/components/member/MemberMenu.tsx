@@ -37,6 +37,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 			setMember(data?.getMember);
 		},
 	});
+	console.log('+', member);
 
 	if (device === 'mobile') {
 		return <div>MEMBER MENU MOBILE</div>;
@@ -129,14 +130,14 @@ const MemberMenu = (props: MemberMenuProps) => {
 									>
 										<div className={'flex-box'}>
 											{category === 'equipments' ? (
-												<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} />
+												<img className={'com-icon'} src={'/img/icons/room.svg'} alt={'com-icon'} />
 											) : (
-												<img className={'com-icon'} src={'/img/icons/bed.svg'} alt={'com-icon'} />
+												<img className={'com-icon'} src={'/img/icons/room.svg'} alt={'com-icon'} />
 											)}
 											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
 												Equipments
 											</Typography>
-											<Typography className="count-title" variant="subtitle1">
+											<Typography className="count-title" variant="subtitle2">
 												{member?.memberEquipments}
 											</Typography>
 										</div>

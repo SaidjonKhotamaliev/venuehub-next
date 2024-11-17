@@ -66,6 +66,7 @@ query GetMember($input: String!) {
         memberAddress
         memberDesc
         memberProperties
+		memberEquipments
         memberArticles
         memberPoints
         memberLikes

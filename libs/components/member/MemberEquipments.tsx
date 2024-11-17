@@ -8,37 +8,39 @@ import { PropertiesInquiry } from '../../types/property/property.input';
 import { T } from '../../types/common';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
-import { GET_PROPERTIES } from '../../../apollo/user/query';
+import { GET_EQUIPMENTS, GET_PROPERTIES } from '../../../apollo/user/query';
+import { Equipment } from '../../types/equipment/equipment';
+import { EquipmentCard } from '../mypage/EquipmentCard';
 
-const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
+const MyEquipments: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const { memberId } = router.query;
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>({ ...initialInput });
-	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
+	const [agentEquipments, setAgentEquipments] = useState<Equipment[]>([]);
 	const [total, setTotal] = useState<number>(0);
 
 	/** APOLLO REQUESTS **/
 
 	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
-	} = useQuery(GET_PROPERTIES, {
+		loading: getEquipmentsLoading,
+		data: getEquipmentsData,
+		error: getEquipmentsError,
+		refetch: getEquipmentsRefetch,
+	} = useQuery(GET_EQUIPMENTS, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		skip: !searchFilter?.search?.memberId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setAgentProperties(data?.getProperties?.list);
-			setTotal(data?.getProperties?.metaCounter[0]?.total ?? 0);
+			setAgentEquipments(data?.getEquipments?.list);
+			setTotal(data?.getEquipments?.metaCounter[0]?.total ?? 0);
 		},
 	});
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		getPropertiesRefetch().then();
+		getEquipmentsRefetch().then();
 	}, [searchFilter]);
 
 	useEffect(() => {
@@ -52,7 +54,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>VENUEHUB VENUES MOBILE</div>;
+		return <div>VENUEHUB EQUIPMENTS MOBILE</div>;
 	} else {
 		return (
 			<div id="member-properties-page">
@@ -63,27 +65,27 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 				</Stack>
 				<Stack className="properties-list-box">
 					<Stack className="list-box">
-						{agentProperties?.length > 0 && (
+						{agentEquipments?.length > 0 && (
 							<Stack className="listing-title-box">
-								<Typography className="title-text">Venues</Typography>
-								<Typography className="title-text">Address</Typography>
+								<Typography className="title-text">Equipments</Typography>
+								<Typography className="title-text">Condition</Typography>
 								<Typography className="title-text">Created</Typography>
 								<Typography className="title-text">Status</Typography>
 								<Typography className="title-text">View</Typography>
 								<Typography className="title-text">Like</Typography>
 							</Stack>
 						)}
-						{agentProperties?.length === 0 && (
+						{agentEquipments?.length === 0 && (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
 								<p>No Property found!</p>
 							</div>
 						)}
-						{agentProperties?.map((property: Property) => {
-							return <PropertyCard property={property} memberPage={true} key={property?._id} />;
+						{agentEquipments?.map((equipment: Equipment) => {
+							return <EquipmentCard equipment={equipment} memberPage={true} key={equipment?._id} />;
 						})}
 
-						{agentProperties.length !== 0 && (
+						{agentEquipments.length !== 0 && (
 							<Stack className="pagination-config">
 								<Stack className="pagination-box">
 									<Pagination
@@ -95,7 +97,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className="total-result">
-									<Typography>{total} property available</Typography>
+									<Typography>{total} equipment available</Typography>
 								</Stack>
 							</Stack>
 						)}
@@ -106,7 +108,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	}
 };
 
-MyProperties.defaultProps = {
+MyEquipments.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 5,
@@ -117,4 +119,4 @@ MyProperties.defaultProps = {
 	},
 };
 
-export default MyProperties;
+export default MyEquipments;

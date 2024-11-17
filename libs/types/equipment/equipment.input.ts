@@ -33,7 +33,7 @@ interface AEISearch {
 	equipmentStatus?: EquipmentStatus;
 }
 
-export interface AgentPropertiesInquiry {
+export interface AgentEquipmentsInquiry {
 	page: number;
 	limit: number;
 	sort?: string;
@@ -43,7 +43,6 @@ export interface AgentPropertiesInquiry {
 
 interface ALEISearch {
 	equipmentStatus?: EquipmentStatus;
-	propertyLocationList?: PropertyLocation[];
 }
 
 export interface AllPropertiesInquiry {

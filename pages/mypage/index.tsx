@@ -21,6 +21,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { Message } from '../../libs/enums/common.enum';
 import AddEquipment from '../../libs/components/mypage/AddNewEquipment';
+import MyEquipments from '../../libs/components/mypage/MyEquipments';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -123,7 +124,7 @@ const MyPage: NextPage = () => {
 									{category === 'addProperty' && <AddProperty />}
 									{category === 'addEquipment' && <AddEquipment />}
 									{category === 'myProperties' && <MyProperties />}
-									{category === 'myEquipments' && <MyProperties />}
+									{category === 'myEquipments' && <MyEquipments />}
 									{category === 'myFavorites' && <MyFavorites />}
 									{category === 'recentlyVisited' && <RecentlyVisited />}
 									{category === 'myArticles' && <MyArticles />}

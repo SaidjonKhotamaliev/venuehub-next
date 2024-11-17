@@ -113,7 +113,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 						<Stack className="listing-title-box">
 							<Typography className="title-text">Venues</Typography>
 							<Typography className="title-text">Address</Typography>
-							<Typography className="title-text">Date created</Typography>
+							<Typography className="title-text">Created</Typography>
 							<Typography className="title-text">Status</Typography>
 							<Typography className="title-text">View</Typography>
 							<Typography className="title-text">Like</Typography>

@@ -48,7 +48,7 @@
 					border-radius: 12px 12px 0px 0px;
 					border: 1px solid rgba(196, 196, 196, 0.79);
 					.tab-name {
-						width: 110px;
+						width: 150px;
 						height: 32px;
 						display: flex;
 						justify-content: center;
@@ -62,7 +62,7 @@
 						line-height: 26px;
 					}
 					.active-tab-name {
-						width: 110px;
+						width: 150px;
 						height: 32px;
 						display: flex;
 						justify-content: center;
@@ -97,10 +97,11 @@
 					border-radius: 12px;
 					background: #f6f6f6;
 					.title-text {
-						margin-left: 24px;
+						width: 80px;
+						margin-left: 10px;
 						color: #181a20;
 						font-family: $font;
-						font-size: 12px;
+						font-size: 15px;
 						font-style: normal;
 						font-weight: 600;
 						line-height: normal;

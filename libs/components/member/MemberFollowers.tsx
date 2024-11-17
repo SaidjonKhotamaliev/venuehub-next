@@ -79,6 +79,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 					<Stack className="listing-title-box">
 						<Typography className="title-text">Name</Typography>
 						<Typography className="title-text">Details</Typography>
+						<Typography className="title-text">Likes</Typography>
 						<Typography className="title-text">Subscription</Typography>
 					</Stack>
 					{memberFollowers?.length === 0 && (
@@ -110,6 +111,8 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 										<p>Followings</p>
 										<span>({follower?.followerData?.memberFollowings})</span>
 									</Box>
+								</Stack>
+								<Stack className={'like-box'}>
 									<Box className={'info-box'} component={'div'}>
 										{follower?.meLiked && follower?.meLiked[0]?.myFavorite ? (
 											<FavoriteIcon
@@ -135,7 +138,13 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 												<Typography>Following</Typography>
 												<Button
 													variant="outlined"
-													sx={{ background: '#ed5858', ':hover': { background: '#ee7171' } }}
+													sx={{
+														background: '#EEEEEE',
+														'&:hover': {
+															background: '#EEEEEE',
+															color: '#fff',
+														},
+													}}
 													onClick={() =>
 														unsubscribeHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry)
 													}
@@ -146,7 +155,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 										) : (
 											<Button
 												variant="contained"
-												sx={{ background: '#60eb60d4', ':hover': { background: '#60eb60d4' } }}
+												sx={{ background: '#0098FC', ':hover': { background: '#0018FC' } }}
 												onClick={() =>
 													subscribeHandler(follower?.followerData?._id, getMemberFollowersRefetch, followInquiry)
 												}

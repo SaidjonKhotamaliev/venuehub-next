@@ -104,11 +104,11 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 								</Stack>
 								<Stack className={'details-box'}>
 									<Box className={'info-box'} component={'div'}>
-										<p>My Followers</p>
+										<p>Followers</p>
 										<span>({follower?.followingData?.memberFollowers})</span>
 									</Box>
 									<Box className={'info-box'} component={'div'}>
-										<p>My Followings</p>
+										<p>Followings</p>
 										<span>({follower?.followingData?.memberFollowings})</span>
 									</Box>
 								</Stack>
@@ -138,9 +138,9 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 												<Button
 													variant="outlined"
 													sx={{
-														background: '#1a8377',
+														background: '#EEEEEE',
 														'&:hover': {
-															background: '#2cbead',
+															background: '#EEEEEE',
 															color: '#fff',
 														},
 													}}

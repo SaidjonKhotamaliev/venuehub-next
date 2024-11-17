@@ -60,14 +60,23 @@ export const PropertyCard = (props: PropertyCardProps) => {
 				</Stack>
 				<Stack className="information-box" onClick={() => pushPropertyDetail(property?._id)}>
 					<Typography className="name">{property.propertyTitle}</Typography>
-					<Typography className="address">{property.propertyAddress}</Typography>
+					<Typography className="address">
+						{property.propertyType
+							.replace(/_/g, ' ')
+							.toLowerCase()
+							.replace(/\b\w/g, (char) => char.toUpperCase())}{' '}
+					</Typography>
+
 					<Typography className="price">
 						<strong>${formatterStr(property?.propertyRentPrice)}</strong>
 					</Typography>
 				</Stack>
 				<Stack className="date-box">
+					<Typography className="date">{property?.propertyAddress}</Typography>
+				</Stack>
+				<Stack className="date-box">
 					<Typography className="date">
-						<Moment format="DD MMMM, YYYY">{property.createdAt}</Moment>
+						<Moment format="DD.MM.YYYY">{property.createdAt}</Moment>
 					</Typography>
 				</Stack>
 				<Stack className="status-box">
@@ -77,7 +86,8 @@ export const PropertyCard = (props: PropertyCardProps) => {
 						</Typography>
 					</Stack>
 				</Stack>
-				{/* {!memberPage && property.propertyStatus !== 'SOLD' && (
+
+				{!memberPage && (
 					<Menu
 						anchorEl={anchorEl}
 						open={open}
@@ -98,24 +108,36 @@ export const PropertyCard = (props: PropertyCardProps) => {
 							},
 						}}
 					>
-						{property.propertyStatus === 'ACTIVE' && (
-							<>
-								<MenuItem
-									disableRipple
-									onClick={() => {
-										handleClose();
-										updatePropertyHandler(PropertyStatus.SOLD, property?._id);
-									}}
-								>
-									Sold
-								</MenuItem>
-							</>
-						)}
+						{property.propertyStatus === 'ACTIVE' ? (
+							<MenuItem
+								disableRipple
+								onClick={() => {
+									handleClose();
+									updatePropertyHandler('RENT', property?._id);
+								}}
+							>
+								RENT
+							</MenuItem>
+						) : property.propertyStatus === 'RENT' ? (
+							<MenuItem
+								disableRipple
+								onClick={() => {
+									handleClose();
+									updatePropertyHandler('ACTIVE', property?._id);
+								}}
+							>
+								ACTIVE
+							</MenuItem>
+						) : null}
 					</Menu>
-				)} */}
+				)}
 
 				<Stack className="views-box">
 					<Typography className="views">{property.propertyViews.toLocaleString()}</Typography>
+				</Stack>
+
+				<Stack className="views-box">
+					<Typography className="views">{property.propertyLikes.toLocaleString()}</Typography>
 				</Stack>
 				{!memberPage && property.propertyStatus === PropertyStatus.ACTIVE && (
 					<Stack className="action-box">

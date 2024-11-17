@@ -103,18 +103,20 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 							On Sale
 						</Typography>
 						<Typography
-							onClick={() => changeStatusHandler(PropertyStatus.SOLD)}
-							className={searchFilter.search.propertyStatus === 'SOLD' ? 'active-tab-name' : 'tab-name'}
+							onClick={() => changeStatusHandler(PropertyStatus.RENT)}
+							className={searchFilter.search.propertyStatus === 'RENT' ? 'active-tab-name' : 'tab-name'}
 						>
-							On Sold
+							Rented
 						</Typography>
 					</Stack>
 					<Stack className="list-box">
 						<Stack className="listing-title-box">
-							<Typography className="title-text">Listing title</Typography>
-							<Typography className="title-text">Date Published</Typography>
+							<Typography className="title-text">Venues</Typography>
+							<Typography className="title-text">Address</Typography>
+							<Typography className="title-text">Date created</Typography>
 							<Typography className="title-text">Status</Typography>
 							<Typography className="title-text">View</Typography>
+							<Typography className="title-text">Like</Typography>
 							{searchFilter.search.propertyStatus === 'ACTIVE' && (
 								<Typography className="title-text">Action</Typography>
 							)}

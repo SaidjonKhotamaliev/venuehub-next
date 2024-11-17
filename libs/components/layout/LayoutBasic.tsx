@@ -54,12 +54,12 @@ const withLayoutBasic = (Component: any) => {
 					bgImage = '/img/banner/header10.jpg';
 					break;
 				case '/community':
-					title = 'Community';
+					title = 'Articles';
 					desc = 'Engage, Share, and Learn from Your Fellow Members';
 					bgImage = '/img/banner/header8.jpg';
 					break;
 				case '/community/detail':
-					title = 'Community Detail';
+					title = 'Articles';
 					desc = 'What’s New? Share Your Thoughts with Us!';
 					bgImage = '/img/banner/header8.jpg';
 					break;

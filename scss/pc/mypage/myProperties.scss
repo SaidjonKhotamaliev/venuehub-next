@@ -97,9 +97,10 @@
 					border-radius: 12px;
 					background: #f6f6f6;
 					.title-text {
+						margin-left: 24px;
 						color: #181a20;
 						font-family: $font;
-						font-size: 15px;
+						font-size: 12px;
 						font-style: normal;
 						font-weight: 600;
 						line-height: normal;
@@ -115,21 +116,23 @@
 					margin-top: 30px;
 					padding-bottom: 30px;
 					border-bottom: 1px solid #ddd;
+					padding: 20px;
+
 					.image-box {
 						width: 110px;
-						height: 90px;
-						overflow: hidden;
+						height: 110px;
 						margin-right: 25px;
 						padding-top: 1px;
+						border-radius: 70%;
 						img {
 							width: 100%;
-							height: 100%;
-							object-fit: contain;
+							height: 100vh;
+							object-fit: cover;
 							border-radius: 12px;
 						}
 					}
 					.information-box {
-						width: 200px;
+						width: 160px;
 						height: auto;
 						padding: 5px 0px;
 						.name {
@@ -164,7 +167,7 @@
 						height: 100%;
 						align-items: center;
 						justify-content: center;
-						margin-right: 55px;
+						margin-right: 50px;
 						.date {
 							color: #181a20;
 							font-family: $font;
@@ -179,7 +182,7 @@
 						height: 100%;
 						align-items: center;
 						justify-content: center;
-						margin-right: 60px;
+						margin-right: 80px;
 						.coloured-box {
 							width: 93px;
 							height: 36px;
@@ -201,7 +204,7 @@
 						height: 100%;
 						align-items: center;
 						justify-content: center;
-						margin-right: 75px;
+						margin-right: 95px;
 						.views {
 							color: #181a20;
 							font-family: $font;

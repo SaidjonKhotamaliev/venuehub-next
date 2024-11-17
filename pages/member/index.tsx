@@ -119,7 +119,7 @@ const MemberPage: NextPage = () => {
 				<div className="container">
 					<Stack className={'member-page'}>
 						<Stack className={'back-frame'}>
-							<Stack className={'left-config'}>
+							<Stack className={'left-config'} flexDirection={'column'}>
 								<MemberMenu subscribeHandler={subscribeHandler} unsubscribeHandler={unsubscribeHandler} />
 							</Stack>
 							<Stack className="main-config" mb={'76px'}>

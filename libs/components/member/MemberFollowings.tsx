@@ -131,7 +131,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 										<span>({follower?.followingData?.memberLikes})</span>
 									</Box>
 								</Stack>
-								{user?._id !== follower?.followingId && (
+								{
 									<Stack className="action-box">
 										{follower.meFollowed && follower.meFollowed[0]?.myFollowing ? (
 											<>
@@ -154,7 +154,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 										) : (
 											<Button
 												variant="contained"
-												sx={{ background: '#60eb60d4', ':hover': { background: '#60eb60d4' } }}
+												sx={{ background: '#0098FC', ':hover': { background: '#0098FC' } }}
 												onClick={() =>
 													subscribeHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)
 												}
@@ -163,7 +163,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 											</Button>
 										)}
 									</Stack>
-								)}
+								}
 							</Stack>
 						);
 					})}

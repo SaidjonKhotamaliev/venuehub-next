@@ -28,7 +28,7 @@
 						width: 100%;
 						height: auto;
 						flex-direction: row;
-						gap: 98px;
+						gap: 125px;
 						padding: 18px 15px 18px 33px;
 						border-radius: 12px;
 						background: #f6f6f6;
@@ -48,29 +48,28 @@
 						width: 100%;
 						height: auto;
 						flex-direction: row;
-						align-items: center;
 						margin-top: 30px;
 						padding-bottom: 30px;
 						border-bottom: 1px solid #ddd;
+						padding: 20px;
+
 						.image-box {
-							width: 115px;
-							height: 90px;
-							overflow: hidden;
-							margin-right: 25px;
+							width: 110px;
+							height: 110px;
+							margin-right: 15px;
 							padding-top: 1px;
-							cursor: pointer;
+							border-radius: 70%;
 							img {
 								width: 100%;
-								height: 100%;
-								object-fit: contain;
+								height: 100vh;
+								object-fit: cover;
 								border-radius: 12px;
 							}
 						}
 						.information-box {
-							width: 210px;
+							width: 160px;
 							height: auto;
 							padding: 5px 0px;
-							cursor: pointer;
 							.name {
 								margin-bottom: 8px;
 								color: #181a20;
@@ -99,11 +98,11 @@
 							}
 						}
 						.date-box {
-							width: 140px;
+							width: 135px;
 							height: 100%;
 							align-items: center;
 							justify-content: center;
-							margin-right: 77px;
+							margin-right: 50px;
 							.date {
 								color: #181a20;
 								font-family: $font;
@@ -118,13 +117,14 @@
 							height: 100%;
 							align-items: center;
 							justify-content: center;
-							margin-right: 70px;
+							margin-right: 80px;
 							.coloured-box {
 								width: 93px;
 								height: 36px;
 								align-items: center;
 								justify-content: center;
 								border-radius: 60px;
+								cursor: pointer;
 								.status {
 									font-family: $font;
 									font-size: 12px;
@@ -139,7 +139,7 @@
 							height: 100%;
 							align-items: center;
 							justify-content: center;
-							margin-right: 75px;
+							margin-right: 95px;
 							.views {
 								color: #181a20;
 								font-family: $font;
@@ -147,6 +147,24 @@
 								font-style: normal;
 								font-weight: 400;
 								line-height: 26px;
+							}
+						}
+						.action-box {
+							width: auto;
+							height: 100%;
+							flex-direction: row;
+							align-items: center;
+							justify-content: center;
+							.icon-button {
+								width: 40px;
+								height: 40px;
+								border-radius: 4px;
+								:hover {
+									background: #f6f6f6;
+								}
+								.buttons {
+									color: #181a20;
+								}
 							}
 						}
 					}

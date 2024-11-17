@@ -131,7 +131,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 										<span>({follower?.followerData?.memberLikes})</span>
 									</Box>
 								</Stack>
-								{user?._id !== follower?.followerId && (
+								{
 									<Stack className="action-box">
 										{follower.meFollowed && follower.meFollowed[0]?.myFollowing ? (
 											<>
@@ -164,7 +164,7 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 											</Button>
 										)}
 									</Stack>
-								)}
+								}
 							</Stack>
 						);
 					})}

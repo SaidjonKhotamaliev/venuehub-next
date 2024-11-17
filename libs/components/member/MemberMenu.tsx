@@ -42,45 +42,49 @@ const MemberMenu = (props: MemberMenuProps) => {
 		return <div>MEMBER MENU MOBILE</div>;
 	} else {
 		return (
-			<Stack width={'100%'} padding={'30px 24px'}>
-				<Stack className={'profile'}>
-					<Box component={'div'} className={'profile-img'}>
-						<img
-							src={member?.memberImage ? `${REACT_APP_API_URL}/${member?.memberImage}` : '/img/profile/defaultUser.svg'}
-							alt={'member-photo'}
-						/>
-					</Box>
-					<Stack className={'user-info'}>
-						<Typography className={'user-name'}>{member?.memberNick}</Typography>
-						<Box component={'div'} className={'user-phone'}>
-							<img src={'/img/icons/call.svg'} alt={'icon'} />
-							<Typography className={'p-number'}>{member?.memberPhone}</Typography>
+			<Stack width={'100%'} padding={'30px 24px'} flexDirection={'row'} gap={'50px'} alignItems={'flex-start'}>
+				<Stack>
+					<Stack className={'profile'}>
+						<Box component={'div'} className={'profile-img'}>
+							<img
+								src={
+									member?.memberImage ? `${REACT_APP_API_URL}/${member?.memberImage}` : '/img/profile/defaultUser.svg'
+								}
+								alt={'member-photo'}
+							/>
 						</Box>
-						<Typography className={'view-list'}>{member?.memberType}</Typography>
+						<Stack className={'user-info'}>
+							<Typography className={'user-name'}>{member?.memberNick}</Typography>
+							<Box component={'div'} className={'user-phone'}>
+								<img src={'/img/icons/call.svg'} alt={'icon'} />
+								<Typography className={'p-number'}>{member?.memberPhone}</Typography>
+							</Box>
+							<Typography className={'view-list'}>{member?.memberType}</Typography>
+						</Stack>
+					</Stack>
+					<Stack className="follow-button-box">
+						{member?.meFollowed && member?.meFollowed[0]?.myFollowing ? (
+							<>
+								<Button
+									variant="outlined"
+									sx={{ background: '#EEEEEE' }}
+									onClick={() => unsubscribeHandler(member?._id, getMemberRefetch, memberId)}
+								>
+									Unfollow
+								</Button>
+							</>
+						) : (
+							<Button
+								variant="contained"
+								sx={{ background: '#0098FC', ':hover': { background: '#0098FC' } }}
+								onClick={() => subscribeHandler(member?._id, getMemberRefetch, memberId)}
+							>
+								Follow
+							</Button>
+						)}
 					</Stack>
 				</Stack>
-				<Stack className="follow-button-box">
-					{member?.meFollowed && member?.meFollowed[0]?.myFollowing ? (
-						<>
-							<Button
-								variant="outlined"
-								sx={{ background: '#b9b9b9' }}
-								onClick={() => unsubscribeHandler(member?._id, getMemberRefetch, memberId)}
-							>
-								Unfollow
-							</Button>
-							<Typography>Following</Typography>
-						</>
-					) : (
-						<Button
-							variant="contained"
-							sx={{ background: '#ff5d18', ':hover': { background: '#ff5d18' } }}
-							onClick={() => subscribeHandler(member?._id, getMemberRefetch, memberId)}
-						>
-							Follow
-						</Button>
-					)}
-				</Stack>
+
 				<Stack className={'sections'}>
 					<Stack className={'section'}>
 						<Typography className="title" variant={'h5'}>
@@ -108,6 +112,32 @@ const MemberMenu = (props: MemberMenuProps) => {
 											</Typography>
 											<Typography className="count-title" variant="subtitle1">
 												{member?.memberProperties}
+											</Typography>
+										</div>
+									</Link>
+								</ListItem>
+							)}
+							{member?.memberType === 'AGENT' && (
+								<ListItem className={category === 'equipments' ? 'focus' : ''}>
+									<Link
+										href={{
+											pathname: '/member',
+											query: { ...router.query, category: 'equipments' },
+										}}
+										scroll={false}
+										style={{ width: '100%' }}
+									>
+										<div className={'flex-box'}>
+											{category === 'equipments' ? (
+												<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} />
+											) : (
+												<img className={'com-icon'} src={'/img/icons/bed.svg'} alt={'com-icon'} />
+											)}
+											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+												Equipments
+											</Typography>
+											<Typography className="count-title" variant="subtitle1">
+												{member?.memberEquipments}
 											</Typography>
 										</div>
 									</Link>

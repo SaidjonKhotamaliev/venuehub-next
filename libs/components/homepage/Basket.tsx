@@ -14,7 +14,7 @@ import { Notification } from '../../types/notification/notification';
 import { REACT_APP_API_URL } from '../../config';
 
 interface BasketProps {
-	notifications: Notification[];
+	notifications: Notification[] | [];
 }
 
 export default function Basket(props: BasketProps) {

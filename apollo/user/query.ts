@@ -940,3 +940,27 @@ export const GET_MEMBER_FOLLOWINGS = gql`
 		}
 	}
 `;
+
+/**************************
+ *         NOTIFICATION        *
+ *************************/
+
+export const GET_USER_NOTIFICATIONS = gql`
+	query GetUserNotifications($input: NotificationsInquiry!) {
+		getUserNotifications(input: $input) {
+			notificationType
+			notificationStatus
+			notificationGroup
+			notificationTitle
+			notificationDesc
+			authorId
+			receiverId
+			createdAt
+			updatedAt
+			articleId
+			propertyId
+			_id
+			equipmentId
+		}
+	}
+`;

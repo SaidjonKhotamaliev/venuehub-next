@@ -12,12 +12,14 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import { CaretDown } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import { useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
 import Basket from './homepage/Basket';
+import { T } from '../types/common';
+import { GET_USER_NOTIFICATIONS } from '../../apollo/user/query';
+import { Notification } from '../types/notification/notification';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -33,6 +35,22 @@ const Top = () => {
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+	const [notifications, setNotifications] = useState<Notification[]>([]);
+
+	/** APOLLO REQUESTS **/
+	const {
+		loading: getNotificationsLoading,
+		data: getNotificationsData,
+		error: getNotificationsError,
+		refetch: getNotificationsRefetch,
+	} = useQuery(GET_USER_NOTIFICATIONS, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: {} },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setNotifications(data?.getUserNotifications);
+		},
+	});
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -237,7 +255,7 @@ const Top = () => {
 							)}
 
 							<div className={'lan-box'}>
-								{user?._id && <Basket notifications={[]} />}
+								{user?._id && <Basket notifications={notifications} />}
 								<Button
 									disableRipple
 									className="btn-lang"

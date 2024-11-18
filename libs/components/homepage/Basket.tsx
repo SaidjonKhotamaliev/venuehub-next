@@ -1,22 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Divider, Stack } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import Menu from '@mui/material/Menu';
-import CancelIcon from '@mui/icons-material/Cancel';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useRouter } from 'next/router';
-import { useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { Notification } from '../../types/notification/notification';
-import { REACT_APP_API_URL } from '../../config';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import { GET_USER_NOTIFICATIONS } from '../../../apollo/user/query';
+import { T } from '../../types/common';
 
-interface BasketProps {
-	notifications: Notification[] | [];
-}
-
-export default function Basket(props: BasketProps) {
-	const { notifications } = props;
+export default function Basket() {
+	const [notifications, setNotifications] = useState<Notification[]>([]);
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
 
@@ -31,6 +27,22 @@ export default function Basket(props: BasketProps) {
 		setAnchorEl(null);
 	};
 
+	/** APOLLO REQUESTS **/
+	const initialInput = {};
+	const {
+		loading: getNotificationsLoading,
+		data: getNotificationsData,
+		error: getNotificationsError,
+		refetch: getNotificationsRefetch,
+	} = useQuery(GET_USER_NOTIFICATIONS, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: initialInput },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setNotifications(data?.getUserNotifications);
+		},
+	});
+
 	const timeAgo = (timestamp: string) => {
 		const now = new Date();
 		const createdAt = new Date(timestamp);
@@ -40,20 +52,15 @@ export default function Basket(props: BasketProps) {
 		const diffInDays = Math.floor(diffInHours / 24);
 
 		if (diffInSeconds < 60) {
-			// Less than a minute
 			return `${diffInSeconds} second${diffInSeconds > 1 ? 's' : ''} ago`;
 		} else if (diffInMinutes < 60) {
-			// Less than an hour
 			return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago`;
 		} else if (diffInHours < 24) {
-			// Less than a day
 			return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
 		} else if (diffInDays < 30) {
-			// Less than a month
 			return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
 		} else {
-			// For months or more
-			return createdAt.toLocaleDateString(); // Fallback to standard date format
+			return createdAt.toLocaleDateString();
 		}
 	};
 
@@ -71,7 +78,7 @@ export default function Basket(props: BasketProps) {
 					badgeContent={notifications.filter((notification) => notification.notificationStatus === 'WAIT').length || 0}
 					color="secondary"
 				>
-					<img src={'/icons/cart2.png'} width={'24px'} />
+					<NotificationsActiveIcon color="warning" />
 				</Badge>
 			</IconButton>
 			<Menu
@@ -122,12 +129,16 @@ export default function Basket(props: BasketProps) {
 
 					<Box className={'main-wrapper'}>
 						<Stack flexDirection={'row'} gap={'10px'} padding={'10px'}>
-							<Button variant={'contained'} color={'info'}>
+							<Button variant={'contained'} color={'info'} onClick={() => getNotificationsRefetch({ input: {} })}>
 								All
 							</Button>
 							<Divider style={{ width: '2px', height: '30px', backgroundColor: '#000' }} />
 
-							<Button variant={'contained'} color={'info'}>
+							<Button
+								variant={'contained'}
+								color={'info'}
+								onClick={() => getNotificationsRefetch({ input: { notificationStatus: 'WAIT' } })}
+							>
 								Unread
 							</Button>
 						</Stack>

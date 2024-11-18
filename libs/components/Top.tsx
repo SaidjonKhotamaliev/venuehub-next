@@ -37,21 +37,6 @@ const Top = () => {
 	const logoutOpen = Boolean(logoutAnchor);
 	const [notifications, setNotifications] = useState<Notification[]>([]);
 
-	/** APOLLO REQUESTS **/
-	const {
-		loading: getNotificationsLoading,
-		data: getNotificationsData,
-		error: getNotificationsError,
-		refetch: getNotificationsRefetch,
-	} = useQuery(GET_USER_NOTIFICATIONS, {
-		fetchPolicy: 'cache-and-network',
-		variables: { input: {} },
-		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setNotifications(data?.getUserNotifications);
-		},
-	});
-
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (localStorage.getItem('locale') === null) {
@@ -255,7 +240,7 @@ const Top = () => {
 							)}
 
 							<div className={'lan-box'}>
-								{user?._id && <Basket notifications={notifications} />}
+								{user?._id && <Basket />}
 								<Button
 									disableRipple
 									className="btn-lang"

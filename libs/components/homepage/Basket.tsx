@@ -10,6 +10,7 @@ import { Notification } from '../../types/notification/notification';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { GET_USER_NOTIFICATIONS } from '../../../apollo/user/query';
 import { T } from '../../types/common';
+import { NotificationGroup } from '../../enums/notification.enum';
 
 export default function Basket() {
 	const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -61,6 +62,34 @@ export default function Basket() {
 			return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
 		} else {
 			return createdAt.toLocaleDateString();
+		}
+	};
+
+	const pushDetailHandler = async (notification: Notification) => {
+		const { notificationGroup, propertyId, articleId, equipmentId, receiverId, authorId } = notification;
+		console.log(propertyId, '+');
+
+		switch (notificationGroup) {
+			case 'EQUIPMENT':
+				await router.push({ pathname: '/equipment/detail', query: { id: equipmentId } });
+				break;
+			case 'PROPERTY':
+				await router.push({ pathname: '/property/detail', query: { id: propertyId } });
+				break;
+			case 'ARTICLE':
+				await router.push({ pathname: '/community/detail', query: { id: articleId } });
+				break;
+			case 'MEMBER':
+				if (notification.notificationType === 'FOLLOW' || notification.notificationType === 'LIKE') {
+					await router.push({ pathname: '/member', query: { memberId: authorId } });
+				} else {
+					await router.push({ pathname: '/agent/detail', query: { agentId: receiverId } });
+					break;
+				}
+				break;
+
+			default:
+				console.log('Unknown notification type');
 		}
 	};
 
@@ -143,18 +172,21 @@ export default function Basket() {
 							</Button>
 						</Stack>
 
-						{/* Added max-height and overflow for scrolling */}
 						<Box
 							className={'orders-wrapper'}
 							gap={'5px'}
 							sx={{
-								maxHeight: '500px', // You can adjust this value
-								overflowY: 'auto', // Enables vertical scrolling if content overflows
+								maxHeight: '500px',
+								overflowY: 'auto',
 							}}
 						>
 							{notifications.map((notification: Notification) => {
 								return (
 									<Stack
+										onClick={() => {
+											console.log('+++', notification);
+											pushDetailHandler(notification);
+										}}
 										flexDirection={'column'}
 										key={notification._id}
 										width={'100%'}
@@ -182,7 +214,28 @@ export default function Basket() {
 											) : (
 												''
 											)}
-											<span>New {notification.notificationGroup.toLowerCase()}</span>
+											<span>
+												New{' '}
+												{notification.notificationGroup === 'EQUIPMENT' ||
+												notification.notificationGroup === 'PROPERTY' ||
+												notification.notificationGroup === 'ARTICLE'
+													? notification.notificationType === 'CREATE'
+														? notification.notificationGroup
+														: notification.notificationType === 'LIKE'
+														? 'like'
+														: notification.notificationType === 'COMMENT'
+														? 'comment'
+														: ''
+													: notification.notificationGroup === 'MEMBER'
+													? notification.notificationType === 'LIKE'
+														? 'like'
+														: notification.notificationType === 'COMMENT'
+														? 'comment'
+														: notification.notificationType === 'FOLLOW'
+														? 'subscriber'
+														: ''
+													: ''}
+											</span>
 										</Stack>
 
 										<span style={{ width: '100%' }}>{notification.notificationTitle}</span>

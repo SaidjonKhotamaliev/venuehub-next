@@ -1,13 +1,11 @@
 import React from 'react';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Button, Divider, Stack } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import Menu from '@mui/material/Menu';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useRouter } from 'next/router';
-// import { CartItem } from '../../../lib/types/search';
-// import { Messages, serverApi } from '../../../lib/config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { Notification } from '../../types/notification/notification';
@@ -28,28 +26,36 @@ export default function Basket(props: BasketProps) {
 	/** HANDLERS **/
 	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(e.currentTarget);
-		console.log('clicked');
 	};
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
 
-	// const proceedOrderHandler = async () => {
-	// 	try {
-	// 		handleClose();
-	// 		if (!authMember) throw new Error(Messages.error2);
-	// 		const order = new OrderService();
-	// 		await order.createOrder(cartItems);
-	// 		onDeleteAll();
-	// 		// REFRESH VIA CONTEXT
-	// 		sweetTopSmallSuccessAlert('Successfully added to Orders');
-	// 		setOrderBuilder(new Date());
-	// 		await router.push({ pathname: '/equipment/detail' }); // query: { id: equipmentId } });
-	// 	} catch (err) {
-	// 		console.log(err);
-	// 		sweetErrorHandling(err).then();
-	// 	}
-	// };
+	const timeAgo = (timestamp: string) => {
+		const now = new Date();
+		const createdAt = new Date(timestamp);
+		const diffInSeconds = Math.floor((now.getTime() - createdAt.getTime()) / 1000);
+		const diffInMinutes = Math.floor(diffInSeconds / 60);
+		const diffInHours = Math.floor(diffInMinutes / 60);
+		const diffInDays = Math.floor(diffInHours / 24);
+
+		if (diffInSeconds < 60) {
+			// Less than a minute
+			return `${diffInSeconds} second${diffInSeconds > 1 ? 's' : ''} ago`;
+		} else if (diffInMinutes < 60) {
+			// Less than an hour
+			return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago`;
+		} else if (diffInHours < 24) {
+			// Less than a day
+			return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+		} else if (diffInDays < 30) {
+			// Less than a month
+			return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+		} else {
+			// For months or more
+			return createdAt.toLocaleDateString(); // Fallback to standard date format
+		}
+	};
 
 	return (
 		<Box className={'hover-line'}>
@@ -61,7 +67,10 @@ export default function Basket(props: BasketProps) {
 				aria-expanded={open ? 'true' : undefined}
 				onClick={handleClick}
 			>
-				<Badge badgeContent={notifications.length} color="secondary">
+				<Badge
+					badgeContent={notifications.filter((notification) => notification.notificationStatus === 'WAIT').length || 0}
+					color="secondary"
+				>
 					<img src={'/icons/cart2.png'} width={'24px'} />
 				</Badge>
 			</IconButton>
@@ -70,7 +79,6 @@ export default function Basket(props: BasketProps) {
 				id="account-menu"
 				open={open}
 				onClose={handleClose}
-				// onClick={handleClose}
 				PaperProps={{
 					elevation: 0,
 					sx: {
@@ -94,54 +102,85 @@ export default function Basket(props: BasketProps) {
 							bgcolor: 'background.paper',
 							transform: 'translateY(-50%) rotate(45deg)',
 							zIndex: 0,
+							Index: 0,
 						},
 					},
 				}}
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 			>
-				<Stack className={'basket-frame'}>
+				<Stack className={'basket-frame'} sx={{ backgroundColor: '#fff' }}>
 					<Box className={'all-check-box'}>
 						{notifications.length === 0 ? (
-							<div>Cart is empty!</div>
+							<div>No notification!</div>
 						) : (
 							<Stack flexDirection={'row'}>
-								<div>Cart Products: </div>
+								<div>Notifications </div>
 							</Stack>
 						)}
 					</Box>
 
-					<Box className={'orders-main-wrapper'}>
-						<Box className={'orders-wrapper'}>
+					<Box className={'main-wrapper'}>
+						<Stack flexDirection={'row'} gap={'10px'} padding={'10px'}>
+							<Button variant={'contained'} color={'info'}>
+								All
+							</Button>
+							<Divider style={{ width: '2px', height: '30px', backgroundColor: '#000' }} />
+
+							<Button variant={'contained'} color={'info'}>
+								Unread
+							</Button>
+						</Stack>
+
+						{/* Added max-height and overflow for scrolling */}
+						<Box
+							className={'orders-wrapper'}
+							gap={'5px'}
+							sx={{
+								maxHeight: '500px', // You can adjust this value
+								overflowY: 'auto', // Enables vertical scrolling if content overflows
+							}}
+						>
 							{notifications.map((notification: Notification) => {
-								// const imagePath = `${REACT_APP_API_URL}/${notification.notificationGroup}`;
 								return (
-									<Box className={'basket-info-box'} key={notification._id}>
-										<img src={'/img/icons/arrowBig.svg'} className={'product-img'} />
-										<span className={'product-name'}>{notification.notificationTitle}</span>
-										<p className={'product-price'}>{notification.notificationGroup}</p>
-									</Box>
+									<Stack
+										flexDirection={'column'}
+										key={notification._id}
+										width={'100%'}
+										height={'80px'}
+										sx={{
+											marginBottom: '5px',
+											'&:hover': {
+												backgroundColor: '#f6f6f6',
+												cursor: 'pointer',
+											},
+										}}
+										gap={'5px'}
+										padding={'10px'}
+										paddingLeft={'10px'}
+									>
+										<Stack flexDirection={'row'} alignItems={'center'} gap={'10px'}>
+											<img src={'/img/icons/arrowBig.svg'} className={'product-img'} width={'12px'} />
+											{notification.notificationStatus === 'WAIT' ? (
+												<Box
+													width={'8px'}
+													height={'8px'}
+													sx={{ borderRadius: '50%', backgroundColor: '#085ED4' }}
+													flexDirection={'row'}
+												></Box>
+											) : (
+												''
+											)}
+											<span>New {notification.notificationGroup.toLowerCase()}</span>
+										</Stack>
+
+										<span style={{ width: '100%' }}>{notification.notificationTitle}</span>
+										<div>{timeAgo(notification.createdAt)}</div>
+									</Stack>
 								);
 							})}
 						</Box>
 					</Box>
-					{notifications.length !== 0 ? (
-						<Box className={'basket-order'}>
-							<Button variant={'contained'} color={'secondary'}>
-								Mark all as read
-							</Button>
-							<Button
-								// onClick={proceedOrderHandler}
-								startIcon={<ShoppingCartIcon />}
-								variant={'contained'}
-								color={'primary'}
-							>
-								Order
-							</Button>
-						</Box>
-					) : (
-						''
-					)}
 				</Stack>
 			</Menu>
 		</Box>

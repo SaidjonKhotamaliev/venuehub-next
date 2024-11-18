@@ -12,7 +12,7 @@ export interface Notification {
 	propertyId?: string;
 	equipmentId?: string;
 	articleId?: string;
-	createdAt: Date;
+	createdAt: string;
 	updatedAt: Date;
 }
 

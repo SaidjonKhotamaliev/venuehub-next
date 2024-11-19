@@ -11,8 +11,9 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { GET_USER_NOTIFICATIONS } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { NotificationGroup } from '../../enums/notification.enum';
-import { UPDATE_NOTIFICATION } from '../../../apollo/user/mutation';
-import { sweetErrorHandling } from '../../sweetAlert';
+import { REMOVE_NOTIFICATION, UPDATE_ALL_NOTIFICATIONS, UPDATE_NOTIFICATION } from '../../../apollo/user/mutation';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Color } from 'three';
 
 export default function Basket() {
 	const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -32,6 +33,8 @@ export default function Basket() {
 
 	/** APOLLO REQUESTS **/
 	const [updateNotification] = useMutation(UPDATE_NOTIFICATION);
+	const [updateAllNotifications] = useMutation(UPDATE_ALL_NOTIFICATIONS);
+	const [removeNotification] = useMutation(REMOVE_NOTIFICATION);
 
 	const initialInput = {};
 	const {
@@ -67,6 +70,12 @@ export default function Basket() {
 		} else {
 			return createdAt.toLocaleDateString();
 		}
+	};
+
+	const updateAllNotificationsHandler = async () => {
+		const result = await updateAllNotifications();
+
+		if (result?.data) await getNotificationsRefetch();
 	};
 
 	const pushDetailHandler = async (notification: Notification) => {
@@ -165,18 +174,46 @@ export default function Basket() {
 					</Box>
 
 					<Box className={'main-wrapper'}>
-						<Stack flexDirection={'row'} gap={'10px'} padding={'10px'}>
-							<Button variant={'contained'} color={'info'} onClick={() => getNotificationsRefetch({ input: {} })}>
-								All
-							</Button>
-							<Divider style={{ width: '2px', height: '30px', backgroundColor: '#000' }} />
+						<Stack flexDirection={'row'} justifyContent={'space-between'} padding={'10px'}>
+							<Stack flexDirection={'row'} gap={'10px'}>
+								<Button
+									variant={'contained'}
+									color={'info'}
+									onClick={() => getNotificationsRefetch({ input: {} })}
+									sx={{
+										'&:hover': {
+											color: 'white',
+										},
+									}}
+								>
+									All
+								</Button>
+								<Divider style={{ width: '2px', height: '30px', backgroundColor: '#000' }} />
 
+								<Button
+									variant={'contained'}
+									color={'info'}
+									onClick={() => getNotificationsRefetch({ input: { notificationStatus: 'WAIT' } })}
+									sx={{
+										'&:hover': {
+											color: 'white',
+										},
+									}}
+								>
+									Unread
+								</Button>
+							</Stack>
 							<Button
 								variant={'contained'}
 								color={'info'}
-								onClick={() => getNotificationsRefetch({ input: { notificationStatus: 'WAIT' } })}
+								onClick={() => updateAllNotificationsHandler()}
+								sx={{
+									'&:hover': {
+										color: 'white',
+									},
+								}}
 							>
-								Unread
+								Mark all as read
 							</Button>
 						</Stack>
 
@@ -184,7 +221,8 @@ export default function Basket() {
 							className={'orders-wrapper'}
 							gap={'5px'}
 							sx={{
-								maxHeight: '500px',
+								height: '500px',
+								width: '480px',
 								overflowY: 'auto',
 							}}
 						>
@@ -195,7 +233,9 @@ export default function Basket() {
 											console.log('+++', notification);
 											pushDetailHandler(notification);
 										}}
-										flexDirection={'column'}
+										flexDirection={'row'}
+										justifyContent={'space-between'}
+										alignItems={'center'}
 										key={notification._id}
 										width={'100%'}
 										height={'80px'}
@@ -210,44 +250,63 @@ export default function Basket() {
 										padding={'10px'}
 										paddingLeft={'10px'}
 									>
-										<Stack flexDirection={'row'} alignItems={'center'} gap={'10px'}>
-											<img src={'/img/icons/arrowBig.svg'} className={'product-img'} width={'12px'} />
-											{notification.notificationStatus === 'WAIT' ? (
-												<Box
-													width={'8px'}
-													height={'8px'}
-													sx={{ borderRadius: '50%', backgroundColor: '#085ED4' }}
-													flexDirection={'row'}
-												></Box>
-											) : (
-												''
-											)}
-											<span>
-												New{' '}
-												{notification.notificationGroup === 'EQUIPMENT' ||
-												notification.notificationGroup === 'PROPERTY' ||
-												notification.notificationGroup === 'ARTICLE'
-													? notification.notificationType === 'CREATE'
-														? notification.notificationGroup
-														: notification.notificationType === 'LIKE'
-														? 'like'
-														: notification.notificationType === 'COMMENT'
-														? 'comment'
-														: ''
-													: notification.notificationGroup === 'MEMBER'
-													? notification.notificationType === 'LIKE'
-														? 'like'
-														: notification.notificationType === 'COMMENT'
-														? 'comment'
-														: notification.notificationType === 'FOLLOW'
-														? 'subscriber'
-														: ''
-													: ''}
-											</span>
-										</Stack>
+										<Stack flexDirection={'column'}>
+											<Stack flexDirection={'row'} alignItems={'center'} gap={'10px'}>
+												<img src={'/img/icons/arrowBig.svg'} className={'product-img'} width={'12px'} />
+												{notification.notificationStatus === 'WAIT' ? (
+													<Box
+														width={'8px'}
+														height={'8px'}
+														sx={{ borderRadius: '50%', backgroundColor: '#085ED4' }}
+														flexDirection={'row'}
+													></Box>
+												) : (
+													''
+												)}
+												<span>
+													New{' '}
+													{notification.notificationGroup === 'EQUIPMENT' ||
+													notification.notificationGroup === 'PROPERTY' ||
+													notification.notificationGroup === 'ARTICLE'
+														? notification.notificationType === 'CREATE'
+															? notification.notificationGroup
+															: notification.notificationType === 'LIKE'
+															? 'like'
+															: notification.notificationType === 'COMMENT'
+															? 'comment'
+															: ''
+														: notification.notificationGroup === 'MEMBER'
+														? notification.notificationType === 'LIKE'
+															? 'like'
+															: notification.notificationType === 'COMMENT'
+															? 'comment'
+															: notification.notificationType === 'FOLLOW'
+															? 'subscriber'
+															: ''
+														: ''}
+												</span>
+											</Stack>
 
-										<span style={{ width: '100%' }}>{notification.notificationTitle}</span>
-										<div>{timeAgo(notification.createdAt)}</div>
+											<span style={{ width: '100%' }}>{notification.notificationTitle}</span>
+											<div>{timeAgo(notification.createdAt)}</div>
+										</Stack>
+										<Box
+											sx={{
+												display: 'inline-flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+												borderRadius: '50%',
+												cursor: 'pointer',
+												padding: '8px',
+												transition: 'background-color 0.3s',
+												'&:hover': {
+													backgroundColor: 'rgba(200, 200, 200, 0.3)',
+													transform: 'scale(1.2)',
+												},
+											}}
+										>
+											<DeleteIcon color="info" />
+										</Box>
 									</Stack>
 								);
 							})}

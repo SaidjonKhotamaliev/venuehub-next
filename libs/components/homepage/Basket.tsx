@@ -78,6 +78,16 @@ export default function Basket() {
 		if (result?.data) await getNotificationsRefetch();
 	};
 
+	const removeNotificationHandler = async (notification: Notification) => {
+		const result = await removeNotification({
+			variables: {
+				input: notification._id,
+			},
+		});
+
+		if (result?.data) await getNotificationsRefetch();
+	};
+
 	const pushDetailHandler = async (notification: Notification) => {
 		const { notificationGroup, propertyId, articleId, equipmentId, receiverId, authorId } = notification;
 		console.log(propertyId, '+');
@@ -230,7 +240,6 @@ export default function Basket() {
 								return (
 									<Stack
 										onClick={() => {
-											console.log('+++', notification);
 											pushDetailHandler(notification);
 										}}
 										flexDirection={'row'}
@@ -291,6 +300,10 @@ export default function Basket() {
 											<div>{timeAgo(notification.createdAt)}</div>
 										</Stack>
 										<Box
+											onClick={(e) => {
+												e.stopPropagation();
+												removeNotificationHandler(notification);
+											}}
 											sx={{
 												display: 'inline-flex',
 												alignItems: 'center',

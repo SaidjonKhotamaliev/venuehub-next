@@ -650,3 +650,37 @@ export const REMOVE_NOTIFICATION = gql`
 		deleteMemberNotification(input: $input)
 	}
 `;
+
+/**************************
+ *         NOTICE        *
+ *************************/
+
+export const CREATE_NOTICE = gql`
+	mutation CreateNotice($input: NoticeInput!) {
+		createNotice(input: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTopic
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+		}
+	}
+`;
+
+export const UPDATE_NOTICE = gql`
+	mutation UpdateNotice($input: NoticeUpdate!) {
+		updateNotice(input: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTopic
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+		}
+	}
+`;

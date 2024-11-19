@@ -1,11 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { useQuery } from '@apollo/client';
+import { GET_NOTICES } from '../../../apollo/user/query';
+import { Notice } from '../../types/notice/notice';
+import { T } from '../../types/common';
+import { NoticeCategory } from '../../enums/notice.enum';
 
 const Notice = () => {
 	const device = useDeviceDetect();
+	const [notices, setNotices] = useState<Notice[]>([]);
 
 	/** APOLLO REQUESTS **/
+
+	const initialInput = {
+		noticeCategory: NoticeCategory.TERMS,
+	};
+	const {
+		loading: getNoticesLoading,
+		data: getNoticesData,
+		error: getNoticesError,
+		refetch: getNoticesRefetch,
+	} = useQuery(GET_NOTICES, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: initialInput },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setNotices(data?.getNotices);
+		},
+	});
+
 	/** LIFECYCLES **/
 	/** HANDLERS **/
 
@@ -31,16 +55,21 @@ const Notice = () => {
 				<span className={'title'}>Notice</span>
 				<Stack className={'main'}>
 					<Box component={'div'} className={'top'}>
-						<span>number</span>
-						<span>title</span>
-						<span>date</span>
+						<Stack flexDirection={'column'} gap={'10px'}>
+							<h3>What’s in these terms?</h3>
+							<p>
+								This index is designed to help you understand some of the key updates we’ve made to our Terms of Service
+								(Terms). We hope this serves as a useful guide, but please ensure you read the Terms in full.
+							</p>
+						</Stack>
 					</Box>
 					<Stack className={'bottom'}>
-						{data.map((ele: any) => (
-							<div className={`notice-card ${ele?.event && 'event'}`} key={ele.title}>
-								{ele?.event ? <div>event</div> : <span className={'notice-number'}>{ele.no}</span>}
-								<span className={'notice-title'}>{ele.title}</span>
-								<span className={'notice-date'}>{ele.date}</span>
+						{notices.map((notice: Notice) => (
+							<div className={'notice-card'}>
+								<Stack flexDirection={'column'}>
+									<span>{notice?.noticeTitle}</span>
+									<p>{notice?.noticeContent}</p>
+								</Stack>
 							</div>
 						))}
 					</Stack>

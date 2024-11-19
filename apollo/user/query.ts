@@ -964,3 +964,37 @@ export const GET_USER_NOTIFICATIONS = gql`
 		}
 	}
 `;
+
+/**************************
+ *         NOTICE         *
+ *************************/
+
+export const GET_NOTICES = gql`
+	query GetNotices($input: NoticeInquiry!) {
+		getNotices(input: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTopic
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+		}
+	}
+`;
+
+export const GET_NOTICES_FOR_AGENTS_AND_ADMINS = gql`
+	query GetNoticesForAgentAndAdmins($input: NoticeInquiryAgent!) {
+		getNoticesForAgentAndAdmins(input: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTopic
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+		}
+	}
+`;

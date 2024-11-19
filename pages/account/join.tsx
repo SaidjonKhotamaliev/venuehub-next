@@ -61,8 +61,6 @@ const Join: NextPage = () => {
 		}
 	}, [input]);
 
-	console.log('+input: ', input);
-
 	if (device === 'mobile') {
 		return <div>LOGIN MOBILE</div>;
 	} else {
@@ -70,7 +68,7 @@ const Join: NextPage = () => {
 			<Stack className={'join-page'}>
 				<Stack className={'container'}>
 					<Stack className={'main'}>
-						<Stack className={'left'}>
+						<Stack className={'frame'}>
 							{/* @ts-ignore */}
 							<Box className={'logo'}>
 								<img src="/img/logo/logoText.svg" alt="" />
@@ -78,7 +76,7 @@ const Join: NextPage = () => {
 							</Box>
 							<Box className={'info'}>
 								<span>{loginView ? 'login' : 'signup'}</span>
-								<p>{loginView ? 'Login' : 'Sign'} in with this account across the following sites.</p>
+								<p>Access your VenueHub account across all our partner event sites.</p>
 							</Box>
 							<Box className={'input-wrap'}>
 								<div className={'input-box'}>
@@ -206,7 +204,6 @@ const Join: NextPage = () => {
 								)}
 							</Box>
 						</Stack>
-						<Stack className={'right'}></Stack>
 					</Stack>
 				</Stack>
 			</Stack>

@@ -18,6 +18,7 @@ const AdminNotice: NextPage = (props: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
 
 	/** APOLLO REQUESTS **/
+
 	/** LIFECYCLES **/
 	/** HANDLERS **/
 

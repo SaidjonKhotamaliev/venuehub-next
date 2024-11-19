@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Box, Button, Divider, Stack } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import Menu from '@mui/material/Menu';
 import { useRouter } from 'next/router';
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { Notification } from '../../types/notification/notification';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { GET_USER_NOTIFICATIONS } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { NotificationGroup } from '../../enums/notification.enum';
+import { UPDATE_NOTIFICATION } from '../../../apollo/user/mutation';
+import { sweetErrorHandling } from '../../sweetAlert';
 
 export default function Basket() {
 	const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -29,6 +31,8 @@ export default function Basket() {
 	};
 
 	/** APOLLO REQUESTS **/
+	const [updateNotification] = useMutation(UPDATE_NOTIFICATION);
+
 	const initialInput = {};
 	const {
 		loading: getNotificationsLoading,
@@ -68,6 +72,10 @@ export default function Basket() {
 	const pushDetailHandler = async (notification: Notification) => {
 		const { notificationGroup, propertyId, articleId, equipmentId, receiverId, authorId } = notification;
 		console.log(propertyId, '+');
+
+		const result = await updateNotification({
+			variables: { input: { _id: notification._id } },
+		});
 
 		switch (notificationGroup) {
 			case 'EQUIPMENT':

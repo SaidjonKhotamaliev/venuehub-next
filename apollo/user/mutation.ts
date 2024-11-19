@@ -600,3 +600,53 @@ export const UNSUBSCRIBE = gql`
 		}
 	}
 `;
+
+/**************************
+ *         FOLLOW        *
+ *************************/
+
+export const UPDATE_NOTIFICATION = gql`
+	mutation UpdateMemberNotification($input: NotificationUpdate!) {
+		updateMemberNotification(input: $input) {
+			notificationType
+			notificationStatus
+			notificationGroup
+			notificationTitle
+			notificationDesc
+			authorId
+			receiverId
+			propertyId
+			equipmentId
+			articleId
+			createdAt
+			updatedAt
+			_id
+		}
+	}
+`;
+
+export const UPDATE_ALL_NOTIFICATIONS = gql`
+	mutation UpdateMemberAllNotifications {
+		updateMemberAllNotifications {
+			notificationType
+			notificationStatus
+			notificationGroup
+			notificationTitle
+			notificationDesc
+			authorId
+			receiverId
+			propertyId
+			equipmentId
+			articleId
+			createdAt
+			updatedAt
+			_id
+		}
+	}
+`;
+
+export const REMOVE_NOTIFICATION = gql`
+	mutation DeleteMemberNotification($input: String!) {
+		deleteMemberNotification(input: $input)
+	}
+`;

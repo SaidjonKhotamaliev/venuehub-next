@@ -170,6 +170,31 @@
 						}
 					}
 				}
+				.new-notice {
+					position: relative;
+					margin-top: 20px;
+					width: 100px;
+					height: 40px;
+					border-radius: 10px;
+					text-align: center;
+					padding-top: 8px;
+					background-color: #188377;
+
+					color: #fff;
+					text-align: center;
+					font-family: Roboto;
+					font-size: 13.891px;
+					font-style: normal;
+					font-weight: 500;
+					line-height: 20px; /* 143.982% */
+				}
+				.new-notice-frame {
+					border-radius: 20px;
+					background-color: red;
+				}
+				&:hover {
+					cursor: pointer;
+				}
 				.faq-content {
 					margin-top: 25px;
 					display: flex;

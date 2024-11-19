@@ -67,6 +67,7 @@ const Faq = () => {
 
 	const initialInput = {
 		noticeCategory: NoticeCategory.FAQ,
+		NoticeStatus: NoticeStatus.ACTIVE,
 	};
 	const {
 		loading: getNoticesLoading,

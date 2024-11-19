@@ -64,7 +64,7 @@ const withLayoutBasic = (Component: any) => {
 					bgImage = '/img/banner/header8.jpg';
 					break;
 				case '/cs':
-					title = 'CS';
+					title = 'Help';
 					desc = 'Important Notice!';
 					bgImage = '/img/banner/header9.jpg';
 					break;

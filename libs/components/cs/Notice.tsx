@@ -14,14 +14,16 @@ import {
 	MenuItem,
 } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { GET_NOTICES } from '../../../apollo/user/query';
 import { Notice } from '../../types/notice/notice';
 import { T } from '../../types/common';
 import { NoticeCategory, NoticeStatus } from '../../enums/notice.enum';
 import { CREATE_NOTICE } from '../../../apollo/user/mutation';
+import { userVar } from '../../../apollo/store';
 
 const Notice = () => {
+	const user = useReactiveVar(userVar);
 	const device = useDeviceDetect();
 	const [notices, setNotices] = useState<Notice[]>([]);
 	const [openForm, setOpenForm] = useState(false);
@@ -95,9 +97,13 @@ const Notice = () => {
 					</Stack>
 				</Stack>
 
-				<Box className={'new-notice'} onClick={handleNewNoticeClick}>
-					New notice
-				</Box>
+				{user?.memberType === 'AGENT' || user?.memberType === 'ADMIN' ? (
+					<Box className={'new-notice'} onClick={handleNewNoticeClick}>
+						New notice
+					</Box>
+				) : (
+					''
+				)}
 
 				<Dialog open={openForm} onClose={handleCloseForm} className="new-notice-frame">
 					<h2 style={{ paddingTop: '30px', paddingLeft: '30px' }}>Create New Notice</h2>

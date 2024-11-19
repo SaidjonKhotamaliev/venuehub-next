@@ -198,7 +198,7 @@ const Top = () => {
 								</Link>
 							)}
 							<Link href={'/cs'}>
-								<div> {t('FAQ')} </div>
+								<div> {t('Help')} </div>
 							</Link>
 						</Box>
 						<Box component={'div'} className={'user-box'}>

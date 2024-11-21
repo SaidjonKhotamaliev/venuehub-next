@@ -71,8 +71,7 @@ const Join: NextPage = () => {
 						<Stack className={'frame'}>
 							{/* @ts-ignore */}
 							<Box className={'logo'}>
-								<img src="/img/logo/logoText.svg" alt="" />
-								<span>VenueHub</span>
+								<img src="/img/logo/2.svg" alt="" />
 							</Box>
 							<Box className={'info'}>
 								<span>{loginView ? 'login' : 'signup'}</span>

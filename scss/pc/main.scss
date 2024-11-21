@@ -67,6 +67,7 @@ body::-webkit-scrollbar {
 					.logo-box {
 						img {
 							width: 150px;
+							height: 100px;
 							cursor: pointer;
 						}
 					}
@@ -600,8 +601,8 @@ body::-webkit-scrollbar {
 						display: flex;
 						flex-direction: column;
 						.logo {
-							width: 128px;
-							height: 52px;
+							width: 150px;
+							height: 100px;
 							cursor: pointer;
 						}
 						span {

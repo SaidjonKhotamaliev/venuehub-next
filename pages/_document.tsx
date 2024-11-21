@@ -5,7 +5,7 @@ export default function Document() {
 		<Html lang="en">
 			<Head>
 				<meta name="robots" content="index,follow" />
-				<link rel="icon" type="image/png" href="/img/logo/favicon.svg" />
+				<link rel="icon" type="image/png" href="/img/logo/2.svg" />
 
 				{/* SEO */}
 				<meta name="keyword" content={'venuehub, venuehub.uz, devex mern, mern nestjs fullstack'} />

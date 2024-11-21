@@ -90,11 +90,12 @@ export default function Basket() {
 
 	const pushDetailHandler = async (notification: Notification) => {
 		const { notificationGroup, propertyId, articleId, equipmentId, receiverId, authorId } = notification;
-		console.log(propertyId, '+');
 
 		const result = await updateNotification({
 			variables: { input: { _id: notification._id } },
 		});
+
+		await getNotificationsRefetch();
 
 		switch (notificationGroup) {
 			case 'EQUIPMENT':

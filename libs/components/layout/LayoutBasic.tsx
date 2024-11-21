@@ -34,12 +34,12 @@ const withLayoutBasic = (Component: any) => {
 					bgImage = '/img/banner/header5.jpg';
 					break;
 				case '/equipment':
-					title = 'Equipment Search';
+					title = 'Equipments Search';
 					desc = 'Premium Equipment Available for Rent!';
 					bgImage = '/img/banner/header11.jpg';
 					break;
 				case '/agent':
-					title = 'Agents';
+					title = 'Managers';
 					desc = 'Meet Our Experienced Managers';
 					bgImage = '/img/banner/header7.jpg';
 					break;

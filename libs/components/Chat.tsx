@@ -12,6 +12,7 @@ import { socketVar, userVar } from '../../apollo/store';
 import { Member } from '../types/member/member';
 import { Messages, REACT_APP_API_URL } from '../config';
 import { sweetErrorAlert } from '../sweetAlert';
+import CloseIcon from '@mui/icons-material/Close';
 
 const NewMessage = (type: any) => {
 	if (type === 'right') {
@@ -140,8 +141,40 @@ const Chat = () => {
 			) : null}
 			<Stack className={`chat-frame ${open ? 'open' : ''}`}>
 				<Box className={'chat-top'} component={'div'}>
-					<div style={{ fontFamily: 'Nunito' }}>Online Chat</div>
-					<RippleBadge style={{ margin: '-18px 0 0 20px' }} badgeContent={onlineUsers} />
+					<Stack flexDirection={'row'}>
+						<div style={{ fontFamily: 'Nunito' }}>Online Chat</div>
+						<RippleBadge style={{ margin: '10px 0 0 20px' }} badgeContent={onlineUsers} />
+					</Stack>
+
+					<Box
+						onClick={handleOpenChat}
+						sx={{
+							display: 'inline-flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							width: '40px',
+							height: '40px',
+							borderRadius: '50%',
+							backgroundColor: 'transparent',
+							transition: 'all 0.3s ease',
+							cursor: 'pointer',
+							'&:hover': {
+								backgroundColor: 'grey',
+								width: '50px',
+								height: '50px',
+							},
+						}}
+					>
+						<CloseIcon
+							sx={{
+								fontSize: '24px',
+								transition: 'font-size 0.3s ease',
+								'&:hover': {
+									fontSize: '30px',
+								},
+							}}
+						/>
+					</Box>
 				</Box>
 				<Box className={'chat-content'} id="chat-content" ref={chatContentRef} component={'div'}>
 					<ScrollableFeed>
@@ -189,7 +222,7 @@ const Chat = () => {
 						onKeyDown={getKeyHandler}
 					/>
 					<button className={'send-msg-btn'} onClick={onClickHandler}>
-						<SendIcon style={{ color: '#fff' }} />
+						<SendIcon style={{ color: 'blue' }} />
 					</button>
 				</Box>
 			</Stack>

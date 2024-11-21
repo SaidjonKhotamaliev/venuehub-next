@@ -7,8 +7,11 @@ import {
 	Dialog,
 	DialogActions,
 	DialogContent,
+	FormControl,
+	InputLabel,
 	MenuItem,
 	Select,
+	SelectChangeEvent,
 	Stack,
 	TextField,
 	Typography,
@@ -23,8 +26,10 @@ import { GET_NOTICES } from '../../../apollo/user/query';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { T } from '../../types/common';
 import { Notice } from '../../types/notice/notice';
-import { CREATE_NOTICE } from '../../../apollo/user/mutation';
+import { CREATE_NOTICE, UPDATE_NOTICE } from '../../../apollo/user/mutation';
 import { userVar } from '../../../apollo/store';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { sweetConfirmAlert, sweetMixinSuccessAlert } from '../../sweetAlert';
 
 const Accordion = styled((props: AccordionProps) => <MuiAccordion disableGutters elevation={0} square {...props} />)(
 	({ theme }) => ({
@@ -60,14 +65,16 @@ const Faq = () => {
 	const [noticeContent, setNoticeContent] = useState('');
 	const [noticeTopic, setNoticeTopic] = useState('');
 	const [openForm, setOpenForm] = useState(false);
+	const [noticeStatus, setNoticeStatus] = useState('');
 
 	/** APOLLO REQUESTS **/
 
 	const [createNotice] = useMutation(CREATE_NOTICE);
+	const [updateNotice] = useMutation(UPDATE_NOTICE);
 
 	const initialInput = {
 		noticeCategory: NoticeCategory.FAQ,
-		NoticeStatus: NoticeStatus.ACTIVE,
+		noticeStatus: NoticeStatus.ACTIVE,
 	};
 	const {
 		loading: getNoticesLoading,
@@ -86,6 +93,39 @@ const Faq = () => {
 	/** LIFECYCLES **/
 
 	/** HANDLERS **/
+	const updateNoticeHandler = async (input: any, noticeStatus: string) => {
+		console.log('nn', noticeStatus);
+
+		if (noticeStatus === 'DELETE') {
+			let confirmation = await sweetConfirmAlert('Do you really want to delete the notice?');
+			if (confirmation) {
+				await updateNotice({
+					variables: {
+						input: {
+							_id: input._id,
+							noticeStatus: noticeStatus,
+						},
+					},
+				});
+
+				await getNoticesRefetch();
+				await sweetMixinSuccessAlert('Success');
+			}
+		} else {
+			await updateNotice({
+				variables: {
+					input: {
+						_id: input._id,
+						noticeStatus: noticeStatus,
+					},
+				},
+			});
+
+			await getNoticesRefetch();
+			await sweetMixinSuccessAlert('Notice updated successfully');
+		}
+	};
+
 	const createNoticeHandler = async (input: any) => {
 		await createNotice({ variables: { input: input } });
 
@@ -109,6 +149,10 @@ const Faq = () => {
 		setExpanded(newExpanded ? panel : false);
 	};
 
+	const handleChangeEvent = async (event: SelectChangeEvent) => {
+		const updatedStatus = event.target.value;
+		setNoticeStatus(updatedStatus);
+	};
 	const data: any = {
 		property: notices.filter((notice: Notice) => notice.noticeTopic === 'PROPERTY'),
 		equipment: notices.filter((notice: Notice) => notice.noticeTopic === 'EQUIPMENT'),
@@ -126,98 +170,266 @@ const Faq = () => {
 	} else {
 		return (
 			<>
-				<Stack className={'faq-content'}>
-					<Box className={'categories'} component={'div'}>
-						<div
-							className={category === 'property' ? 'active' : ''}
-							onClick={() => {
-								changeCategoryHandler('property');
-							}}
-						>
-							Property
-						</div>
-						<div
-							className={category === 'equipment' ? 'active' : ''}
-							onClick={() => {
-								changeCategoryHandler('equipment');
-							}}
-						>
-							Equipment
-						</div>
-						<div
-							className={category === 'payment' ? 'active' : ''}
-							onClick={() => {
-								changeCategoryHandler('payment');
-							}}
-						>
-							Payment
-						</div>
-						<div
-							className={category === 'buyers' ? 'active' : ''}
-							onClick={() => {
-								changeCategoryHandler('buyers');
-							}}
-						>
-							Foy Buyers
-						</div>
-						<div
-							className={category === 'agents' ? 'active' : ''}
-							onClick={() => {
-								changeCategoryHandler('agents');
-							}}
-						>
-							For Agents
-						</div>
-						<div
-							className={category === 'membership' ? 'active' : ''}
-							onClick={() => {
-								changeCategoryHandler('membership');
-							}}
-						>
-							Membership
-						</div>
-						<div
-							className={category === 'community' ? 'active' : ''}
-							onClick={() => {
-								changeCategoryHandler('community');
-							}}
-						>
-							Community
-						</div>
-						<div
-							className={category === 'other' ? 'active' : ''}
-							onClick={() => {
-								changeCategoryHandler('other');
-							}}
-						>
-							Other
-						</div>
-					</Box>
-					<Box className={'wrap'} component={'div'}>
-						{data?.[category].map((notice: Notice) => (
-							<Accordion
-								expanded={expanded === notice?._id}
-								onChange={handleChange(notice?._id)}
-								key={notice?.noticeTitle}
+				{user?.memberType === 'AGENT' || user?.memberType === 'ADMIN' ? (
+					<Stack className={'faq-content'}>
+						<Box className={'categories'} component={'div'}>
+							<div
+								className={category === 'property' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('property');
+								}}
 							>
-								<AccordionSummary id="panel1d-header" className="question" aria-controls="panel1d-content">
-									<Typography className="badge" variant={'h4'}>
-										Q
-									</Typography>
-									<Typography> {notice?.noticeTitle}</Typography>
-								</AccordionSummary>
-								<AccordionDetails>
-									<Stack className={'answer flex-box'}>
-										<Typography className="badge" variant={'h4'} color={'primary'}>
-											A
+								Property
+							</div>
+							<div
+								className={category === 'equipment' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('equipment');
+								}}
+							>
+								Equipment
+							</div>
+							<div
+								className={category === 'payment' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('payment');
+								}}
+							>
+								Payment
+							</div>
+							<div
+								className={category === 'buyers' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('buyers');
+								}}
+							>
+								Foy Buyers
+							</div>
+							<div
+								className={category === 'agents' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('agents');
+								}}
+							>
+								For Managers
+							</div>
+							<div
+								className={category === 'membership' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('membership');
+								}}
+							>
+								Membership
+							</div>
+							<div
+								className={category === 'community' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('community');
+								}}
+							>
+								Articles
+							</div>
+							<div
+								className={category === 'other' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('other');
+								}}
+							>
+								Other
+							</div>
+						</Box>
+						<Box className={'wrap'} component={'div'}>
+							{data?.[category].map((notice: Notice) => (
+								<Accordion
+									expanded={expanded === notice?._id}
+									onChange={handleChange(notice?._id)}
+									key={notice?.noticeTitle}
+								>
+									<AccordionSummary id="panel1d-header" aria-controls="panel1d-content">
+										<Stack
+											width={'100%'}
+											flexDirection={'row'}
+											justifyContent={'space-between'}
+											alignItems={'center'}
+											className="question"
+										>
+											<Stack flexDirection={'row'} alignItems={'center'}>
+												<Typography className="badge" variant={'h4'}>
+													Q
+												</Typography>
+												<Typography> {notice?.noticeTitle}</Typography>
+											</Stack>
+
+											<Stack flexDirection={'row'} gap={'10px'}>
+												{user?.memberType === 'AGENT' || user?.memberType === 'ADMIN' ? (
+													<Stack flexDirection={'row'} gap={'10px'} width={'200px'} alignItems={'center'}>
+														<FormControl sx={{ m: 1, maxWidth: 120 }} size="small">
+															<InputLabel id="demo-select-small-label">Status</InputLabel>
+															<Select
+																labelId="demo-select-small-label"
+																id="demo-select-small"
+																value={notice?.noticeStatus}
+																label="age"
+																onChange={(e) => {
+																	handleChangeEvent(e);
+																}}
+															>
+																<MenuItem
+																	value={'ACTIVE'}
+																	onClick={() => {
+																		updateNoticeHandler(notice, 'ACTIVE');
+																	}}
+																>
+																	Active
+																</MenuItem>
+																<MenuItem
+																	value={'HOLD'}
+																	onClick={() => {
+																		updateNoticeHandler(notice, 'HOLD');
+																	}}
+																>
+																	Hold
+																</MenuItem>
+															</Select>
+														</FormControl>
+														<Box
+															onClick={() => {
+																updateNoticeHandler(notice, 'DELETE');
+															}}
+															sx={{
+																display: 'inline-flex',
+																alignItems: 'center',
+																justifyContent: 'center',
+																borderRadius: '50%',
+																transition: 'background-color 0.3s, transform 0.2s',
+																'&:hover': {
+																	backgroundColor: 'rgba(0, 0, 0, 0.1)',
+																	transform: 'scale(1.1)',
+																},
+																padding: '8px',
+															}}
+														>
+															<DeleteIcon
+																color="action"
+																sx={{
+																	fontSize: '1.5rem',
+																}}
+															/>
+														</Box>
+													</Stack>
+												) : (
+													''
+												)}
+											</Stack>
+										</Stack>
+									</AccordionSummary>
+									<AccordionDetails>
+										<Stack className={'answer flex-box'}>
+											<Typography className="badge" variant={'h4'} color={'primary'}>
+												A
+											</Typography>
+											<Typography> {notice?.noticeContent}</Typography>
+										</Stack>
+									</AccordionDetails>
+								</Accordion>
+							))}
+						</Box>
+					</Stack>
+				) : (
+					<Stack className={'faq-content'}>
+						<Box className={'categories'} component={'div'}>
+							<div
+								className={category === 'property' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('property');
+								}}
+							>
+								Property
+							</div>
+							<div
+								className={category === 'equipment' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('equipment');
+								}}
+							>
+								Equipment
+							</div>
+							<div
+								className={category === 'payment' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('payment');
+								}}
+							>
+								Payment
+							</div>
+							<div
+								className={category === 'buyers' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('buyers');
+								}}
+							>
+								Foy Buyers
+							</div>
+							<div
+								className={category === 'agents' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('agents');
+								}}
+							>
+								For Managers
+							</div>
+							<div
+								className={category === 'membership' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('membership');
+								}}
+							>
+								Membership
+							</div>
+							<div
+								className={category === 'community' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('community');
+								}}
+							>
+								Articles
+							</div>
+							<div
+								className={category === 'other' ? 'active' : ''}
+								onClick={() => {
+									changeCategoryHandler('other');
+								}}
+							>
+								Other
+							</div>
+						</Box>
+						<Box className={'wrap'} component={'div'}>
+							{data?.[category].map((notice: Notice) => (
+								<Accordion
+									expanded={expanded === notice?._id}
+									onChange={handleChange(notice?._id)}
+									key={notice?.noticeTitle}
+								>
+									<AccordionSummary id="panel1d-header" className="question" aria-controls="panel1d-content">
+										<Typography className="badge" variant={'h4'}>
+											Q
 										</Typography>
-										<Typography> {notice?.noticeContent}</Typography>
-									</Stack>
-								</AccordionDetails>
-							</Accordion>
-						))}
-					</Box>
-				</Stack>
+										<Typography> {notice?.noticeTitle}</Typography>
+									</AccordionSummary>
+									<AccordionDetails>
+										<Stack className={'answer flex-box'}>
+											<Typography className="badge" variant={'h4'} color={'primary'}>
+												A
+											</Typography>
+											<Typography> {notice?.noticeContent}</Typography>
+										</Stack>
+									</AccordionDetails>
+								</Accordion>
+							))}
+						</Box>
+					</Stack>
+				)}
+
 				{user?.memberType === 'AGENT' || user?.memberType === 'ADMIN' ? (
 					<Box className={'new-notice'} onClick={handleNewNoticeClick}>
 						New notice

@@ -74,7 +74,6 @@ const Faq = () => {
 
 	const initialInput = {
 		noticeCategory: NoticeCategory.FAQ,
-		noticeStatus: NoticeStatus.ACTIVE,
 	};
 	const {
 		loading: getNoticesLoading,
@@ -89,6 +88,8 @@ const Faq = () => {
 			setNotices(data?.getNotices);
 		},
 	});
+
+	const userNotices = notices.filter((notice: Notice) => notice.noticeStatus === 'ACTIVE');
 
 	/** LIFECYCLES **/
 
@@ -163,7 +164,17 @@ const Faq = () => {
 		community: notices.filter((notice: Notice) => notice.noticeTopic === 'COMMUNITY'),
 		other: notices.filter((notice: Notice) => notice.noticeTopic === 'OTHER'),
 	};
-	console.log('pr', data?.property);
+
+	const userdata: any = {
+		property: userNotices.filter((notice: Notice) => notice.noticeTopic === 'PROPERTY'),
+		equipment: userNotices.filter((notice: Notice) => notice.noticeTopic === 'EQUIPMENT'),
+		payment: userNotices.filter((notice: Notice) => notice.noticeTopic === 'PAYMENT'),
+		buyers: userNotices.filter((notice: Notice) => notice.noticeTopic === 'BUYERS'),
+		agents: userNotices.filter((notice: Notice) => notice.noticeTopic === 'AGENTS'),
+		membership: userNotices.filter((notice: Notice) => notice.noticeTopic === 'MEMBERSHIP'),
+		community: userNotices.filter((notice: Notice) => notice.noticeTopic === 'COMMUNITY'),
+		other: userNotices.filter((notice: Notice) => notice.noticeTopic === 'OTHER'),
+	};
 
 	if (device === 'mobile') {
 		return <div>FAQ MOBILE</div>;
@@ -404,7 +415,7 @@ const Faq = () => {
 							</div>
 						</Box>
 						<Box className={'wrap'} component={'div'}>
-							{data?.[category].map((notice: Notice) => (
+							{userdata?.[category].map((notice: Notice) => (
 								<Accordion
 									expanded={expanded === notice?._id}
 									onChange={handleChange(notice?._id)}

@@ -175,7 +175,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 												</Stack>
 											)}
 										</TableCell>
-										<TableCell align="center">{property.propertyPrice}</TableCell>
+										<TableCell align="center">{property.propertyRentPrice}</TableCell>
 										<TableCell align="center">{property.memberData?.memberNick}</TableCell>
 										<TableCell align="center">{property.propertyLocation}</TableCell>
 										<TableCell align="center">{property.propertyType}</TableCell>
@@ -190,7 +190,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 												</Button>
 											)}
 
-											{property.propertyStatus === PropertyStatus.SOLD && (
+											{property.propertyStatus === PropertyStatus.RENT && (
 												<Button className={'badge warning'}>{property.propertyStatus}</Button>
 											)}
 

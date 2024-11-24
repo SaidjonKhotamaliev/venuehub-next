@@ -56,6 +56,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 				sx={{ width: '100%' }}
 				className="community-general-card-config"
 				onClick={(e) => chooseArticleHandler(e, boardArticle)}
+				flexDirection={'row'}
 			>
 				<Stack className="image-box">
 					<img src={imagePath} alt="" className="card-img" />

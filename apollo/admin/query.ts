@@ -52,18 +52,13 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 				propertyLocation
 				propertyAddress
 				propertyTitle
-				propertyPrice
+				propertyRentPrice
 				propertySquare
-				propertyBeds
-				propertyRooms
 				propertyViews
 				propertyLikes
 				propertyImages
 				propertyDesc
-				propertyBarter
-				propertyRent
 				memberId
-				soldAt
 				deletedAt
 				constructedAt
 				createdAt

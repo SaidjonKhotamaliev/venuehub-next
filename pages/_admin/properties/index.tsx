@@ -183,11 +183,11 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 									Active
 								</ListItem>
 								<ListItem
-									onClick={(e) => tabChangeHandler(e, 'SOLD')}
-									value="SOLD"
-									className={value === 'SOLD' ? 'li on' : 'li'}
+									onClick={(e) => tabChangeHandler(e, 'RENT')}
+									value="RENT"
+									className={value === 'RENT' ? 'li on' : 'li'}
 								>
-									Sold
+									Rent
 								</ListItem>
 								<ListItem
 									onClick={(e) => tabChangeHandler(e, 'DELETE')}

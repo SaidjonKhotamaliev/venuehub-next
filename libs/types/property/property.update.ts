@@ -11,7 +11,6 @@ export interface PropertyUpdate {
 	propertySquare?: number;
 	propertyImages?: string[];
 	propertyDesc?: string;
-	soldAt?: Date;
 	rentedAt?: Date;
 	deletedAt?: Date;
 	constructedAt?: Date;

@@ -20,6 +20,7 @@ export const SIGN_UP = gql`
 			memberWarnings
 			memberBlocks
 			memberProperties
+			memberEquipments
 			memberRank
 			memberArticles
 			memberPoints

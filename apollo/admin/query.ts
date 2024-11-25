@@ -95,6 +95,41 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 `;
 
 /**************************
+ *      EQUIPMENTS     *
+ *************************/
+
+export const GET_ALL_EQUIPMENTS_BY_ADMIN = gql`
+	query GetAllEquipmentsByAdmin($input: AllEquipmentsInquiry!) {
+		getAllEquipmentsByAdmin(input: $input) {
+			list {
+				_id
+				equipmentType
+				equipmentStatus
+				equipmentCondition
+				equipmentTitle
+				equipmentRentPrice
+				equipmentViews
+				equipmentLikes
+				equipmentComments
+				equipmentRank
+				equipmentImages
+				equipmentDesc
+				memberId
+				rentedAt
+				deletedAt
+				maintanencedAt
+				retiredAt
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+/**************************
  *      BOARD-ARTICLE     *
  *************************/
 

@@ -9,66 +9,74 @@ import MenuItem from '@mui/material/MenuItem';
 import { TabContext } from '@mui/lab';
 import TablePagination from '@mui/material/TablePagination';
 import { PropertyPanelList } from '../../../libs/components/admin/properties/PropertyList';
-import { AllPropertiesInquiry } from '../../../libs/types/property/property.input';
 import { Property } from '../../../libs/types/property/property';
-import { PropertyLocation, PropertyStatus } from '../../../libs/enums/property.enum';
+import { PropertyLocation } from '../../../libs/enums/property.enum';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
 import { PropertyUpdate } from '../../../libs/types/property/property.update';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_ALL_PROPERTIES_BY_ADMIN } from '../../../apollo/admin/query';
-import { REMOVE_PROPERTY_BY_ADMIN, UPDATE_PROPERTY_BY_ADMIN } from '../../../apollo/admin/mutation';
+import { GET_ALL_EQUIPMENTS_BY_ADMIN } from '../../../apollo/admin/query';
+import {
+	REMOVE_EQUIPMENT_BY_ADMIN,
+	REMOVE_PROPERTY_BY_ADMIN,
+	UPDATE_EQUIPMENT_BY_ADMIN,
+	UPDATE_PROPERTY_BY_ADMIN,
+} from '../../../apollo/admin/mutation';
 import { T } from '../../../libs/types/common';
+import { AllEquipmentsInquiry } from '../../../libs/types/equipment/equipment.input';
+import { Equipment } from '../../../libs/types/equipment/equipment';
+import { EquipmentCondition, EquipmentStatus } from '../../../libs/enums/equipment.enum';
+import { EquipmentPanelList } from '../../../libs/components/admin/equipments/EquipmentList';
 
-const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
+const AdminEquipments: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
-	const [propertiesInquiry, setPropertiesInquiry] = useState<AllPropertiesInquiry>(initialInquiry);
-	const [properties, setProperties] = useState<Property[]>([]);
-	const [propertiesTotal, setPropertiesTotal] = useState<number>(0);
+	const [equipmentsInquiry, setEquipmentsInquiry] = useState<AllEquipmentsInquiry>(initialInquiry);
+	const [equipments, setEquipments] = useState<Equipment[]>([]);
+	const [equipmentsTotal, setEquipmentsTotal] = useState<number>(0);
 	const [value, setValue] = useState(
-		propertiesInquiry?.search?.propertyStatus ? propertiesInquiry?.search?.propertyStatus : 'ALL',
+		equipmentsInquiry?.search?.equipmentStatus ? equipmentsInquiry?.search?.equipmentStatus : 'ALL',
 	);
 	const [searchType, setSearchType] = useState('ALL');
 
 	/** APOLLO REQUESTS **/
 
-	const [updatePropertyByAdmin] = useMutation(UPDATE_PROPERTY_BY_ADMIN);
-	const [removePropertyByAdmin] = useMutation(REMOVE_PROPERTY_BY_ADMIN);
+	const [updateEquipmentByAdmin] = useMutation(UPDATE_EQUIPMENT_BY_ADMIN);
+	const [removeEquipmentByAdmin] = useMutation(REMOVE_EQUIPMENT_BY_ADMIN);
 
 	const {
-		loading: getAllPropertiesByAdminLoading,
-		data: getAllPropertiesByAdminData,
-		error: getAllPropertiesByAdminError,
-		refetch: getAllPropertiesByAdminRefetch,
-	} = useQuery(GET_ALL_PROPERTIES_BY_ADMIN, {
+		loading: getAllEquipmentsByAdminLoadiing,
+		data: getAllEquipmentsByAdminData,
+		error: getAllEquipmentsByAdminError,
+		refetch: getAllEquipmentsByAdminRefetch,
+	} = useQuery(GET_ALL_EQUIPMENTS_BY_ADMIN, {
 		fetchPolicy: 'network-only',
-		variables: { input: propertiesInquiry },
+		variables: { input: equipmentsInquiry },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setProperties(data?.getAllPropertiesByAdmin?.list);
-			setPropertiesTotal(data?.getAllPropertiesByAdmin?.metaCounter[0]?.total ?? 0);
+			setEquipments(data?.getAllEquipmentsByAdmin?.list);
+			setEquipmentsTotal(data?.getAllEquipmentsByAdmin?.metaCounter[0]?.total ?? 0);
 		},
 	});
-	if (getAllPropertiesByAdminError) {
-		console.error('getAllMembersByAdminError: ', getAllPropertiesByAdminError);
+	if (getAllEquipmentsByAdminError) {
+		console.error('getAllMembersByAdminError: ', getAllEquipmentsByAdminError);
 	}
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		getAllPropertiesByAdminRefetch({ input: propertiesInquiry }).then();
-	}, [propertiesInquiry]);
+		getAllEquipmentsByAdminRefetch({ input: equipmentsInquiry }).then();
+	}, [equipmentsInquiry]);
 
 	/** HANDLERS **/
 	const changePageHandler = async (event: unknown, newPage: number) => {
-		propertiesInquiry.page = newPage + 1;
-		await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
-		setPropertiesInquiry({ ...propertiesInquiry });
+		equipmentsInquiry.page = newPage + 1;
+		await getAllEquipmentsByAdminRefetch({ input: equipmentsInquiry });
+		setEquipmentsInquiry({ ...equipmentsInquiry });
 	};
 
 	const changeRowsPerPageHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		propertiesInquiry.limit = parseInt(event.target.value, 10);
-		propertiesInquiry.page = 1;
-		await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
-		setPropertiesInquiry({ ...propertiesInquiry });
+		equipmentsInquiry.limit = parseInt(event.target.value, 10);
+		equipmentsInquiry.page = 1;
+		await getAllEquipmentsByAdminRefetch({ input: equipmentsInquiry });
+		setEquipmentsInquiry({ ...equipmentsInquiry });
 	};
 
 	const menuIconClickHandler = (e: any, index: number) => {
@@ -84,35 +92,38 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const tabChangeHandler = async (event: any, newValue: string) => {
 		setValue(newValue);
 
-		setPropertiesInquiry({ ...propertiesInquiry, page: 1, sort: 'createdAt' });
+		setEquipmentsInquiry({ ...equipmentsInquiry, page: 1, sort: 'createdAt' });
 
 		switch (newValue) {
 			case 'ACTIVE':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.ACTIVE } });
+				setEquipmentsInquiry({ ...equipmentsInquiry, search: { equipmentStatus: EquipmentStatus.ACTIVE } });
 				break;
 			case 'RENT':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.RENT } });
+				setEquipmentsInquiry({ ...equipmentsInquiry, search: { equipmentStatus: EquipmentStatus.RENT } });
 				break;
-			case 'DELETE':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.DELETE } });
+			case 'MAINTENANCE':
+				setEquipmentsInquiry({ ...equipmentsInquiry, search: { equipmentStatus: EquipmentStatus.MAINTENANCE } });
+				break;
+			case 'RETIRED':
+				setEquipmentsInquiry({ ...equipmentsInquiry, search: { equipmentStatus: EquipmentStatus.RETIRED } });
 				break;
 			default:
-				delete propertiesInquiry?.search?.propertyStatus;
-				setPropertiesInquiry({ ...propertiesInquiry });
+				delete equipmentsInquiry?.search?.equipmentStatus;
+				setEquipmentsInquiry({ ...equipmentsInquiry });
 				break;
 		}
 	};
 
-	const removePropertyHandler = async (id: string) => {
+	const removeEquipmentHandler = async (id: string) => {
 		try {
-			if (await sweetConfirmAlert('Are you sure to remove?')) {
-				await removePropertyByAdmin({
+			if (await sweetConfirmAlert('Are you sure to delete?')) {
+				await removeEquipmentByAdmin({
 					variables: {
 						input: id,
 					},
 				});
 
-				await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
+				await getAllEquipmentsByAdminRefetch({ input: equipmentsInquiry });
 			}
 			menuIconCloseHandler();
 		} catch (err: any) {
@@ -123,35 +134,20 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const searchTypeHandler = async (newValue: string) => {
 		try {
 			setSearchType(newValue);
-
-			if (newValue !== 'ALL') {
-				setPropertiesInquiry({
-					...propertiesInquiry,
-					page: 1,
-					sort: 'createdAt',
-					search: {
-						...propertiesInquiry.search,
-						propertyLocationList: [newValue as PropertyLocation],
-					},
-				});
-			} else {
-				delete propertiesInquiry?.search?.propertyLocationList;
-				setPropertiesInquiry({ ...propertiesInquiry });
-			}
 		} catch (err: any) {
 			console.log('searchTypeHandler: ', err.message);
 		}
 	};
 
-	const updatePropertyHandler = async (updateData: PropertyUpdate) => {
+	const updateEquipmentHandler = async (updateData: PropertyUpdate) => {
 		try {
-			await updatePropertyByAdmin({
+			await updateEquipmentByAdmin({
 				variables: {
 					input: updateData,
 				},
 			});
 			menuIconCloseHandler();
-			await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
+			await getAllEquipmentsByAdminRefetch({ input: equipmentsInquiry });
 		} catch (err: any) {
 			menuIconCloseHandler();
 			sweetErrorHandling(err).then();
@@ -161,7 +157,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	return (
 		<Box component={'div'} className={'content'}>
 			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
-				Venues List
+				Equipments List
 			</Typography>
 			<Box component={'div'} className={'table-wrap'}>
 				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
@@ -190,11 +186,18 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 									Rent
 								</ListItem>
 								<ListItem
-									onClick={(e) => tabChangeHandler(e, 'DELETE')}
-									value="DELETE"
-									className={value === 'DELETE' ? 'li on' : 'li'}
+									onClick={(e) => tabChangeHandler(e, 'MAINTENANCE')}
+									value="MAINTENANCE"
+									className={value === 'MAINTENANCE' ? 'li on' : 'li'}
 								>
-									Delete
+									Maintenance
+								</ListItem>
+								<ListItem
+									onClick={(e) => tabChangeHandler(e, 'RETIRED')}
+									value="RETIRED"
+									className={value === 'RETIRED' ? 'li on' : 'li'}
+								>
+									Retired
 								</ListItem>
 							</List>
 							<Divider />
@@ -212,21 +215,21 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 							</Stack>
 							<Divider />
 						</Box>
-						<PropertyPanelList
-							properties={properties}
+						<EquipmentPanelList
+							equipments={equipments}
 							anchorEl={anchorEl}
 							menuIconClickHandler={menuIconClickHandler}
 							menuIconCloseHandler={menuIconCloseHandler}
-							updatePropertyHandler={updatePropertyHandler}
-							removePropertyHandler={removePropertyHandler}
+							updateEquipmentHandler={updateEquipmentHandler}
+							removeEquipmentHandler={removeEquipmentHandler}
 						/>
 
 						<TablePagination
 							rowsPerPageOptions={[10, 20, 40, 60]}
 							component="div"
-							count={propertiesTotal}
-							rowsPerPage={propertiesInquiry?.limit}
-							page={propertiesInquiry?.page - 1}
+							count={equipmentsTotal}
+							rowsPerPage={equipmentsInquiry?.limit}
+							page={equipmentsInquiry?.page - 1}
 							onPageChange={changePageHandler}
 							onRowsPerPageChange={changeRowsPerPageHandler}
 						/>
@@ -237,7 +240,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	);
 };
 
-AdminProperties.defaultProps = {
+AdminEquipments.defaultProps = {
 	initialInquiry: {
 		page: 1,
 		limit: 10,
@@ -247,4 +250,4 @@ AdminProperties.defaultProps = {
 	},
 };
 
-export default withAdminLayout(AdminProperties);
+export default withAdminLayout(AdminEquipments);

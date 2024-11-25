@@ -131,7 +131,7 @@ const MyEquipments: NextPage = ({ initialInput, ...props }: any) => {
 							<Typography className="title-text">Status</Typography>
 							<Typography className="title-text">View</Typography>
 							<Typography className="title-text">Like</Typography>
-							{searchFilter.search.equipmentStatus === 'ACTIVE' && (
+							{searchFilter.search.equipmentStatus === 'ACTIVE' && 'RENT' && 'MAINTENANCE' && (
 								<Typography className="title-text">Action</Typography>
 							)}
 						</Stack>
@@ -175,7 +175,6 @@ const MyEquipments: NextPage = ({ initialInput, ...props }: any) => {
 		);
 	}
 };
-
 MyEquipments.defaultProps = {
 	initialInput: {
 		page: 1,

@@ -262,11 +262,12 @@ export const EquipmentCard = (props: EquipmentCardProps) => {
 				</Stack>
 				{!memberPage && equipment?.equipmentStatus === EquipmentStatus.ACTIVE && (
 					<Stack className="action-box">
-						<IconButton className="icon-button" onClick={() => pushEditProperty(equipment?._id)}>
+						<IconButton
+							style={{ marginLeft: '50px' }}
+							className="icon-button"
+							onClick={() => pushEditProperty(equipment?._id)}
+						>
 							<ModeIcon className="buttons" />
-						</IconButton>
-						<IconButton className="icon-button" onClick={() => deleteEquipmentHandler(equipment?._id)}>
-							<DeleteIcon className="buttons" />
 						</IconButton>
 					</Stack>
 				)}

@@ -33,32 +33,14 @@ const AdminMenuList = (props: any) => {
 			case 'properties':
 				setClickMenu(['Properties']);
 				break;
+			case 'equipments':
+				setClickMenu(['Equipments']);
+				break;
 			case 'community':
 				setClickMenu(['Community']);
 				break;
 			default:
 				setClickMenu(['Users']);
-				break;
-		}
-
-		switch (pathnames[2]) {
-			case 'logs':
-				setClickSubMenu('Logs');
-				break;
-			case 'inquiry':
-				setClickSubMenu('1:1 Inquiry');
-				break;
-			case 'notice':
-				setClickSubMenu('Notice');
-				break;
-			case 'faq':
-				setClickSubMenu('FAQ');
-				break;
-			case 'board_create':
-				setClickSubMenu('Board Create');
-				break;
-			default:
-				setClickSubMenu('List');
 				break;
 		}
 	}, []);
@@ -86,6 +68,11 @@ const AdminMenuList = (props: any) => {
 			on_click: () => subMenuChangeHandler('Properties'),
 		},
 		{
+			title: 'Equipments',
+			icon: <UserCircleGear size={20} color="#bdbdbd" weight="fill" />,
+			on_click: () => subMenuChangeHandler('Equipments'),
+		},
+		{
 			title: 'Community',
 			icon: <ChatsCircle size={20} color="#bdbdbd" weight="fill" />,
 			on_click: () => subMenuChangeHandler('Community'),
@@ -95,11 +82,8 @@ const AdminMenuList = (props: any) => {
 	const sub_menu_set: any = {
 		Users: [{ title: 'List', url: '/_admin/users' }],
 		Properties: [{ title: 'List', url: '/_admin/properties' }],
+		Equipments: [{ title: 'List', url: '/_admin/equipments' }],
 		Community: [{ title: 'List', url: '/_admin/community' }],
-		Cs: [
-			{ title: 'FAQ', url: '/_admin/cs/faq' },
-			{ title: 'Notice', url: '/_admin/cs/notice' },
-		],
 	};
 
 	return (

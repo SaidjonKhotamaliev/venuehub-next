@@ -19,6 +19,8 @@ import { REACT_APP_API_URL } from '../../../config';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
 import { PropertyStatus } from '../../../enums/property.enum';
+import { Equipment } from '../../../types/equipment/equipment';
+import { EquipmentStatus } from '../../../enums/equipment.enum';
 
 interface Data {
 	id: string;
@@ -113,23 +115,23 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 	);
 }
 
-interface PropertyPanelListType {
-	properties: Property[];
+interface EquipmentPanelListType {
+	equipments: Equipment[];
 	anchorEl: any;
 	menuIconClickHandler: any;
 	menuIconCloseHandler: any;
-	updatePropertyHandler: any;
-	removePropertyHandler: any;
+	updateEquipmentHandler: any;
+	removeEquipmentHandler: any;
 }
 
-export const PropertyPanelList = (props: PropertyPanelListType) => {
+export const EquipmentPanelList = (props: EquipmentPanelListType) => {
 	const {
-		properties,
+		equipments,
 		anchorEl,
 		menuIconClickHandler,
 		menuIconCloseHandler,
-		updatePropertyHandler,
-		removePropertyHandler,
+		updateEquipmentHandler,
+		removeEquipmentHandler,
 	} = props;
 
 	return (
@@ -139,7 +141,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 					{/*@ts-ignore*/}
 					<EnhancedTableHead />
 					<TableBody>
-						{properties.length === 0 && (
+						{equipments.length === 0 && (
 							<TableRow>
 								<TableCell align="center" colSpan={8}>
 									<span className={'no-data'}>data not found!</span>
@@ -147,23 +149,23 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 							</TableRow>
 						)}
 
-						{properties.length !== 0 &&
-							properties.map((property: Property, index: number) => {
-								const propertyImage = `${REACT_APP_API_URL}/${property?.propertyImages[0]}`;
+						{equipments.length !== 0 &&
+							equipments.map((equipment: Equipment, index: number) => {
+								const propertyImage = `${REACT_APP_API_URL}/${equipment?.equipmentImages[0]}`;
 
 								return (
-									<TableRow hover key={property?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell align="left">{property._id}</TableCell>
+									<TableRow hover key={equipment?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+										<TableCell align="left">{equipment._id}</TableCell>
 										<TableCell align="left" className={'name'}>
-											{property.propertyStatus === PropertyStatus.ACTIVE ? (
+											{equipment.equipmentStatus === EquipmentStatus.ACTIVE ? (
 												<Stack direction={'row'}>
-													<Link href={`/property/detail?id=${property?._id}`}>
+													<Link href={`/equipment/detail?id=${equipment?._id}`}>
 														<div>
 															<Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
 														</div>
 													</Link>
-													<Link href={`/property/detail?id=${property?._id}`}>
-														<div>{property.propertyTitle}</div>
+													<Link href={`/equipment/detail?id=${equipment?._id}`}>
+														<div>{equipment.equipmentTitle}</div>
 													</Link>
 												</Stack>
 											) : (
@@ -171,38 +173,34 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 													<div>
 														<Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
 													</div>
-													<div style={{ marginTop: '10px' }}>{property.propertyTitle}</div>
+													<div style={{ marginTop: '10px' }}>{equipment.equipmentTitle}</div>
 												</Stack>
 											)}
 										</TableCell>
-										<TableCell align="center">{property.propertyRentPrice}</TableCell>
-										<TableCell align="center">{property.memberData?.memberNick}</TableCell>
-										<TableCell align="center">{property.propertyLocation}</TableCell>
+										<TableCell align="center">{equipment.equipmentRentPrice}</TableCell>
+										<TableCell align="center">{equipment.memberData?.memberNick}</TableCell>
+										<TableCell align="center">{equipment.equipmentCondition}</TableCell>
 										<TableCell align="center">
-											{property.propertyType
+											{equipment.equipmentType
 												.replace(/_/g, ' ')
 												.toLowerCase()
 												.replace(/\b\w/g, (char) => char.toUpperCase())}
 										</TableCell>
 										<TableCell align="center">
-											{property.propertyStatus === PropertyStatus.DELETE && (
+											{equipment.equipmentStatus === EquipmentStatus.RETIRED && (
 												<Button
 													variant="outlined"
 													sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #000000' } }}
-													onClick={() => removePropertyHandler(property._id)}
+													onClick={() => removeEquipmentHandler(equipment._id)}
 												>
 													<DeleteIcon fontSize="small" />
 												</Button>
 											)}
 
-											{property.propertyStatus === PropertyStatus.RENT && (
-												<Button className={'badge warning'}>{property.propertyStatus}</Button>
-											)}
-
-											{property.propertyStatus === PropertyStatus.ACTIVE && (
+											{equipment.equipmentStatus === EquipmentStatus.ACTIVE && (
 												<>
 													<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
-														{property.propertyStatus}
+														{equipment.equipmentStatus}
 													</Button>
 
 													<Menu
@@ -216,11 +214,82 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 														TransitionComponent={Fade}
 														sx={{ p: 1 }}
 													>
-														{Object.values(PropertyStatus)
-															.filter((ele) => ele !== property.propertyStatus)
+														{Object.values(EquipmentStatus)
+															.filter((ele) => ele !== equipment.equipmentStatus)
 															.map((status: string) => (
 																<MenuItem
-																	onClick={() => updatePropertyHandler({ _id: property._id, propertyStatus: status })}
+																	onClick={() =>
+																		updateEquipmentHandler({ _id: equipment._id, equipmentStatus: status })
+																	}
+																	key={status}
+																>
+																	<Typography variant={'subtitle1'} component={'span'}>
+																		{status}
+																	</Typography>
+																</MenuItem>
+															))}
+													</Menu>
+												</>
+											)}
+											{equipment.equipmentStatus === EquipmentStatus.RENT && (
+												<>
+													<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
+														{equipment.equipmentStatus}
+													</Button>
+
+													<Menu
+														className={'menu-modal'}
+														MenuListProps={{
+															'aria-labelledby': 'fade-button',
+														}}
+														anchorEl={anchorEl[index]}
+														open={Boolean(anchorEl[index])}
+														onClose={menuIconCloseHandler}
+														TransitionComponent={Fade}
+														sx={{ p: 1 }}
+													>
+														{Object.values(EquipmentStatus)
+															.filter((ele) => ele !== equipment.equipmentStatus)
+															.map((status: string) => (
+																<MenuItem
+																	onClick={() =>
+																		updateEquipmentHandler({ _id: equipment._id, equipmentStatus: status })
+																	}
+																	key={status}
+																>
+																	<Typography variant={'subtitle1'} component={'span'}>
+																		{status}
+																	</Typography>
+																</MenuItem>
+															))}
+													</Menu>
+												</>
+											)}
+
+											{equipment.equipmentStatus === EquipmentStatus.MAINTENANCE && (
+												<>
+													<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
+														{equipment.equipmentStatus}
+													</Button>
+
+													<Menu
+														className={'menu-modal'}
+														MenuListProps={{
+															'aria-labelledby': 'fade-button',
+														}}
+														anchorEl={anchorEl[index]}
+														open={Boolean(anchorEl[index])}
+														onClose={menuIconCloseHandler}
+														TransitionComponent={Fade}
+														sx={{ p: 1 }}
+													>
+														{Object.values(EquipmentStatus)
+															.filter((ele) => ele !== equipment.equipmentStatus)
+															.map((status: string) => (
+																<MenuItem
+																	onClick={() =>
+																		updateEquipmentHandler({ _id: equipment._id, equipmentStatus: status })
+																	}
 																	key={status}
 																>
 																	<Typography variant={'subtitle1'} component={'span'}>

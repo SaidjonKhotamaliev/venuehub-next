@@ -88,6 +88,90 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
 `;
 
 /**************************
+ *      EQUIPMENTS     *
+ *************************/
+
+export const UPDATE_EQUIPMENT_BY_ADMIN = gql`
+	mutation UpdateEquipmentByAdmin($input: EquipmentUpdate!) {
+		updateEquipmentByAdmin(input: $input) {
+			_id
+			equipmentType
+			equipmentStatus
+			equipmentCondition
+			equipmentTitle
+			equipmentRentPrice
+			equipmentViews
+			equipmentLikes
+			equipmentComments
+			equipmentRank
+			equipmentImages
+			equipmentDesc
+			memberId
+			rentedAt
+			deletedAt
+			maintanencedAt
+			retiredAt
+			createdAt
+			updatedAt
+			memberData {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberEquipments
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+		}
+	}
+`;
+
+export const REMOVE_EQUIPMENT_BY_ADMIN = gql`
+	mutation RemoveEquipmentByAdmin($input: String!) {
+		removeEquipmentByAdmin(equipmentId: $input) {
+			_id
+			equipmentType
+			equipmentStatus
+			equipmentCondition
+			equipmentTitle
+			equipmentRentPrice
+			equipmentViews
+			equipmentLikes
+			equipmentComments
+			equipmentRank
+			equipmentImages
+			equipmentDesc
+			memberId
+			rentedAt
+			deletedAt
+			maintanencedAt
+			retiredAt
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+/**************************
  *      BOARD-ARTICLE     *
  *************************/
 

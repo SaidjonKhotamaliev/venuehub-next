@@ -22,6 +22,13 @@ const MyEquipments: NextPage = ({ initialInput, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 
+	const initialInput2 = {
+		page: 1,
+		limit: 5,
+		sort: 'createdAt',
+		search: { memberId: memberId },
+	};
+
 	const {
 		loading: getEquipmentsLoading,
 		data: getEquipmentsData,
@@ -29,7 +36,7 @@ const MyEquipments: NextPage = ({ initialInput, ...props }: any) => {
 		refetch: getEquipmentsRefetch,
 	} = useQuery(GET_EQUIPMENTS, {
 		fetchPolicy: 'cache-and-network',
-		variables: { input: initialInput },
+		variables: { input: initialInput2 },
 		skip: !searchFilter?.search?.memberId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {

@@ -131,7 +131,6 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			updateData.memberNick === '' ||
 			updateData.memberPhone === '' ||
 			updateData.memberAddress === '' ||
-			updateData.memberImage === '' ||
 			updateData.memberDesc === ''
 		) {
 			return true;

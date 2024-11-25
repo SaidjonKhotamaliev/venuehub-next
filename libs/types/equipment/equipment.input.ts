@@ -45,7 +45,7 @@ interface ALEISearch {
 	equipmentStatus?: EquipmentStatus;
 }
 
-export interface AllPropertiesInquiry {
+export interface AllEquipmentsInquiry {
 	page: number;
 	limit: number;
 	sort?: string;

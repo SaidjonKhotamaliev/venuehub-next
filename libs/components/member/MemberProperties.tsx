@@ -20,6 +20,13 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 
+	const initialInput2 = {
+		page: 1,
+		limit: 5,
+		sort: 'createdAt',
+		search: { memberId: memberId },
+	};
+
 	const {
 		loading: getPropertiesLoading,
 		data: getPropertiesData,
@@ -27,7 +34,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 		refetch: getPropertiesRefetch,
 	} = useQuery(GET_PROPERTIES, {
 		fetchPolicy: 'cache-and-network',
-		variables: { input: initialInput },
+		variables: { input: initialInput2 },
 		skip: !searchFilter?.search?.memberId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
@@ -111,9 +118,7 @@ MyProperties.defaultProps = {
 		page: 1,
 		limit: 5,
 		sort: 'createdAt',
-		search: {
-			memberId: '',
-		},
+		search: {},
 	},
 };
 

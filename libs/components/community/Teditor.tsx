@@ -27,8 +27,9 @@ const TuiEditor = () => {
 		const articleTitle = '',
 			articleContent = '',
 			articleImage = '';
+		articleCategory;
 
-		return { articleTitle, articleContent, articleImage };
+		return { articleTitle, articleContent, articleImage, articleCategory };
 	}, []);
 
 	/** HANDLERS **/
@@ -75,6 +76,7 @@ const TuiEditor = () => {
 
 	const changeCategoryHandler = (e: any) => {
 		setArticleCategory(e.target.value);
+		memoizedValues.articleCategory = articleCategory;
 	};
 
 	const articleTitleHandler = (e: T) => {
@@ -87,6 +89,8 @@ const TuiEditor = () => {
 			const editor = editorRef.current;
 			const articleContent = editor?.getInstance().getHTML() as string;
 			memoizedValues.articleContent = articleContent;
+
+			console.log('+++', memoizedValues);
 
 			if (memoizedValues.articleContent === '' && memoizedValues.articleTitle === '') {
 				throw new Error(Message.INSERT_ALL_INPUTS);

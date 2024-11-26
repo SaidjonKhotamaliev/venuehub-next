@@ -62,7 +62,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			);
 			formData.append('0', image);
 
-			const response = await axios.post(`${process.env.REACT_APP_API_GRAPHQL_URL}`, formData, {
+			const response = await axios.post(`http://45.90.220.152:4001/graphql`, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 					'apollo-require-preflight': true,

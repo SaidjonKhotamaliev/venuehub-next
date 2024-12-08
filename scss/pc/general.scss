@@ -113,9 +113,8 @@
 		.bott {
 			display: flex;
 			flex-direction: row;
-			justify-content: flex-start;
+			justify-content: space-between;
 			align-items: center;
-			gap: 180px;
 			div {
 				width: 65px;
 				display: flex;

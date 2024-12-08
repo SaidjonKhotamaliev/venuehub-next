@@ -169,7 +169,11 @@ const Top = () => {
 	} else {
 		return (
 			<Stack className={'navbar'}>
-				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
+				<Stack
+					className={`navbar-main ${colorChange ? 'transparent' : 'transparent'} ${
+						bgColor ? 'transparent' : 'transparent'
+					}`}
+				>
 					<Stack className={'container'}>
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
